@@ -1,131 +1,70 @@
-import {
-  Dispatch,
-  FC,
-  SetStateAction,
-  useState,
-  createContext,
-  useContext,
-} from "react";
+import { FC, createContext, useContext } from "react";
+import questions, { Question } from "../../data/questions";
+import useLocalStorage from "../../utils/useLocalStorage";
+import { AnswerData, useAnswers } from "../AnswersProvider";
+import checkFailedFilter from "./checkFailedFilter";
+import checkKVAFilter from "./checkKVAFilter";
+import checkNOGFilter from "./checkNOGFilter";
+import checkTimeFilter from "./checkTimeFilter";
+import checkXYZFilter from "./checkXYZFilter";
 
-interface FailedFilter {
+export type Time = {
+  minutes: number;
+  seconds: number;
+};
+
+type Filter = {
   failed: boolean;
-  setFailed: Dispatch<SetStateAction<boolean>>;
-}
-
-interface TimeFilter {
-  timeFilter: { minutes: number; seconds: number } | null;
-  setTimeFilter: Dispatch<
-    SetStateAction<{ minutes: number; seconds: number } | null>
-  >;
-}
-
-interface XYZFilter {
-  XYZFilter: boolean;
-  setXYZFilter: Dispatch<SetStateAction<boolean>>;
-}
-
-interface KVAFilter {
-  KVAFilter: boolean;
-  setKVAFilter: Dispatch<SetStateAction<boolean>>;
-}
-
-interface NOGFilter {
-  NOGFilter: boolean;
-  setNOGFilter: Dispatch<SetStateAction<boolean>>;
-}
-
-export interface Filter
-  extends FailedFilter,
-    TimeFilter,
-    XYZFilter,
-    KVAFilter,
-    NOGFilter {}
-
-export const FilterContext = createContext<Filter | null>(null);
-
-export const useFailed = (): FailedFilter => {
-  const context = useContext(FilterContext);
-  if (!context) {
-    throw new Error("useFailed must be inside the FilterProvider");
-  }
-  const { failed, setFailed } = context;
-  return {
-    failed,
-    setFailed,
-  };
+  time: Time | null;
+  XYZ: boolean;
+  KVA: boolean;
+  NOG: boolean;
+};
+type FilterContextType = {
+  filter: Filter;
+  filtered: Question[];
+  setFilter: (filter: Filter) => void;
 };
 
-export const useTimeFilter = (): TimeFilter => {
-  const context = useContext(FilterContext);
-  if (!context) {
-    throw new Error("useTimeFilter must be inside the FilterProvider");
-  }
-  const { timeFilter, setTimeFilter } = context;
-  return {
-    timeFilter,
-    setTimeFilter,
-  };
-};
+export const FilterContext = createContext<FilterContextType | null>(null);
 
-export const useXYZFilter = (): XYZFilter => {
+export const useFilter = (): FilterContextType => {
   const context = useContext(FilterContext);
   if (!context) {
     throw new Error("useXYZFilter must be inside the FilterProvider");
   }
-  const { XYZFilter, setXYZFilter } = context;
-  return {
-    XYZFilter,
-    setXYZFilter,
-  };
+  return context;
 };
 
-export const useKVAFilter = (): KVAFilter => {
-  const context = useContext(FilterContext);
-  if (!context) {
-    throw new Error("useKVAFilter must be inside the FilterProvider");
-  }
-  const { KVAFilter, setKVAFilter } = context;
-  return {
-    KVAFilter,
-    setKVAFilter,
-  };
-};
-
-export const useNOGFilter = (): NOGFilter => {
-  const context = useContext(FilterContext);
-  if (!context) {
-    throw new Error("useFishable must be inside the FilterProvider");
-  }
-  const { NOGFilter, setNOGFilter } = context;
-  return {
-    NOGFilter,
-    setNOGFilter,
-  };
+const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
+  const { time, XYZ, KVA, NOG, failed } = filter;
+  return questions.filter((q) => {
+    const timeFilter = checkTimeFilter(q, time, answers);
+    const XYZFilter = checkXYZFilter(XYZ, q);
+    const KVAFilter = checkKVAFilter(KVA, q);
+    const NOGFilter = checkNOGFilter(NOG, q);
+    const failedFilter = checkFailedFilter(failed, answers, q);
+    return timeFilter && XYZFilter && KVAFilter && NOGFilter && failedFilter;
+  });
 };
 
 const FilterProvider: FC = ({ children }) => {
-  const [failed, setFailed] = useState(false);
-  const [timeFilter, setTimeFilter] = useState<{
-    minutes: number;
-    seconds: number;
-  } | null>(null);
-  const [XYZFilter, setXYZFilter] = useState(false);
-  const [KVAFilter, setKVAFilter] = useState(false);
-  const [NOGFilter, setNOGFilter] = useState(false);
+  const { answers } = useAnswers();
+  const [filter, setFilter] = useLocalStorage<Filter>("FILTER", {
+    failed: false,
+    time: null,
+    XYZ: false,
+    KVA: false,
+    NOG: false,
+  });
+  const filtered = filterQuestions(filter, answers);
 
   return (
     <FilterContext.Provider
       value={{
-        failed,
-        setFailed,
-        timeFilter,
-        setTimeFilter,
-        XYZFilter,
-        setXYZFilter,
-        KVAFilter,
-        setKVAFilter,
-        NOGFilter,
-        setNOGFilter,
+        filter,
+        filtered,
+        setFilter,
       }}
     >
       {children}

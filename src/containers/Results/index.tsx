@@ -1,14 +1,12 @@
 import { FC } from "react";
-import questions from "../../data/questions";
 import segments from "../../data/segments";
-import { UserData } from "../../data/user";
+import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
+import getQuestionFromId from "../../utils/getQuestionFromId";
 import "./Results.css";
 
-type Props = {
-  answers: UserData;
-};
-
-const Result: FC<Props> = ({ answers }) => {
+const Result: FC = () => {
+  const { currentAnswers } = useCurrentQuestion();
+  console.log(currentAnswers);
   return (
     <table>
       <tr>
@@ -19,18 +17,14 @@ const Result: FC<Props> = ({ answers }) => {
         <td>correct</td>
         <td>time</td>
       </tr>
-      {Object.entries(answers).map(([questionId, answers]) => {
-        const question = questions.find((q) => q.id === questionId);
-        if (!question) {
-          throw new Error("Question not found: " + questionId);
-        }
-        const latest = answers[answers.length - 1];
-        const { answer, minutes, seconds } = latest;
+      {currentAnswers.map((answerData) => {
+        const { answer, minutes, seconds, questionId } = answerData;
+        const question = getQuestionFromId(questionId);
         const { minutes: minutesLimit, seconds: secondsLimit } =
           segments[question.segment].timePerQuestion;
         const timeOK =
           minutesLimit * 60 + secondsLimit >= minutes * 60 + seconds;
-        const answerOK = question.solution === latest.answer;
+        const answerOK = question.solution === answer;
         return (
           <tr>
             <td>{question?.date}</td>

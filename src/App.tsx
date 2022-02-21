@@ -1,19 +1,19 @@
 import React from "react";
 import "./App.css";
 import FilterProvider from "./providers/FilterProvider";
-import QuestionsProvider from "./providers/QuestionsProvider";
-import UserProvider from "./providers/UserProvider";
 import Router from "./routes";
+import AnswersProvider from "./providers/AnswersProvider";
+import CurrentQuestionProvider from "./providers/CurrentQuestionProvider";
 
 function App() {
   return (
-    <UserProvider>
+    <AnswersProvider>
       <FilterProvider>
-        <QuestionsProvider>
+        <CurrentQuestionProvider>
           <Router />
-        </QuestionsProvider>
+        </CurrentQuestionProvider>
       </FilterProvider>
-    </UserProvider>
+    </AnswersProvider>
   );
 }
 

@@ -1,7 +1,0 @@
-.home {
-  display: flex;
-  flex-direction: column;
-  height: 100px;
-  justify-content: space-between;
-  align-items: center;
-}

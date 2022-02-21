@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Filter from "../components/Filter";
-import Home from "../components/Home";
-import Overview from "../components/Overview";
-import Questions from "../components/Questions";
+import Overview from "../containers/Overview";
+import Question from "../containers/Question";
+import Result from "../containers/Results";
+import Testing from "../containers/Testing";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home />} />
-        <Route path="question" element={<Questions />} />
-        <Route path="filter" element={<Filter />} />
-        <Route path="overview" element={<Overview />} />
+        <Route index element={<Overview />} />
+        <Route path="testing" element={<Testing />} />
+        <Route path="result" element={<Result />} />
+        <Route path="question/:id" element={<Question />} />
       </Routes>
     </BrowserRouter>
   );
