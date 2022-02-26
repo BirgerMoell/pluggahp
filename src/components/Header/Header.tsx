@@ -4,12 +4,16 @@ import { AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
 import "./Header.css";
 
 type Props = {
-  left?: ReactNode;
-  center?: ReactNode;
-  right?: ReactNode;
+  title?: ReactNode;
+  onClick?: (value: any) => void;
+  rightButtonClick?: () => void;
 };
 
-export const Header: FC<Props> = ({ left, center, right }) => {
+export const Header: FC<Props> = ({
+  onClick,
+  title = "",
+  rightButtonClick,
+}) => {
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -19,13 +23,18 @@ export const Header: FC<Props> = ({ left, center, right }) => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
+          onClick={onClick}
         >
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Photos
+          {title}
         </Typography>
-        <Button color="inherit">Login</Button>
+        {rightButtonClick ? (
+          <Button color="inherit" onClick={rightButtonClick}>
+            Start test
+          </Button>
+        ) : null}
       </Toolbar>
     </AppBar>
   );

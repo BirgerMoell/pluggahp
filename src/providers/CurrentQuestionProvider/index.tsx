@@ -44,6 +44,7 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   };
   const startTest = (questions: Question[]) => {
     setCurrentQuestions(questions.map((question) => question.id));
+    setCurrentIndex(0);
     setFinished(false);
   };
   const currentAnswers = useCurrentAnswers(currentQuestions, currentIndex);

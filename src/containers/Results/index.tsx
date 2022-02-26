@@ -6,7 +6,6 @@ import "./Results.css";
 
 const Result: FC = () => {
   const { currentAnswers } = useCurrentQuestion();
-  console.log(currentAnswers);
   return (
     <table>
       <tr>

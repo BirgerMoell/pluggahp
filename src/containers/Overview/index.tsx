@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import { useFilter } from "../../providers/FilterProvider";
-import Filter from "../../components/Filter";
+import Drawer from "@mui/material/Drawer";
 import QuestionCard from "../../components/QuestionCard";
 import { Header } from "../../components/Header/Header";
+import { useState } from "react";
+import Filter from "../../components/Filter";
+import { Stack } from "@mui/material";
 
 const Overview = () => {
   let navigate = useNavigate();
   const { filtered } = useFilter();
+  const [openFilter, setOpenFilter] = useState(false);
   const { startTest } = useCurrentQuestion();
   const start = () => {
     startTest(filtered);
@@ -15,14 +19,23 @@ const Overview = () => {
   };
 
   return (
-    <div>
-      <Header center="Filter" />
-      <Filter />
-      <button onClick={() => start()}>start test</button>
-      <hr />
-      {filtered.map((question) => (
-        <QuestionCard question={question} />
-      ))}
+    <div style={{ backgroundColor: "#efefef" }}>
+      <Header onClick={() => setOpenFilter(true)} rightButtonClick={start} />
+      <Drawer
+        variant="temporary"
+        anchor={"left"}
+        open={openFilter}
+        onClose={() => setOpenFilter(false)}
+      >
+        <Filter closeFilter={() => setOpenFilter(false)} />
+      </Drawer>
+      <div style={{ padding: "16px 16px" }}>
+        <Stack spacing={2}>
+          {filtered.map((question) => (
+            <QuestionCard question={question} />
+          ))}
+        </Stack>
+      </div>
     </div>
   );
 };

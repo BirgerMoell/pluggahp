@@ -12,7 +12,6 @@ const Testing: FC = () => {
   const { currentQuestion, nextQuestion, finished } = useCurrentQuestion();
   const { addAnswer } = useAnswers();
   if (finished) {
-    console.log("NAVIGATING");
     return <Navigate to="/result" replace={true} />;
   }
   if (!currentQuestion) {
@@ -34,7 +33,7 @@ const Testing: FC = () => {
   return (
     <div>
       <Header
-        right={
+        title={
           <div>
             `${minutes}:${seconds}`
           </div>
