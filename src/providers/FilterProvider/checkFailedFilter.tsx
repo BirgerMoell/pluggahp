@@ -11,7 +11,7 @@ const checkFailedFilter = (
   if (!questionAnswers.length || !failedFilter) {
     return true;
   }
-  const latest = questionAnswers[questionAnswers.length - 1];
+  const latest = questionAnswers[0];
   return latest.answer !== question.solution;
 };
 

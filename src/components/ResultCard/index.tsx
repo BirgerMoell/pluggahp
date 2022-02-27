@@ -38,7 +38,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
           <Grid item xs={matches ? 1 : 3}>
             <Grid container sx={{ padding: "16px" }} columns={2}>
               <Grid item xs={1}>
-                <Typography>Answer: </Typography>
+                <Typography>Ditt svar: </Typography>
               </Grid>
               <Grid item xs={1}>
                 <Typography>
@@ -55,7 +55,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
               {!minimal && (
                 <>
                   <Grid item xs={1}>
-                    <Typography>Correct answer: </Typography>
+                    <Typography>Facit: </Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>{question.solution}</Typography>
@@ -63,7 +63,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
                 </>
               )}
               <Grid item xs={1}>
-                <Typography>Time:</Typography>
+                <Typography>Tid:</Typography>
               </Grid>
               <Grid item xs={1}>
                 <Typography>
@@ -82,7 +82,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
               {minimal && (
                 <>
                   <Grid item xs={1}>
-                    <Typography>Time stamp:</Typography>
+                    <Typography>Datum:</Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>
@@ -94,7 +94,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
               {!minimal && (
                 <>
                   <Grid item xs={1}>
-                    <Typography>Expected time:</Typography>
+                    <Typography>Föreslagen time:</Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>

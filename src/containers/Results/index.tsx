@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import QuestionCard from "../../components/QuestionCard";
 import ResultCard from "../../components/ResultCard";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../utils/getQuestionFromId";
@@ -48,7 +47,7 @@ const Result: FC = () => {
           {correct}/{currentAnswers.length} correct.
         </Typography>
         <Typography variant="h6" gutterBottom>
-          Average time per question - {Math.floor(averageTime / 60)}:
+          Genomsnittlig tid per fråga - {Math.floor(averageTime / 60)}:
           {Math.floor(averageTime % 60)}
         </Typography>
       </div>

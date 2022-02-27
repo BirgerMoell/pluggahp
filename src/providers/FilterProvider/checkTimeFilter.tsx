@@ -15,7 +15,8 @@ const checkTimeFilter = (
   if (!questionAnswers.length) {
     return false;
   }
-  const lastAnswer = questionAnswers[questionAnswers.length - 1];
+  const lastAnswer = questionAnswers[0];
+
   const { minutes, seconds } = lastAnswer;
   const { minutes: minutesLimit, seconds: secondsLimit } = timeFilter;
   return minutes * 60 + seconds >= minutesLimit * 60 + secondsLimit;

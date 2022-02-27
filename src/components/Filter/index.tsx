@@ -16,6 +16,8 @@ import { FC, useState } from "react";
 import { useFilter } from "../../providers/FilterProvider";
 import "./Filter.css";
 import { useAnswers } from "../../providers/AnswersProvider";
+import questions from "../../data/questions";
+import getAnswersForQuestion from "../../utils/getAnswersForQuestion";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -38,6 +40,15 @@ const Filter: FC<Props> = ({ closeFilter }) => {
   const totalTime = timeState
     ? timeState?.minutes * 60 + timeState?.seconds
     : 0;
+  const maxTime = Math.max(
+    ...questions.map((question) => {
+      const questionAnswers = getAnswersForQuestion(answers, question.id);
+      if (!questionAnswers.length) {
+        return 0;
+      }
+      return questionAnswers[0].minutes * 60 + questionAnswers[0].seconds;
+    })
+  );
 
   return (
     <Box sx={{ width: 300 }} role="presentation">
@@ -100,9 +111,7 @@ const Filter: FC<Props> = ({ closeFilter }) => {
             <Grid item xs>
               <Slider
                 value={totalTime}
-                max={Math.max(
-                  ...answers.map((a) => a.minutes * 80 + a.seconds)
-                )}
+                max={maxTime}
                 onChange={(_, total) => {
                   if (typeof total === "number") {
                     setTimeState({

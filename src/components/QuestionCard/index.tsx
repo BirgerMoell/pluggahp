@@ -6,6 +6,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Question } from "../../data/questions";
@@ -23,9 +25,7 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const { answers } = useAnswers();
   const questionAnswers = getAnswersForQuestion(answers, question.id);
-  const lastAnswer = questionAnswers.length
-    ? questionAnswers[questionAnswers.length - 1]
-    : null;
+  const lastAnswer = questionAnswers.length ? questionAnswers[0] : null;
 
   return (
     <div style={matches ? { height: 200 } : {}}>
@@ -40,33 +40,33 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
           <Grid item xs={matches ? 1 : 3}>
             <Grid container sx={{ padding: "16px" }} columns={2}>
               <Grid item xs={1}>
-                <Typography>Date of test: </Typography>
+                <Typography>Datum: </Typography>
               </Grid>
               <Grid item xs={1}>
                 <Typography>{question.date}</Typography>
               </Grid>
               <Grid item xs={1}>
-                <Typography>Part: </Typography>
+                <Typography>Provpass: </Typography>
               </Grid>
               <Grid item xs={1}>
                 <Typography>{question.partNumber}</Typography>
               </Grid>
               <Grid item xs={1}>
-                <Typography>Question: </Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <Typography>{question.questionNumber}</Typography>
-              </Grid>
-              <Grid item xs={1}>
-                <Typography>Segment: </Typography>
+                <Typography>Prov: </Typography>
               </Grid>
               <Grid item xs={1}>
                 <Typography>{question.segment}</Typography>
               </Grid>
+              <Grid item xs={1}>
+                <Typography>Uppgiftsnummer: </Typography>
+              </Grid>
+              <Grid item xs={1}>
+                <Typography>{question.questionNumber}</Typography>
+              </Grid>
               {minimal ? (
                 <>
                   <Grid item xs={1}>
-                    <Typography>Correct answer:</Typography>
+                    <Typography>Facit: </Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>{question.solution}</Typography>
@@ -75,20 +75,29 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
               ) : !questionAnswers.length ? (
                 <Grid item xs={2}>
                   <Typography sx={{ color: "#9a9a9a" }}>
-                    You have yet to answer this question
+                    Du har inte gjort denna fråga än.
                   </Typography>
                 </Grid>
               ) : (
                 <>
                   <Grid item xs={2}>
-                    <Typography>{`Your last question was ${
-                      lastAnswer?.answer === question.solution
-                        ? "correct"
-                        : "incorrect"
-                    }`}</Typography>
+                    <Typography>
+                      {`Ditt senaste svar var ${
+                        lastAnswer?.answer === question.solution
+                          ? "rätt"
+                          : "fel"
+                      } `}
+                      <span style={{ position: "relative", top: 3 }}>
+                        {lastAnswer?.answer === question.solution ? (
+                          <CheckIcon fontSize="inherit" color="success" />
+                        ) : (
+                          <ClearIcon fontSize="inherit" color="error" />
+                        )}
+                      </span>
+                    </Typography>
                   </Grid>
                   <Grid item xs={1}>
-                    <Typography>Time took:</Typography>
+                    <Typography>Tid:</Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>
@@ -96,7 +105,7 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
                     </Typography>
                   </Grid>
                   <Grid item xs={1}>
-                    <Typography>Expected time:</Typography>
+                    <Typography>Föreslagen tid:</Typography>
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>
