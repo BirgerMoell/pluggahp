@@ -1,21 +1,23 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, RefObject } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
 import "./Header.css";
 
 type Props = {
   title?: ReactNode;
+  appBarRef?: RefObject<HTMLDivElement>;
   onClick?: (value: any) => void;
   rightButtonClick?: () => void;
 };
 
 export const Header: FC<Props> = ({
   onClick,
+  appBarRef,
   title = "",
   rightButtonClick,
 }) => {
   return (
-    <AppBar position="sticky">
+    <AppBar ref={appBarRef} position="sticky">
       <Toolbar>
         <IconButton
           size="large"

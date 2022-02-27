@@ -9,7 +9,7 @@ import Filter from "../../components/Filter";
 import { Stack } from "@mui/material";
 
 const Overview = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { filtered } = useFilter();
   const [openFilter, setOpenFilter] = useState(false);
   const { startTest } = useCurrentQuestion();

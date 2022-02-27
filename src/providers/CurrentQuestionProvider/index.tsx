@@ -5,6 +5,8 @@ import { AnswerData } from "../AnswersProvider";
 import useCurrentAnswers from "./useCurrentAnswers";
 
 type CurrentQuestionContextType = {
+  currentQuestions: string[];
+  currentQuestionIndex: number;
   currentQuestion: Question | null;
   nextQuestion: () => void;
   startTest: (questions: Question[]) => void;
@@ -54,6 +56,8 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   return (
     <CurrentQuestionContext.Provider
       value={{
+        currentQuestions,
+        currentQuestionIndex: currentIndex,
         currentQuestion,
         nextQuestion,
         startTest,

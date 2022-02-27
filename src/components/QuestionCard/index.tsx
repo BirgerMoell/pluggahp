@@ -7,16 +7,18 @@ import {
   useTheme,
 } from "@mui/material";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import { Question } from "../../data/questions";
 import segments from "../../data/segments";
 import { useAnswers } from "../../providers/AnswersProvider";
 import getAnswersForQuestion from "../../utils/getAnswersForQuestion";
-import "./QuestionCard.css";
 
 type Props = {
+  minimal?: boolean;
   question: Question;
 };
-const QuestionCard: FC<Props> = ({ question }) => {
+const QuestionCard: FC<Props> = ({ minimal, question }) => {
+  const navigate = useNavigate();
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const { answers } = useAnswers();
@@ -27,7 +29,7 @@ const QuestionCard: FC<Props> = ({ question }) => {
 
   return (
     <div style={matches ? { height: 200 } : {}}>
-      <Card>
+      <Card onClick={() => navigate(`/question/${question.id}`)}>
         <Grid
           container
           columns={3}
@@ -53,7 +55,7 @@ const QuestionCard: FC<Props> = ({ question }) => {
                 <Typography>Question: </Typography>
               </Grid>
               <Grid item xs={1}>
-                <Typography>{question.partNumber}</Typography>
+                <Typography>{question.questionNumber}</Typography>
               </Grid>
               <Grid item xs={1}>
                 <Typography>Segment: </Typography>
@@ -61,7 +63,16 @@ const QuestionCard: FC<Props> = ({ question }) => {
               <Grid item xs={1}>
                 <Typography>{question.segment}</Typography>
               </Grid>
-              {!questionAnswers.length ? (
+              {minimal ? (
+                <>
+                  <Grid item xs={1}>
+                    <Typography>Correct answer:</Typography>
+                  </Grid>
+                  <Grid item xs={1}>
+                    <Typography>{question.solution}</Typography>
+                  </Grid>
+                </>
+              ) : !questionAnswers.length ? (
                 <Grid item xs={2}>
                   <Typography sx={{ color: "#9a9a9a" }}>
                     You have yet to answer this question
@@ -97,18 +108,34 @@ const QuestionCard: FC<Props> = ({ question }) => {
               )}
             </Grid>
           </Grid>
-          <Grid item>
+          <Grid
+            item
+            sx={
+              matches
+                ? {
+                    borderLeft: "1px solid #dedede",
+                    display: "flex",
+                    justifyContent: "center",
+                  }
+                : {
+                    borderBottom: "1px solid #dedede",
+                    display: "flex",
+                    justifyContent: "center",
+                  }
+            }
+          >
             <CardMedia
               component="img"
               sx={
                 matches
                   ? {
                       height: "200px",
-                      borderLeft: "1px solid #dedede",
+                      objectFit: "contain",
                       padding: "2px",
                     }
                   : {
-                      borderBottom: "1px solid #dedede",
+                      height: "150px",
+                      objectFit: "contain",
                       padding: "2px",
                     }
               }
