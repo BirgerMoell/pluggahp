@@ -475,7 +475,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/bKOJSKMYURU", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=25", name: "Aristofanes" },
     ],
-    solution: Solution.D,
+    solution: Solution.A,
   },
   {
     id: "2021-10-24-2-2",
@@ -491,7 +491,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/Rmnp1llCRUk", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=67", name: "Aristofanes" },
     ],
-    solution: Solution.E,
+    solution: Solution.C,
   },
   {
     id: "2021-10-24-2-3",
@@ -507,7 +507,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/Q51OyzgkDD4", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=104", name: "Aristofanes" },
     ],
-    solution: Solution.C,
+    solution: Solution.B,
   },
   {
     id: "2021-10-24-2-4",
@@ -523,7 +523,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/7kravUgBCFU", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=227", name: "Aristofanes" },
     ],
-    solution: Solution.E,
+    solution: Solution.D,
   },
   {
     id: "2021-10-24-2-5",
@@ -555,7 +555,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/8q0HimLifC0", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=464", name: "Aristofanes" },
     ],
-    solution: Solution.B,
+    solution: Solution.C,
   },
   {
     id: "2021-10-24-2-7",
@@ -587,7 +587,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/NF5YeZCW9o0", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=797", name: "Aristofanes" },
     ],
-    solution: Solution.C,
+    solution: Solution.B,
   },
   {
     id: "2021-10-24-2-9",
@@ -603,7 +603,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/eIAFO99FObo", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=1116", name: "Aristofanes" },
     ],
-    solution: Solution.A,
+    solution: Solution.D,
   },
   {
     id: "2021-10-24-2-10",
@@ -619,7 +619,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/sIUAu7LNipI", name: "HPGuiden" },
       { url: "https://youtu.be/KxzRLb-QLWM?t=1188", name: "Aristofanes" },
     ],
-    solution: Solution.A,
+    solution: Solution.C,
   },
   {
     id: "2021-10-24-2-11",
@@ -667,7 +667,7 @@ const questions: Question[] = [
       { url: "https://youtu.be/2S46cfgxSjI", name: "HPGuiden" },
       { url: "https://youtu.be/-maC9JO0jcc?t=27", name: "Aristofanes" },
     ],
-    solution: Solution.C,
+    solution: Solution.A,
   },
   {
     id: "2021-10-24-2-14",

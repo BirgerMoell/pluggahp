@@ -19,7 +19,7 @@ const Overview = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#efefef" }}>
+    <div style={{ backgroundColor: "#efefef", minHeight: "100vh" }}>
       <Header onClick={() => setOpenFilter(true)} rightButtonClick={start} />
       <Drawer
         variant="temporary"
