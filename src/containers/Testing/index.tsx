@@ -14,6 +14,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import stringifyTime from "../../utils/stringifyTime";
 
 const Testing: FC = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Testing: FC = () => {
       <AppBar ref={topAppBarRef} position="sticky">
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Typography variant="h6" component="div">
-            {`${minutes}:${seconds}`}
+            {stringifyTime(minutes * 60 + seconds)}
           </Typography>
           <div
             style={{

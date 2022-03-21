@@ -15,15 +15,25 @@ export type Time = {
 
 type Filter = {
   failed: boolean;
-  time: Time | null;
+  time?: Time | null;
+  seconds: number | null;
   XYZ: boolean;
   KVA: boolean;
   NOG: boolean;
 };
+
 type FilterContextType = {
   filter: Filter;
   filtered: Question[];
   setFilter: (filter: Filter) => void;
+};
+
+const transformOldFilter = (filter: Filter): Filter => {
+  const { XYZ, KVA, NOG, failed, time } = filter;
+  if (time) {
+    return { XYZ, KVA, NOG, failed, seconds: time.minutes * 60 + time.seconds };
+  }
+  return filter;
 };
 
 export const FilterContext = createContext<FilterContextType | null>(null);
@@ -37,9 +47,9 @@ export const useFilter = (): FilterContextType => {
 };
 
 const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
-  const { time, XYZ, KVA, NOG, failed } = filter;
+  const { seconds, XYZ, KVA, NOG, failed } = filter;
   return questions.filter((q) => {
-    const timeFilter = checkTimeFilter(q, time, answers);
+    const timeFilter = checkTimeFilter(q, seconds, answers);
     const XYZFilter = checkXYZFilter(XYZ, q);
     const KVAFilter = checkKVAFilter(KVA, q);
     const NOGFilter = checkNOGFilter(NOG, q);
@@ -52,17 +62,19 @@ const FilterProvider: FC = ({ children }) => {
   const { answers } = useAnswers();
   const [filter, setFilter] = useLocalStorage<Filter>("FILTER", {
     failed: false,
-    time: null,
+    seconds: null,
     XYZ: false,
     KVA: false,
     NOG: false,
   });
-  const filtered = filterQuestions(filter, answers);
+  const parsedFilter = transformOldFilter(filter);
+
+  const filtered = filterQuestions(parsedFilter, answers);
 
   return (
     <FilterContext.Provider
       value={{
-        filter,
+        filter: parsedFilter,
         filtered,
         setFilter,
       }}

@@ -5,9 +5,22 @@ import useLocalStorage from "../../utils/useLocalStorage";
 export type AnswerData = {
   questionId: string;
   answer: Solution;
-  minutes: number;
   seconds: number;
+  minutes?: number;
   timeStamp: number;
+};
+
+const transformOldData = (data: AnswerData): AnswerData => {
+  const { questionId, answer, timeStamp } = data;
+  if (data.minutes) {
+    return {
+      questionId,
+      answer,
+      timeStamp,
+      seconds: data.minutes * 60 + data.seconds,
+    };
+  }
+  return data;
 };
 
 type AnswersContextType = {
@@ -33,7 +46,9 @@ const UserProvider: FC = ({ children }) => {
   };
 
   return (
-    <AnswersContext.Provider value={{ answers, addAnswer }}>
+    <AnswersContext.Provider
+      value={{ answers: answers.map(transformOldData), addAnswer }}
+    >
       {children}
     </AnswersContext.Provider>
   );

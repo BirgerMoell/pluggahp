@@ -15,9 +15,10 @@ import ListItemText from "@mui/material/ListItemText";
 import { FC, useState } from "react";
 import { useFilter } from "../../providers/FilterProvider";
 import "./Filter.css";
-import { useAnswers } from "../../providers/AnswersProvider";
+import { AnswerData, useAnswers } from "../../providers/AnswersProvider";
 import questions from "../../data/questions";
 import getAnswersForQuestion from "../../utils/getAnswersForQuestion";
+import stringifyTime from "../../utils/stringifyTime";
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
@@ -32,23 +33,25 @@ type Props = {
   closeFilter: () => void;
 };
 
-const Filter: FC<Props> = ({ closeFilter }) => {
-  const { answers } = useAnswers();
-  const { filter, filtered, setFilter } = useFilter();
-  const { failed, XYZ, KVA, NOG, time } = filter;
-  const [timeState, setTimeState] = useState(time);
-  const totalTime = timeState
-    ? timeState?.minutes * 60 + timeState?.seconds
-    : 0;
-  const maxTime = Math.max(
+const getLongestTimeFromLatestAnswers = (answers: AnswerData[]): number => {
+  return Math.max(
     ...questions.map((question) => {
       const questionAnswers = getAnswersForQuestion(answers, question.id);
       if (!questionAnswers.length) {
         return 0;
       }
-      return questionAnswers[0].minutes * 60 + questionAnswers[0].seconds;
+      return questionAnswers[0].seconds;
     })
   );
+};
+
+const Filter: FC<Props> = ({ closeFilter }) => {
+  const { answers } = useAnswers();
+  const { filter, filtered, setFilter } = useFilter();
+  const { failed, XYZ, KVA, NOG, seconds } = filter;
+  const [secondsState, setSecondsState] = useState(seconds);
+
+  const maxTime = getLongestTimeFromLatestAnswers(answers);
 
   return (
     <Box sx={{ width: 300 }} role="presentation">
@@ -110,14 +113,11 @@ const Filter: FC<Props> = ({ closeFilter }) => {
           <Grid container spacing={2} alignItems="center">
             <Grid item xs>
               <Slider
-                value={totalTime}
+                value={secondsState || 0}
                 max={maxTime}
-                onChange={(_, total) => {
-                  if (typeof total === "number") {
-                    setTimeState({
-                      minutes: Math.floor(total / 60),
-                      seconds: total % 60,
-                    });
+                onChange={(_, seconds) => {
+                  if (typeof seconds === "number") {
+                    setSecondsState(seconds);
                   }
                 }}
                 onChangeCommitted={(_, total) => {
@@ -140,19 +140,7 @@ const Filter: FC<Props> = ({ closeFilter }) => {
               />
             </Grid>
             <Grid item>
-              <Typography>
-                {timeState
-                  ? `${
-                      timeState.minutes.toString().length === 1
-                        ? "0" + timeState.minutes
-                        : timeState.minutes
-                    }:${
-                      timeState.seconds.toString().length === 1
-                        ? "0" + timeState.seconds
-                        : timeState.seconds
-                    }`
-                  : "00:00"}
-              </Typography>
+              <Typography>{stringifyTime(secondsState || 0)}</Typography>
             </Grid>
           </Grid>
         </ListItem>

@@ -1,14 +1,13 @@
-import { Time } from ".";
 import { Question } from "../../data/questions";
 import getAnswersForQuestion from "../../utils/getAnswersForQuestion";
 import { AnswerData } from "../AnswersProvider";
 
 const checkTimeFilter = (
   question: Question,
-  timeFilter: Time | null,
+  secondsLimit: number | null,
   answers: AnswerData[]
 ) => {
-  if (!timeFilter) {
+  if (!secondsLimit) {
     return true;
   }
   const questionAnswers = getAnswersForQuestion(answers, question.id);
@@ -17,9 +16,8 @@ const checkTimeFilter = (
   }
   const lastAnswer = questionAnswers[0];
 
-  const { minutes, seconds } = lastAnswer;
-  const { minutes: minutesLimit, seconds: secondsLimit } = timeFilter;
-  return minutes * 60 + seconds >= minutesLimit * 60 + secondsLimit;
+  const { seconds } = lastAnswer;
+  return seconds >= secondsLimit;
 };
 
 export default checkTimeFilter;

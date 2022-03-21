@@ -14,6 +14,7 @@ import { Question } from "../../data/questions";
 import segments from "../../data/segments";
 import { useAnswers } from "../../providers/AnswersProvider";
 import getAnswersForQuestion from "../../utils/getAnswersForQuestion";
+import stringifyTime from "../../utils/stringifyTime";
 
 type Props = {
   minimal?: boolean;
@@ -101,7 +102,7 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>
-                      {lastAnswer?.minutes}:{lastAnswer?.seconds}
+                      {stringifyTime(lastAnswer?.seconds || 0)}
                     </Typography>
                   </Grid>
                   <Grid item xs={1}>
@@ -109,8 +110,9 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>
-                      {segments[question?.segment].timePerQuestion.minutes}:
-                      {segments[question?.segment].timePerQuestion.seconds}
+                      {stringifyTime(
+                        segments[question?.segment].timePerQuestion
+                      )}
                     </Typography>
                   </Grid>
                 </>
