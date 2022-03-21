@@ -27,21 +27,7 @@ const Result: FC = () => {
     ) / currentAnswers.length;
   return (
     <div>
-      <AppBar position="sticky">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          {!finished && (
-            <Button color="inherit" onClick={() => navigate("/testing")}>
-              Fortsätt
-            </Button>
-          )}
-          <Typography variant="h6" component="div">
-            Resultat
-          </Typography>
-          <Button color="inherit" onClick={() => navigate("/")}>
-            Uppgifter
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <ResultAppBar />
       <div style={{ padding: "16px 16px" }}>
         <Typography variant="h6" gutterBottom>
           {correct}/{currentAnswers.length} correct.
