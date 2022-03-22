@@ -26,9 +26,7 @@ const Overview = () => {
         anchor={"left"}
         open={openFilter}
         onClose={() => setOpenFilter(false)}
-      >
-        <Filter closeFilter={() => setOpenFilter(false)} />
-      </Drawer>
+      ></Drawer>
       <div style={{ padding: "16px 16px" }}>
         <Stack spacing={2}>
           {filtered.map((question) => (

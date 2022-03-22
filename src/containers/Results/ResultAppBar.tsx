@@ -18,7 +18,7 @@ const ResultAppBar = () => {
           Resultat
         </Typography>
         <Button color="inherit" onClick={() => navigate("/")}>
-          Uppgifter
+          Startsidan
         </Button>
       </Toolbar>
     </AppBar>
