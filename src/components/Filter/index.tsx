@@ -29,10 +29,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-type Props = {
-  closeFilter: () => void;
-};
-
 const getLongestTimeFromLatestAnswers = (answers: AnswerData[]): number => {
   return Math.max(
     ...questions.map((question) => {
@@ -45,7 +41,7 @@ const getLongestTimeFromLatestAnswers = (answers: AnswerData[]): number => {
   );
 };
 
-const Filter: FC<Props> = ({ closeFilter }) => {
+const Filter: FC = () => {
   const { answers } = useAnswers();
   const { filter, filtered, setFilter } = useFilter();
   const { failed, XYZ, KVA, NOG, seconds } = filter;
@@ -55,12 +51,6 @@ const Filter: FC<Props> = ({ closeFilter }) => {
 
   return (
     <Box sx={{ width: 300 }} role="presentation">
-      <DrawerHeader>
-        <Typography>Filter</Typography>
-        <IconButton onClick={closeFilter}>
-          <ChevronLeftIcon />
-        </IconButton>
-      </DrawerHeader>
       <List>
         <ListItem>
           <ListItemIcon>
