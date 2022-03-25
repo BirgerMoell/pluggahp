@@ -2,21 +2,19 @@ import { FC, createContext, useContext } from "react";
 import questions, { Question } from "../../data/questions";
 import useLocalStorage from "../../utils/useLocalStorage";
 import { AnswerData, useAnswers } from "../AnswersProvider";
-import checkFailedFilter from "./checkFailedFilter";
+import checkCorrectFilter from "./checkCorrectFilter";
+import checkIncorrectFilter from "./checkIncorrectFilter";
 import checkKVAFilter from "./checkKVAFilter";
 import checkNOGFilter from "./checkNOGFilter";
-import checkTimeFilter from "./checkTimeFilter";
+import checkTooSlowFilter from "./checkTooSlowFilter";
+import checkUnansweredFilter from "./checkUnansweredFilter";
 import checkXYZFilter from "./checkXYZFilter";
 
-export type Time = {
-  minutes: number;
-  seconds: number;
-};
-
 type Filter = {
-  failed: boolean;
-  time?: Time | null;
-  seconds: number | null;
+  unanswered: boolean;
+  incorrect: boolean;
+  tooSlow: boolean;
+  correct: boolean;
   XYZ: boolean;
   KVA: boolean;
   NOG: boolean;
@@ -26,14 +24,6 @@ type FilterContextType = {
   filter: Filter;
   filtered: Question[];
   setFilter: (filter: Filter) => void;
-};
-
-const transformOldFilter = (filter: Filter): Filter => {
-  const { XYZ, KVA, NOG, failed, time } = filter;
-  if (time) {
-    return { XYZ, KVA, NOG, failed, seconds: time.minutes * 60 + time.seconds };
-  }
-  return filter;
 };
 
 export const FilterContext = createContext<FilterContextType | null>(null);
@@ -47,34 +37,75 @@ export const useFilter = (): FilterContextType => {
 };
 
 const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
-  const { seconds, XYZ, KVA, NOG, failed } = filter;
+  const { unanswered, incorrect, tooSlow, correct, XYZ, KVA, NOG } = filter;
   return questions.filter((q) => {
-    const timeFilter = checkTimeFilter(q, seconds, answers);
+    const unansweredFilter = checkUnansweredFilter(unanswered, answers, q);
+    const incorrectFilter = checkIncorrectFilter(incorrect, answers, q);
+    const tooSlowFilter = checkTooSlowFilter(tooSlow, answers, q);
+    const correctFilter = checkCorrectFilter(correct, answers, q);
     const XYZFilter = checkXYZFilter(XYZ, q);
     const KVAFilter = checkKVAFilter(KVA, q);
     const NOGFilter = checkNOGFilter(NOG, q);
-    const failedFilter = checkFailedFilter(failed, answers, q);
-    return timeFilter && XYZFilter && KVAFilter && NOGFilter && failedFilter;
+
+    if (
+      !(
+        unansweredFilter &&
+        incorrectFilter &&
+        tooSlowFilter &&
+        correctFilter &&
+        XYZFilter &&
+        KVAFilter &&
+        NOGFilter
+      )
+    ) {
+      console.log({
+        unansweredFilter,
+        incorrectFilter,
+        tooSlowFilter,
+        correctFilter,
+        XYZFilter,
+        KVAFilter,
+        NOGFilter,
+        boolean:
+          unansweredFilter &&
+          incorrectFilter &&
+          tooSlowFilter &&
+          correctFilter &&
+          XYZFilter &&
+          KVAFilter &&
+          NOGFilter,
+      });
+    }
+    return (
+      unansweredFilter &&
+      incorrectFilter &&
+      tooSlowFilter &&
+      correctFilter &&
+      XYZFilter &&
+      KVAFilter &&
+      NOGFilter
+    );
   });
 };
 
 const FilterProvider: FC = ({ children }) => {
   const { answers } = useAnswers();
-  const [filter, setFilter] = useLocalStorage<Filter>("FILTER", {
-    failed: false,
-    seconds: null,
-    XYZ: false,
-    KVA: false,
-    NOG: false,
+  const [filter, setFilter] = useLocalStorage<Filter>("FILTER_v2", {
+    unanswered: true,
+    incorrect: true,
+    tooSlow: true,
+    correct: true,
+    XYZ: true,
+    KVA: true,
+    NOG: true,
   });
-  const parsedFilter = transformOldFilter(filter);
 
-  const filtered = filterQuestions(parsedFilter, answers);
+  const filtered = filterQuestions(filter, answers);
 
   return (
     <FilterContext.Provider
       value={{
-        filter: parsedFilter,
+        filter,
         filtered,
         setFilter,
       }}

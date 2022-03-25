@@ -1,6 +1,8 @@
 import { AppBar, Button, Container, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Filter from "../../components/Filter";
+import HistoryPieChart from "../../components/HistoryPieChart";
+import SegmentPieChart from "../../components/SegmentPieChart";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import { useFilter } from "../../providers/FilterProvider";
 
@@ -22,10 +24,12 @@ const FilterContainer = () => {
           alignItems: "center",
           flexDirection: "column",
         }}
-        maxWidth="sm"
+        maxWidth="xl"
       >
-        <Stack sx={{ alignItems: "center" }} spacing={2}>
+        <Stack sx={{ alignItems: "center", width: "100%" }} spacing={2}>
           <Filter />
+          <HistoryPieChart questions={filtered} />
+          <SegmentPieChart questions={filtered} />
           <div>
             <Button
               disabled={filtered.length === 0}
