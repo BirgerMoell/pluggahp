@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import React, { FC } from "react";
+import { FC } from "react";
 
 type Props = {
   name: string;
@@ -12,6 +12,7 @@ const SelectorItem: FC<Props> = ({ color, selected, onClick, name }) => {
   return (
     <Button
       sx={{
+        border: `1px solid ${color}`,
         color: selected ? "#fff" : color,
         ...(selected ? { backgroundColor: color } : { borderColor: color }),
         borderRadius: "16px",

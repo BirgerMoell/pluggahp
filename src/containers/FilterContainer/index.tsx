@@ -15,6 +15,7 @@ import SegmentPieChart from "../../components/SegmentPieChart";
 import segments from "../../data/segments";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import { useFilter } from "../../providers/FilterProvider";
+import { APP_BAR_HEIGHT } from "../../constants/numbers";
 
 const FilterContainer = () => {
   const navigate = useNavigate();
@@ -31,11 +32,11 @@ const FilterContainer = () => {
   );
   return (
     <div>
-      <AppBar sx={{ minHeight: "50px" }} position="sticky" />
+      <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
 
       <Container
         sx={{
-          paddingTop: "42px",
+          paddingTop: "24px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
@@ -77,7 +78,7 @@ const FilterContainer = () => {
           </Grid>
         </Stack>
         <Button
-          sx={{ marginTop: "-25px", marginBottom: "25px" }}
+          sx={{ marginTop: "-25px" }}
           variant="contained"
           disabled={filtered.length === 0}
           onClick={start}

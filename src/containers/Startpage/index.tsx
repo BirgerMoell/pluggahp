@@ -1,23 +1,24 @@
 import { AppBar, Button, Container, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import QuestionHistoryChart from "../../components/HistoryPieChart";
+import { APP_BAR_HEIGHT } from "../../constants/numbers";
 import questions from "../../data/questions";
 
 const Startpage = () => {
   const navigate = useNavigate();
   return (
     <div>
-      <AppBar sx={{ minHeight: "50px" }} position="sticky" />
+      <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
       <Container
         sx={{
-          paddingTop: "42px",
+          paddingTop: "32px",
           display: "flex",
           alignItems: "center",
           flexDirection: "column",
         }}
         maxWidth="sm"
       >
-        <Stack sx={{ alignItems: "center" }} spacing={5}>
+        <Stack sx={{ alignItems: "center" }}>
           <Button variant="contained" onClick={() => navigate("/filter")}>
             Träna
           </Button>
