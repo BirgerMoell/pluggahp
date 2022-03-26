@@ -1,39 +1,33 @@
 import { FC, createContext, useContext } from "react";
+import { MAX_LIMIT } from "../../constants/numbers";
 import questions, { Question } from "../../data/questions";
+import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
+import splitQuestionsOnSegment from "../../utils/splitQuestionsOnSegment";
 import useLocalStorage from "../../utils/useLocalStorage";
 import { AnswerData, useAnswers } from "../AnswersProvider";
-import checkFailedFilter from "./checkFailedFilter";
+import checkCorrectFilter from "./checkCorrectFilter";
+import checkIncorrectFilter from "./checkIncorrectFilter";
 import checkKVAFilter from "./checkKVAFilter";
 import checkNOGFilter from "./checkNOGFilter";
-import checkTimeFilter from "./checkTimeFilter";
+import checkTooSlowFilter from "./checkTooSlowFilter";
+import checkUnansweredFilter from "./checkUnansweredFilter";
 import checkXYZFilter from "./checkXYZFilter";
 
-export type Time = {
-  minutes: number;
-  seconds: number;
-};
-
 type Filter = {
-  failed: boolean;
-  time?: Time | null;
-  seconds: number | null;
+  unanswered: boolean;
+  incorrect: boolean;
+  tooSlow: boolean;
+  correct: boolean;
   XYZ: boolean;
   KVA: boolean;
   NOG: boolean;
+  limit: number;
 };
 
 type FilterContextType = {
   filter: Filter;
   filtered: Question[];
   setFilter: (filter: Filter) => void;
-};
-
-const transformOldFilter = (filter: Filter): Filter => {
-  const { XYZ, KVA, NOG, failed, time } = filter;
-  if (time) {
-    return { XYZ, KVA, NOG, failed, seconds: time.minutes * 60 + time.seconds };
-  }
-  return filter;
 };
 
 export const FilterContext = createContext<FilterContextType | null>(null);
@@ -46,36 +40,85 @@ export const useFilter = (): FilterContextType => {
   return context;
 };
 
+const reduceBySegment = (filteredHistory: Question[], limit: number) => {
+  const { xyz, kva, nog } = splitQuestionsOnSegment(filteredHistory);
+  const toReduce = [xyz, kva, nog].sort();
+  return toReduce
+    .reduce(
+      (allReduced, list) => [
+        ...allReduced,
+        ...list.splice(
+          0,
+          Math.ceil((list.length / filteredHistory.length) * limit)
+        ),
+      ],
+      []
+    )
+    .splice(0, limit);
+};
+
+const reduceQuestions = (
+  filtered: Question[],
+  answers: AnswerData[],
+  limit: number
+) => {
+  const { incorrect, tooSlow, unanswered, correct } = splitQuestionsOnHistory(
+    answers,
+    filtered
+  );
+  const toReduce = [incorrect, tooSlow, unanswered, correct].sort();
+  return toReduce
+    .reduce((allReduced, list) => {
+      const historyLimit = Math.ceil((list.length / filtered.length) * limit);
+      return [...allReduced, ...reduceBySegment(list, historyLimit)];
+    }, [])
+    .splice(0, limit);
+};
+
 const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
-  const { seconds, XYZ, KVA, NOG, failed } = filter;
+  const { unanswered, incorrect, tooSlow, correct, XYZ, KVA, NOG } = filter;
   return questions.filter((q) => {
-    const timeFilter = checkTimeFilter(q, seconds, answers);
+    const unansweredFilter = checkUnansweredFilter(unanswered, answers, q);
+    const incorrectFilter = checkIncorrectFilter(incorrect, answers, q);
+    const tooSlowFilter = checkTooSlowFilter(tooSlow, answers, q);
+    const correctFilter = checkCorrectFilter(correct, answers, q);
     const XYZFilter = checkXYZFilter(XYZ, q);
     const KVAFilter = checkKVAFilter(KVA, q);
     const NOGFilter = checkNOGFilter(NOG, q);
-    const failedFilter = checkFailedFilter(failed, answers, q);
-    return timeFilter && XYZFilter && KVAFilter && NOGFilter && failedFilter;
+
+    return (
+      unansweredFilter &&
+      incorrectFilter &&
+      tooSlowFilter &&
+      correctFilter &&
+      XYZFilter &&
+      KVAFilter &&
+      NOGFilter
+    );
   });
 };
 
 const FilterProvider: FC = ({ children }) => {
   const { answers } = useAnswers();
-  const [filter, setFilter] = useLocalStorage<Filter>("FILTER", {
-    failed: false,
-    seconds: null,
-    XYZ: false,
-    KVA: false,
-    NOG: false,
+  const [filter, setFilter] = useLocalStorage<Filter>("FILTER_v2", {
+    unanswered: true,
+    incorrect: true,
+    tooSlow: true,
+    correct: true,
+    XYZ: true,
+    KVA: true,
+    NOG: true,
+    limit: MAX_LIMIT,
   });
-  const parsedFilter = transformOldFilter(filter);
 
-  const filtered = filterQuestions(parsedFilter, answers);
+  const filtered = filterQuestions(filter, answers);
+  const reduced = reduceQuestions(filtered, answers, filter.limit);
 
   return (
     <FilterContext.Provider
       value={{
-        filter: parsedFilter,
-        filtered,
+        filter,
+        filtered: reduced,
         setFilter,
       }}
     >

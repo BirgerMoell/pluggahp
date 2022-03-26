@@ -1,6 +1,7 @@
 import { AppBar, Button, Container, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import QuestionsChart from "./QuestionsChart";
+import QuestionHistoryChart from "../../components/HistoryPieChart";
+import questions from "../../data/questions";
 
 const Startpage = () => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const Startpage = () => {
           <Button variant="contained" onClick={() => navigate("/filter")}>
             Träna
           </Button>
-          <QuestionsChart />
+          <QuestionHistoryChart legends questions={questions} />
         </Stack>
       </Container>
     </div>
