@@ -1,52 +1,45 @@
 import { Question } from "../../data/questions";
-import segments from "../../data/segments";
 import { useAnswers } from "../../providers/AnswersProvider";
-import getLatestAnswerForQuestion from "../../utils/getLatestAnswerForQuestion";
 import { COLORS } from "../../constants/colors";
 import { FC } from "react";
 import PieChart from "../PieChart";
+import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
 
 type Props = {
   questions: Question[];
+  legends?: boolean;
 };
 
-const HistoryPieChart: FC<Props> = ({ questions }) => {
+const HistoryPieChart: FC<Props> = ({ questions, legends }) => {
   const { answers } = useAnswers();
-  let unanswered = 0;
-  let incorrect = 0;
-  let tooSlow = 0;
-  let correct = 0;
-  questions.forEach((question) => {
-    const answer = getLatestAnswerForQuestion(answers, question.id);
-    if (!answer) {
-      unanswered += 1;
-      return;
-    }
-    if (answer.answer !== question.solution) {
-      incorrect += 1;
-      return;
-    }
-    if (answer.seconds > segments[question.segment].timePerQuestion) {
-      tooSlow += 1;
-      return;
-    }
-    correct += 1;
-  });
+  const { incorrect, tooSlow, unanswered, correct } = splitQuestionsOnHistory(
+    answers,
+    questions
+  );
   return (
     <PieChart
-      legendData={[
-        { name: `Obesvarade (${unanswered})` },
-        { name: `Felsvarade (${incorrect})` },
-        { name: `För långsamma (${tooSlow})` },
-        { name: `Rättsvarade (${correct})` },
-      ]}
+      legendData={
+        legends
+          ? [
+              { name: `Obesvarade (${unanswered.length})` },
+              { name: `Felsvarade (${incorrect.length})` },
+              { name: `För långsamma (${tooSlow.length})` },
+              { name: `Rättsvarade (${correct.length})` },
+            ]
+          : undefined
+      }
       colorScale={[
         COLORS.unanswered,
         COLORS.incorrect,
         COLORS.tooSlow,
         COLORS.correct,
       ]}
-      data={[unanswered, incorrect, tooSlow, correct]}
+      data={[
+        unanswered.length,
+        incorrect.length,
+        tooSlow.length,
+        correct.length,
+      ]}
     />
   );
 };

@@ -6,6 +6,7 @@ type ColorMap = {
   xyz: `#${string}`;
   kva: `#${string}`;
   nog: `#${string}`;
+  textPrimary: `#${string}`;
 };
 
 export const COLORS: ColorMap = {
@@ -16,4 +17,5 @@ export const COLORS: ColorMap = {
   xyz: "#e1bee7",
   kva: "#90caf9",
   nog: "#b2dfdb",
+  textPrimary: "#424242",
 };

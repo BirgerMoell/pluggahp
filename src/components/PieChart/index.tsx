@@ -1,46 +1,65 @@
+import { Grid, Stack, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import { FC } from "react";
-import {
-  VictoryContainer,
-  VictoryLabel,
-  VictoryLegend,
-  VictoryPie,
-} from "victory";
+import { VictoryPie } from "victory";
+import { COLORS } from "../../constants/colors";
 
 type Props = {
   colorScale: string[];
-  legendData: { name: string }[];
+  legendData?: { name: string }[];
   data: number[];
 };
 const PieChart: FC<Props> = ({ colorScale, legendData, data }) => {
-  const width = 250;
-  const height = 150;
-  const viewBox = `0 0 ${width} ${height}`;
+  if (!legendData) {
+    return (
+      <VictoryPie
+        labelComponent={<span></span>}
+        animate={{
+          easing: "cubicInOut",
+          duration: 300,
+        }}
+        colorScale={colorScale}
+        data={data}
+      />
+    );
+  }
+
   return (
-    <div style={{ width: width + 100, height: height + 100 }}>
-      <svg viewBox={viewBox}>
-        <g transform={"translate(-100, -50)"}>
-          <VictoryPie
-            labelComponent={<span></span>}
-            width={width + 75}
-            height={height + 75}
-            standalone={false}
-            animate={{
-              easing: "cubicInOut",
-              duration: 300,
-            }}
-            colorScale={colorScale}
-            data={data}
-          />
-        </g>
-        <VictoryLegend
-          x={width - 150}
-          standalone={false}
+    <Grid container columns={3}>
+      <Grid item xs={2}>
+        <VictoryPie
+          labelComponent={<span></span>}
+          animate={{
+            easing: "cubicInOut",
+            duration: 300,
+          }}
           colorScale={colorScale}
-          data={legendData}
-          labelComponent={<VictoryLabel />}
+          data={data}
         />
-      </svg>
-    </div>
+      </Grid>
+      <Grid item xs={1}>
+        <Stack>
+          {legendData.map((legend, index) => (
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
+              <Box
+                sx={{
+                  height: "15px",
+                  minWidth: "15px",
+                  borderRadius: "30px",
+                  backgroundColor: colorScale[index],
+                }}
+              ></Box>
+              <Typography
+                color={COLORS.textPrimary}
+                sx={{ whiteSpace: "nowrap" }}
+              >
+                {legend.name}
+              </Typography>
+            </Stack>
+          ))}
+        </Stack>
+      </Grid>
+    </Grid>
   );
 };
 

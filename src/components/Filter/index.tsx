@@ -1,16 +1,18 @@
-import Box from "@mui/material/Box";
 import { FC } from "react";
 import { useFilter } from "../../providers/FilterProvider";
 import SelectorGroup from "../SelectorGroup";
 import { COLORS } from "../../constants/colors";
 import SelectorItem from "../SelectorItem";
+import { Stack } from "@mui/material";
+import LimitSelect from "../LimitSelect";
 
 const Filter: FC = () => {
   const { filter, setFilter } = useFilter();
-  const { unanswered, incorrect, tooSlow, correct, XYZ, KVA, NOG } = filter;
+  const { unanswered, incorrect, tooSlow, correct, XYZ, KVA, NOG, limit } =
+    filter;
 
   return (
-    <Box>
+    <Stack spacing={2}>
       <SelectorGroup
         title="Delar"
         changeAll={(argument) =>
@@ -73,7 +75,11 @@ const Filter: FC = () => {
           selected={correct}
         />
       </SelectorGroup>
-    </Box>
+      <LimitSelect
+        limit={limit}
+        onChange={(limit) => setFilter({ ...filter, limit })}
+      />
+    </Stack>
   );
 };
 

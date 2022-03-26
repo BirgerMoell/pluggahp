@@ -16,7 +16,7 @@ const SelectorItem: FC<Props> = ({ color, selected, onClick, name }) => {
         ...(selected ? { backgroundColor: color } : { borderColor: color }),
         borderRadius: "16px",
         padding: "3px 12px",
-        margin: "8px 4px",
+        margin: "8px 4px 8px 4px",
         "&:hover": {
           ...(selected ? { backgroundColor: color } : { borderColor: color }),
         },

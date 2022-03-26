@@ -21,7 +21,7 @@ const Startpage = () => {
           <Button variant="contained" onClick={() => navigate("/filter")}>
             Träna
           </Button>
-          <QuestionHistoryChart questions={questions} />
+          <QuestionHistoryChart legends questions={questions} />
         </Stack>
       </Container>
     </div>

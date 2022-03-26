@@ -1,40 +1,30 @@
 import { Question } from "../../data/questions";
-import { Segment } from "../../data/segments";
 import { COLORS } from "../../constants/colors";
 import { FC } from "react";
 import PieChart from "../PieChart";
+import splitQuestionsOnSegment from "../../utils/splitQuestionsOnSegment";
 
 type Props = {
   questions: Question[];
+  legends?: boolean;
 };
 
-const SegmentPieChart: FC<Props> = ({ questions }) => {
-  let xyz = 0;
-  let kva = 0;
-  let nog = 0;
-  questions.forEach((question) => {
-    if (question.segment === Segment.XYZ) {
-      xyz += 1;
-      return;
-    }
-    if (question.segment === Segment.KVA) {
-      kva += 1;
-      return;
-    }
-    if (question.segment === Segment.NOG) {
-      nog += 1;
-      return;
-    }
-  });
+const SegmentPieChart: FC<Props> = ({ questions, legends }) => {
+  const { xyz, kva, nog } = splitQuestionsOnSegment(questions);
+
   return (
     <PieChart
-      legendData={[
-        { name: `XYZ (${xyz})` },
-        { name: `NOG (${nog})` },
-        { name: `KVA (${kva})` },
-      ]}
+      legendData={
+        legends
+          ? [
+              { name: `XYZ (${xyz.length})` },
+              { name: `NOG (${nog.length})` },
+              { name: `KVA (${kva.length})` },
+            ]
+          : undefined
+      }
       colorScale={[COLORS.xyz, COLORS.nog, COLORS.kva]}
-      data={[xyz, nog, kva]}
+      data={[xyz.length, nog.length, kva.length]}
     />
   );
 };

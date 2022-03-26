@@ -1,4 +1,4 @@
-import { Button, Typography, Stack, Box, ButtonGroup } from "@mui/material";
+import { Typography, Stack, Box } from "@mui/material";
 import { FC } from "react";
 
 type Props = {
@@ -8,15 +8,18 @@ type Props = {
 
 const SelectorGroup: FC<Props> = ({ title, children, changeAll }) => {
   return (
-    <Stack sx={{ width: "100%" }} spacing={1}>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h5">{title}</Typography>
-        <ButtonGroup variant="text" aria-label="text button group">
-          <Button onClick={() => changeAll(true)}>Alla</Button>
-          <Button onClick={() => changeAll(false)}>Ingen</Button>
-        </ButtonGroup>
+    <Stack sx={{ width: "100%" }}>
+      <Typography variant="h5">{title}</Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          marginTop: "-2px",
+          marginLeft: "-2px",
+        }}
+      >
+        {children}
       </Box>
-      <Box sx={{ display: "flex", flexWrap: "wrap" }}>{children}</Box>
     </Stack>
   );
 };

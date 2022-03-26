@@ -1,5 +1,8 @@
 import { FC, createContext, useContext } from "react";
+import { MAX_LIMIT } from "../../constants/numbers";
 import questions, { Question } from "../../data/questions";
+import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
+import splitQuestionsOnSegment from "../../utils/splitQuestionsOnSegment";
 import useLocalStorage from "../../utils/useLocalStorage";
 import { AnswerData, useAnswers } from "../AnswersProvider";
 import checkCorrectFilter from "./checkCorrectFilter";
@@ -18,6 +21,7 @@ type Filter = {
   XYZ: boolean;
   KVA: boolean;
   NOG: boolean;
+  limit: number;
 };
 
 type FilterContextType = {
@@ -36,6 +40,41 @@ export const useFilter = (): FilterContextType => {
   return context;
 };
 
+const reduceBySegment = (filteredHistory: Question[], limit: number) => {
+  const { xyz, kva, nog } = splitQuestionsOnSegment(filteredHistory);
+  const toReduce = [xyz, kva, nog].sort();
+  return toReduce
+    .reduce(
+      (allReduced, list) => [
+        ...allReduced,
+        ...list.splice(
+          0,
+          Math.ceil((list.length / filteredHistory.length) * limit)
+        ),
+      ],
+      []
+    )
+    .splice(0, limit);
+};
+
+const reduceQuestions = (
+  filtered: Question[],
+  answers: AnswerData[],
+  limit: number
+) => {
+  const { incorrect, tooSlow, unanswered, correct } = splitQuestionsOnHistory(
+    answers,
+    filtered
+  );
+  const toReduce = [incorrect, tooSlow, unanswered, correct].sort();
+  return toReduce
+    .reduce((allReduced, list) => {
+      const historyLimit = Math.ceil((list.length / filtered.length) * limit);
+      return [...allReduced, ...reduceBySegment(list, historyLimit)];
+    }, [])
+    .splice(0, limit);
+};
+
 const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
   const { unanswered, incorrect, tooSlow, correct, XYZ, KVA, NOG } = filter;
   return questions.filter((q) => {
@@ -47,35 +86,6 @@ const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
     const KVAFilter = checkKVAFilter(KVA, q);
     const NOGFilter = checkNOGFilter(NOG, q);
 
-    if (
-      !(
-        unansweredFilter &&
-        incorrectFilter &&
-        tooSlowFilter &&
-        correctFilter &&
-        XYZFilter &&
-        KVAFilter &&
-        NOGFilter
-      )
-    ) {
-      console.log({
-        unansweredFilter,
-        incorrectFilter,
-        tooSlowFilter,
-        correctFilter,
-        XYZFilter,
-        KVAFilter,
-        NOGFilter,
-        boolean:
-          unansweredFilter &&
-          incorrectFilter &&
-          tooSlowFilter &&
-          correctFilter &&
-          XYZFilter &&
-          KVAFilter &&
-          NOGFilter,
-      });
-    }
     return (
       unansweredFilter &&
       incorrectFilter &&
@@ -98,15 +108,17 @@ const FilterProvider: FC = ({ children }) => {
     XYZ: true,
     KVA: true,
     NOG: true,
+    limit: MAX_LIMIT,
   });
 
   const filtered = filterQuestions(filter, answers);
+  const reduced = reduceQuestions(filtered, answers, filter.limit);
 
   return (
     <FilterContext.Provider
       value={{
         filter,
-        filtered,
+        filtered: reduced,
         setFilter,
       }}
     >
