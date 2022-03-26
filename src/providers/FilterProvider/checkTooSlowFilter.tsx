@@ -9,7 +9,7 @@ import { AnswerData } from "../AnswersProvider";
  * @param question
  * @returns true if tooSlowFilter is true,
  * otherwise false if last answer was too slow
- * true if unanswered
+ * true if unanswered or incorrect
  */
 const checkTooSlowFilter = (
   tooSlowFilter: boolean,
@@ -23,8 +23,11 @@ const checkTooSlowFilter = (
   if (!questionAnswers.length || tooSlowFilter) {
     return true;
   }
-  const { seconds } = questionAnswers[0];
-  return seconds <= segments[question.segment].timePerQuestion;
+  const { seconds, answer } = questionAnswers[0];
+  return (
+    seconds <= segments[question.segment].timePerQuestion ||
+    answer !== question.solution
+  );
 };
 
 export default checkTooSlowFilter;
