@@ -25,20 +25,32 @@ const QuestionBar: FC<Props> = ({ registerAnswer }) => {
     >
       <Toolbar
         sx={{
+          paddingBottom: "6px",
+          minHeight: "48px !important",
           display: "flex",
-          justifyContent: "space-around",
-          flexWrap: "wrap",
+          justifyContent: "center",
         }}
       >
-        {segment.solutionDomain.map((solution) => (
-          <Button
-            sx={{ minWidth: "90px", maxWidth: "100px", margin: "16px" }}
-            variant="outlined"
-            onClick={() => registerAnswer(solution)}
-          >
-            {solution}
-          </Button>
-        ))}
+        <div
+          style={{
+            display: "flex",
+            maxWidth: 500,
+            flexGrow: 1,
+            justifyContent: "space-around",
+            flexWrap: "wrap",
+          }}
+        >
+          {segment.solutionDomain.map((solution) => (
+            <Button
+              sx={{ margin: "6px 8px 0 8px" }}
+              size="small"
+              variant="outlined"
+              onClick={() => registerAnswer(solution)}
+            >
+              {solution}
+            </Button>
+          ))}
+        </div>
       </Toolbar>
     </Box>
   );
