@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Question } from "../../data/questions";
 import segments from "../../data/segments";
 import { AnswerData } from "../../providers/AnswersProvider";
+import stringifyTime from "../../utils/stringifyTime";
 
 type Props = {
   minimal?: boolean;
@@ -67,11 +68,10 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
               </Grid>
               <Grid item xs={1}>
                 <Typography>
-                  {answer.minutes}:{answer.seconds}
+                  {stringifyTime(answer.seconds)}
                   <span style={{ position: "relative", top: 3 }}>
-                    {answer.minutes * 60 + answer.seconds <=
-                    segments[question.segment].timePerQuestion.minutes * 60 +
-                      segments[question.segment].timePerQuestion.seconds ? (
+                    {answer.seconds <=
+                    segments[question.segment].timePerQuestion ? (
                       <CheckIcon fontSize="inherit" color="success" />
                     ) : (
                       <ClearIcon fontSize="inherit" color="error" />
@@ -98,8 +98,9 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
                   </Grid>
                   <Grid item xs={1}>
                     <Typography>
-                      {segments[question?.segment].timePerQuestion.minutes}:
-                      {segments[question?.segment].timePerQuestion.seconds}
+                      {stringifyTime(
+                        segments[question?.segment].timePerQuestion
+                      )}
                     </Typography>
                   </Grid>
                 </>

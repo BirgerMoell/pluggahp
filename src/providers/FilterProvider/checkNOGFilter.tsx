@@ -2,7 +2,7 @@ import { Question } from "../../data/questions";
 import { Segment } from "../../data/segments";
 
 const checkNOGFilter = (NOGFilter: boolean, question: Question) => {
-  return NOGFilter ? question.segment === Segment.NOG : true;
+  return NOGFilter ? true : question.segment !== Segment.NOG;
 };
 
 export default checkNOGFilter;

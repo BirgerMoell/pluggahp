@@ -1,47 +1,23 @@
-import {
-  AppBar,
-  Toolbar,
-  Button,
-  Typography,
-  Stack,
-  Divider,
-} from "@mui/material";
+import { Typography, Stack, Divider } from "@mui/material";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
 import ResultCard from "../../components/ResultCard";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../utils/getQuestionFromId";
+import ResultAppBar from "./ResultAppBar";
 import "./Results.css";
 
 const Result: FC = () => {
-  const navigate = useNavigate();
-  const { currentAnswers, finished } = useCurrentQuestion();
+  const { currentAnswers } = useCurrentQuestion();
   const correct = currentAnswers.filter(({ questionId, answer }) => {
     const question = getQuestionFromId(questionId);
     return answer === question.solution;
   }).length;
   const averageTime =
-    currentAnswers.reduce(
-      (prev, current) => prev + current.minutes * 60 + current.seconds,
-      0
-    ) / currentAnswers.length;
+    currentAnswers.reduce((prev, current) => prev + current.seconds, 0) /
+    currentAnswers.length;
   return (
     <div>
-      <AppBar position="sticky">
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          {!finished && (
-            <Button color="inherit" onClick={() => navigate("/testing")}>
-              Fortsätt
-            </Button>
-          )}
-          <Typography variant="h6" component="div">
-            Resultat
-          </Typography>
-          <Button color="inherit" onClick={() => navigate("/")}>
-            Uppgifter
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <ResultAppBar />
       <div style={{ padding: "16px 16px" }}>
         <Typography variant="h6" gutterBottom>
           {correct}/{currentAnswers.length} correct.

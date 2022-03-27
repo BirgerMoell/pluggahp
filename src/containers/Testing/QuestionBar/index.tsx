@@ -1,14 +1,13 @@
 import { Box, Button, Toolbar } from "@mui/material";
-import { FC, RefObject } from "react";
+import { FC } from "react";
 import segments, { Solution } from "../../../data/segments";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 
 type Props = {
-  questionBarRef: RefObject<HTMLDivElement>;
   registerAnswer: (answer: Solution) => void;
 };
 
-const QuestionBar: FC<Props> = ({ questionBarRef, registerAnswer }) => {
+const QuestionBar: FC<Props> = ({ registerAnswer }) => {
   const { currentQuestion } = useCurrentQuestion();
   if (!currentQuestion) {
     return null;
@@ -23,7 +22,6 @@ const QuestionBar: FC<Props> = ({ questionBarRef, registerAnswer }) => {
         width: "100%",
         boxShadow: "0px 0 10px rgba(0, 0, 0, 0.1)",
       }}
-      ref={questionBarRef}
     >
       <Toolbar
         sx={{
