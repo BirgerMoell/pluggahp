@@ -9,6 +9,7 @@ import { Card, CardMedia } from "@mui/material";
 import TestingAppBar from "./TestingAppBar";
 import useWindowSize, { Size } from "../../utils/useWindowSize";
 import QuestionBar from "./QuestionBar";
+import { APP_BAR_HEIGHT } from "../../constants/numbers";
 
 const useQuestionBarHeight = (
   ref: RefObject<HTMLDivElement>,
@@ -55,29 +56,46 @@ const Testing: FC = () => {
     nextQuestion();
   };
 
+  const vh = window.innerHeight;
+
   return (
-    <div style={{ backgroundColor: "#efefef" }}>
+    <div
+      style={{
+        backgroundColor: "#efefef",
+        maxHeight: `${vh}`,
+        minHeight: `${vh}`,
+      }}
+    >
       <TestingAppBar minutes={minutes} seconds={seconds} />
-      <div style={{ padding: 16 }}>
-        <Card>
-          <CardMedia
-            component="img"
-            sx={{
-              objectFit: "contain",
-              height: `calc(100vh - ${questionBarHeight + 93}px)`,
-              transition: "height 0.5s",
-              width: "100% !important",
-              padding: "2px",
-            }}
-            image={require(`../../images/${currentQuestion.image}`)}
-            alt={currentQuestion.id}
-          />
-        </Card>
+      <div
+        style={{
+          maxHeight: `${vh - APP_BAR_HEIGHT}px`,
+          minHeight: `${vh - APP_BAR_HEIGHT}px`,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <div style={{ padding: 16, overflow: "auto", flexGrow: 1 }}>
+          <Card sx={{ paddingBottom: "12px" }}>
+            <CardMedia
+              component="img"
+              sx={{
+                objectFit: "contain",
+                height: `auto`,
+                transition: "height 0.5s",
+                width: "100% !important",
+                padding: "2px",
+              }}
+              image={require(`../../images/${currentQuestion.image}`)}
+              alt={currentQuestion.id}
+            />
+          </Card>
+        </div>
+        <QuestionBar
+          questionBarRef={questionBarRef}
+          registerAnswer={registerAnswer}
+        />
       </div>
-      <QuestionBar
-        questionBarRef={questionBarRef}
-        registerAnswer={registerAnswer}
-      />
     </div>
   );
 };
