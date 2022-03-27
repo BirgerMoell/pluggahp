@@ -33,7 +33,8 @@ const Testing: FC = () => {
     nextQuestion();
   };
 
-  const vh = window.innerHeight;
+  const vh = window?.innerHeight;
+  const vw = window?.innerWidth;
 
   return (
     <div
@@ -58,7 +59,9 @@ const Testing: FC = () => {
               component="img"
               sx={{
                 objectFit: "contain",
-                height: `auto`,
+                height: `${
+                  vw > 750 ? `${vh - APP_BAR_HEIGHT - 116}px` : "auto"
+                }`,
                 transition: "height 0.5s",
                 width: "100% !important",
                 padding: "2px",
