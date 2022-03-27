@@ -7,6 +7,7 @@ type ColorMap = {
   kva: `#${string}`;
   nog: `#${string}`;
   textPrimary: `#${string}`;
+  backgroundDark: `#${string}`;
 };
 
 export const COLORS: ColorMap = {
@@ -18,4 +19,5 @@ export const COLORS: ColorMap = {
   kva: "#90caf9",
   nog: "#b2dfdb",
   textPrimary: "#424242",
+  backgroundDark: "#efefef",
 };

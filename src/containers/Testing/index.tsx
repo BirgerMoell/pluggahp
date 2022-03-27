@@ -9,6 +9,7 @@ import { Card, CardMedia } from "@mui/material";
 import TestingAppBar from "./TestingAppBar";
 import QuestionBar from "./QuestionBar";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
+import { COLORS } from "../../constants/colors";
 
 const Testing: FC = () => {
   const { minutes, seconds, reset } = useStopwatch({ autoStart: true });
@@ -39,7 +40,7 @@ const Testing: FC = () => {
   return (
     <div
       style={{
-        backgroundColor: "#efefef",
+        backgroundColor: COLORS.backgroundDark,
         maxHeight: `${vh}`,
         minHeight: `${vh}`,
       }}
