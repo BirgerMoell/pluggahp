@@ -32,6 +32,7 @@ const FilterContainer = () => {
     (sum, question) => sum + segments[question.segment].timePerQuestion,
     0
   );
+  const vh = window?.innerHeight;
   return (
     <div>
       <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
@@ -41,6 +42,7 @@ const FilterContainer = () => {
           backgroundColor: COLORS.backgroundDark,
           padding: "12px",
           display: "flex",
+          height: `${vh - APP_BAR_HEIGHT}px`,
           alignItems: "center",
           flexDirection: "column",
         }}
