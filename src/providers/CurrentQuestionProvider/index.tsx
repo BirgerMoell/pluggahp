@@ -49,12 +49,13 @@ export const useCurrentQuestion = (): CurrentQuestionContextType => {
 const CurrentQuestionProvider: FC = ({ children }) => {
   const [currentQuestions, setCurrentQuestions] = useLocalStorage<
     CurrentQuestion[]
-  >("CURRENT_QUESTIONS", []);
+  >("CURRENT_QUESTIONS_V2", []);
   const [currentIndex, setCurrentIndex] = useLocalStorage(
     "CURRENT_QUESTION_INDEX",
     0
   );
   const [finished, setFinished] = useState(false);
+
   const registerAnswer = (answer: CurrentQuestion) => {
     const newAnswers = currentQuestions.map((question) => {
       return question?.id !== answer?.id ? question : answer;
@@ -75,13 +76,15 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   };
 
   const currentQuestion =
-    questions.find(({ id }) => id === currentQuestions[currentIndex]?.id) ||
+    questions.find(({ id }) => id === currentQuestions?.[currentIndex]?.id) ||
     null;
 
-  const currentResult: QuestionResult[] = currentQuestions.map((current) => {
-    const question = getQuestionFromId(current?.id);
-    return { ...current, ...question };
-  });
+  const currentResult: QuestionResult[] = currentQuestions.length
+    ? currentQuestions.map((current) => {
+        const question = getQuestionFromId(current.id);
+        return { ...current, ...question };
+      })
+    : [];
 
   return (
     <CurrentQuestionContext.Provider
