@@ -57,7 +57,7 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   const [finished, setFinished] = useState(false);
   const registerAnswer = (answer: CurrentQuestion) => {
     const newAnswers = currentQuestions.map((question) => {
-      return question.id !== answer.id ? question : answer;
+      return question?.id !== answer?.id ? question : answer;
     });
     setCurrentQuestions([...newAnswers]);
   };
@@ -65,7 +65,7 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   const startTest = (questions: Question[]) => {
     setCurrentQuestions(
       questions.map((question) => ({
-        id: question.id,
+        id: question?.id,
         answer: null,
         seconds: 0,
       }))
@@ -73,13 +73,13 @@ const CurrentQuestionProvider: FC = ({ children }) => {
     setCurrentIndex(0);
     setFinished(false);
   };
-  console.log(questions, currentQuestions);
+
   const currentQuestion =
     questions.find(({ id }) => id === currentQuestions[currentIndex]?.id) ||
     null;
 
   const currentResult: QuestionResult[] = currentQuestions.map((current) => {
-    const question = getQuestionFromId(current.id);
+    const question = getQuestionFromId(current?.id);
     return { ...current, ...question };
   });
 
