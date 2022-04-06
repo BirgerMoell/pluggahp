@@ -32,7 +32,7 @@ const FilterContainer = () => {
     (sum, question) => sum + segments[question.segment].secondsPerQuestion,
     0
   );
-  const vh = window?.innerHeight;
+
   return (
     <div style={{ backgroundColor: COLORS.backgroundDark, height: "100%" }}>
       <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
