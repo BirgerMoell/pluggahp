@@ -73,8 +73,9 @@ const CurrentQuestionProvider: FC = ({ children }) => {
     setCurrentIndex(0);
     setFinished(false);
   };
+  console.log(questions, currentQuestions);
   const currentQuestion =
-    questions.find(({ id }) => id === currentQuestions[currentIndex].id) ||
+    questions.find(({ id }) => id === currentQuestions[currentIndex]?.id) ||
     null;
 
   const currentResult: QuestionResult[] = currentQuestions.map((current) => {

@@ -34,16 +34,17 @@ const FilterContainer = () => {
   );
   const vh = window?.innerHeight;
   return (
-    <div style={{ backgroundColor: COLORS.backgroundDark }}>
+    <div style={{ backgroundColor: COLORS.backgroundDark, height: "100%" }}>
       <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
 
       <Container
         sx={{
           padding: "12px",
           display: "flex",
-          height: `${vh - APP_BAR_HEIGHT}px`,
+          height: `100%`,
           alignItems: "center",
           flexDirection: "column",
+          paddingBottom: "42px",
         }}
         maxWidth="xl"
       >
