@@ -71,7 +71,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
                   {stringifyTime(answer.seconds)}
                   <span style={{ position: "relative", top: 3 }}>
                     {answer.seconds <=
-                    segments[question.segment].timePerQuestion ? (
+                    segments[question.segment].secondsPerQuestion ? (
                       <CheckIcon fontSize="inherit" color="success" />
                     ) : (
                       <ClearIcon fontSize="inherit" color="error" />
@@ -99,7 +99,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
                   <Grid item xs={1}>
                     <Typography>
                       {stringifyTime(
-                        segments[question?.segment].timePerQuestion
+                        segments[question?.segment].secondsPerQuestion
                       )}
                     </Typography>
                   </Grid>

@@ -1,22 +1,33 @@
-import { Question } from "../../data/questions";
 import { useAnswers } from "../../providers/AnswersProvider";
 import { COLORS } from "../../constants/colors";
 import { FC } from "react";
 import PieChart from "../PieChart";
 import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
+import useCurrentTimeStamp from "../../containers/Results/utils/useCurrentTimeStamp";
+import getLatestAnswerForQuestion from "../../utils/getLatestAnswerForQuestion";
+import { QuestionResult } from "../../providers/CurrentQuestionProvider";
 
 type Props = {
-  questions: Question[];
-  direction?: "column" | "row";
+  result: QuestionResult[];
   legends?: boolean;
+  direction?: "column" | "row";
 };
 
-const HistoryPieChart: FC<Props> = ({ questions, legends, direction }) => {
+const CurrentTestHistoryPieChart: FC<Props> = ({
+  direction,
+  legends,
+  result,
+}) => {
+  const currentTimeStamp = useCurrentTimeStamp();
   const { answers } = useAnswers();
-  const { incorrect, tooSlow, unanswered, correct } = splitQuestionsOnHistory(
+  const { incorrect, tooSlow, correct } = splitQuestionsOnHistory(
     answers,
-    questions
+    result.filter(({ id }) => {
+      const answer = getLatestAnswerForQuestion(answers, id);
+      return answer?.timeStamp === currentTimeStamp;
+    })
   );
+  const unanswered = result.filter(({ answer }) => !answer);
   return (
     <PieChart
       direction={direction}
@@ -46,4 +57,4 @@ const HistoryPieChart: FC<Props> = ({ questions, legends, direction }) => {
   );
 };
 
-export default HistoryPieChart;
+export default CurrentTestHistoryPieChart;

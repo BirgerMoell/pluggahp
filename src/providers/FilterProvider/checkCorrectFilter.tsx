@@ -16,7 +16,7 @@ const checkCorrectFilter = (
 
   return !(
     answer === question.solution &&
-    seconds <= segments[question.segment].timePerQuestion
+    seconds <= segments[question.segment].secondsPerQuestion
   );
 };
 

@@ -14,17 +14,17 @@ export enum Solution {
 
 type SegmentType = {
   solutionDomain: Solution[];
-  timePerQuestion: number;
+  secondsPerQuestion: number;
 };
 
 const segments: Record<Segment, SegmentType> = {
   XYZ: {
     solutionDomain: [Solution.A, Solution.B, Solution.C, Solution.D],
-    timePerQuestion: 60,
+    secondsPerQuestion: 60,
   },
   KVA: {
     solutionDomain: [Solution.A, Solution.B, Solution.C, Solution.D],
-    timePerQuestion: 60,
+    secondsPerQuestion: 60,
   },
   NOG: {
     solutionDomain: [
@@ -34,7 +34,7 @@ const segments: Record<Segment, SegmentType> = {
       Solution.D,
       Solution.E,
     ],
-    timePerQuestion: 100,
+    secondsPerQuestion: 100,
   },
 };
 

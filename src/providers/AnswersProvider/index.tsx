@@ -25,7 +25,7 @@ const transformOldData = (data: AnswerData): AnswerData => {
 
 type AnswersContextType = {
   answers: AnswerData[];
-  addAnswer: (answer: AnswerData) => void;
+  addAnswers: (answer: AnswerData[]) => void;
 };
 
 const AnswersContext = createContext<AnswersContextType | null>(null);
@@ -40,14 +40,13 @@ export const useAnswers = (): AnswersContextType => {
 
 const UserProvider: FC = ({ children }) => {
   const [answers, setAnswers] = useLocalStorage<AnswerData[]>("ANSWERS", []);
-  const addAnswer = (answer: AnswerData) => {
-    const newAnswers = [...answers, answer];
-    setAnswers(newAnswers);
+  const addAnswers = (newAnswers: AnswerData[]) => {
+    setAnswers([...answers, ...newAnswers]);
   };
 
   return (
     <AnswersContext.Provider
-      value={{ answers: answers.map(transformOldData), addAnswer }}
+      value={{ answers: answers.map(transformOldData), addAnswers }}
     >
       {children}
     </AnswersContext.Provider>

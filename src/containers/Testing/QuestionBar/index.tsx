@@ -2,21 +2,27 @@ import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutl
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
 import { Box, Button, MenuItem, Select, Stack, Toolbar } from "@mui/material";
 import { FC } from "react";
+import CheckIcon from "@mui/icons-material/Check";
 import { COLORS } from "../../../constants/colors";
 import segments, { Solution } from "../../../data/segments";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 
 type Props = {
-  registerAnswer: (answer: Solution) => void;
+  handleAnswer: (answer: Solution) => void;
+  changeQuestion: (index: number) => void;
 };
 
-const QuestionBar: FC<Props> = ({ registerAnswer }) => {
-  const { currentQuestion } = useCurrentQuestion();
+const QuestionBar: FC<Props> = ({ handleAnswer, changeQuestion }) => {
+  const { currentQuestion, currentQuestions, currentQuestionIndex } =
+    useCurrentQuestion();
 
   if (!currentQuestion) {
     return null;
   }
   const segment = segments[currentQuestion.segment];
+  const currentAnswer = currentQuestions.find(
+    ({ id }) => id === currentQuestion.id
+  )?.answer;
   return (
     <Stack
       sx={{
@@ -24,7 +30,7 @@ const QuestionBar: FC<Props> = ({ registerAnswer }) => {
         borderTop: "1px solid #dedede",
         alignSelf: "flex-end",
         width: "100%",
-        boxShadow: "0px 0 10px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 1px 10px rgba(0, 0, 0, 0.1)",
       }}
     >
       <Toolbar
@@ -46,10 +52,27 @@ const QuestionBar: FC<Props> = ({ registerAnswer }) => {
         >
           {segment.solutionDomain.map((solution) => (
             <Button
-              sx={{ margin: "6px 8px 0 8px" }}
+              key={`${currentQuestionIndex}${solution}`}
+              sx={{
+                margin: "6px 8px 0 8px",
+                ...(currentAnswer === solution
+                  ? {
+                      backgroundColor: "rgba(25, 118, 210, 0.1)",
+                      border: "1px solid #1976d2",
+                    }
+                  : {}),
+                "&:hover": {
+                  ...(currentAnswer === solution
+                    ? {
+                        backgroundColor: "rgba(25, 118, 210, 0.1)",
+                        border: "1px solid #1976d2",
+                      }
+                    : {}),
+                },
+              }}
               size="small"
               variant="outlined"
-              onClick={() => registerAnswer(solution)}
+              onClick={() => handleAnswer(solution)}
             >
               {solution}
             </Button>
@@ -61,21 +84,27 @@ const QuestionBar: FC<Props> = ({ registerAnswer }) => {
           color: COLORS.textPrimary,
           fontSize: "18px",
           borderTop: "1px solid #dedede",
+          borderBottom: "1px solid #dedede",
           width: "100%",
-          minHeight: "38px",
+          minHeight: "40px",
           alignItems: "center",
           display: "flex",
         }}
       >
-        <div
+        <button
+          disabled={currentQuestionIndex === 0}
           style={{
+            cursor: currentQuestionIndex !== 0 ? "pointer" : "not-allowed",
+            border: "none",
+            backgroundColor: "#fff",
             textAlign: "center",
             width: "75px",
             borderRight: "1px solid #dedede",
           }}
+          onClick={() => changeQuestion(currentQuestionIndex - 1)}
         >
           <ArrowBackIosOutlinedIcon />
-        </div>
+        </button>
         <div
           style={{
             textAlign: "center",
@@ -87,8 +116,11 @@ const QuestionBar: FC<Props> = ({ registerAnswer }) => {
         >
           <Select
             sx={{
-              maxHeight: "38px",
+              height: "40px",
               border: "0",
+              "> div": {
+                padding: "0",
+              },
               "> fieldset": {
                 border: "0",
               },
@@ -103,24 +135,40 @@ const QuestionBar: FC<Props> = ({ registerAnswer }) => {
             }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={0}
+            value={currentQuestionIndex}
             label="Age"
-            onChange={(value) => console.log(value)}
+            onChange={(event) => changeQuestion(event.target.value as number)}
           >
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14].map((i) => (
-              <MenuItem value={i}>Uppgift {i + 1}</MenuItem>
+            {currentQuestions.map((question, i) => (
+              <MenuItem value={i} key={question.id}>
+                {question.answer ? (
+                  <CheckIcon fontSize="small" />
+                ) : (
+                  <span style={{ width: 20 }} />
+                )}
+                {"\u00a0\u00a0\u00a0\u00a0"}
+                Uppgift {i + 1}
+              </MenuItem>
             ))}
           </Select>
         </div>
-        <div
+        <button
+          disabled={currentQuestionIndex === currentQuestions.length - 1}
           style={{
+            cursor:
+              currentQuestionIndex !== currentQuestions.length - 1
+                ? "pointer"
+                : "not-allowed",
+            border: "none",
+            backgroundColor: "#fff",
             textAlign: "center",
             width: "75px",
             borderLeft: "1px solid #dedede",
           }}
+          onClick={() => changeQuestion(currentQuestionIndex + 1)}
         >
           <ArrowForwardIosOutlinedIcon />
-        </div>
+        </button>
       </Box>
     </Stack>
   );
