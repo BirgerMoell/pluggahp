@@ -12,7 +12,7 @@ const Filter: FC = () => {
     filter;
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{ padding: "14px", maxWidth: "600px" }}>
       <SelectorGroup
         title="Delar"
         changeAll={(argument) =>

@@ -1,16 +1,21 @@
-import { Question } from "../data/questions";
-import segments from "../data/segments";
+import segments, { Segment, Solution } from "../data/segments";
 import { AnswerData } from "../providers/AnswersProvider";
 import getLatestAnswerForQuestion from "./getLatestAnswerForQuestion";
 
-const splitQuestionsOnHistory = (
+interface QuestionData {
+  id: string;
+  segment: Segment;
+  solution: Solution;
+}
+
+const splitQuestionsOnHistory = <Type extends QuestionData>(
   answers: AnswerData[],
-  questions: Question[]
+  questions: Type[]
 ) => {
-  let unanswered: Question[] = [];
-  let incorrect: Question[] = [];
-  let tooSlow: Question[] = [];
-  let correct: Question[] = [];
+  let unanswered: Type[] = [];
+  let incorrect: Type[] = [];
+  let tooSlow: Type[] = [];
+  let correct: Type[] = [];
   questions.forEach((question) => {
     const answer = getLatestAnswerForQuestion(answers, question.id);
     if (!answer) {
@@ -21,7 +26,7 @@ const splitQuestionsOnHistory = (
       incorrect = [...incorrect, question];
       return;
     }
-    if (answer.seconds > segments[question.segment].timePerQuestion) {
+    if (answer.seconds > segments[question.segment].secondsPerQuestion) {
       tooSlow = [...tooSlow, question];
       return;
     }

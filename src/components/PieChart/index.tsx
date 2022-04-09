@@ -8,8 +8,14 @@ type Props = {
   colorScale: string[];
   legendData?: { name: string }[];
   data: number[];
+  direction?: "column" | "row";
 };
-const PieChart: FC<Props> = ({ colorScale, legendData, data }) => {
+const PieChart: FC<Props> = ({
+  direction = "column",
+  colorScale,
+  legendData,
+  data,
+}) => {
   if (!legendData) {
     return (
       <VictoryPie
@@ -25,7 +31,10 @@ const PieChart: FC<Props> = ({ colorScale, legendData, data }) => {
   }
 
   return (
-    <Stack>
+    <Stack
+      direction={direction}
+      style={{ justifyContent: "center", alignItems: "center" }}
+    >
       <VictoryPie
         labelComponent={<span></span>}
         animate={{
@@ -37,7 +46,12 @@ const PieChart: FC<Props> = ({ colorScale, legendData, data }) => {
       />
       <Stack>
         {legendData.map((legend, index) => (
-          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
+          <Stack
+            key={legend.name}
+            sx={{ alignItems: "center" }}
+            direction="row"
+            spacing={1}
+          >
             <Box
               sx={{
                 height: "15px",

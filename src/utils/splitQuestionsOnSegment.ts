@@ -1,10 +1,15 @@
-import { Question } from "../data/questions";
 import { Segment } from "../data/segments";
 
-const splitQuestionsOnSegment = (questions: Question[]) => {
-  let xyz: Question[] = [];
-  let kva: Question[] = [];
-  let nog: Question[] = [];
+interface Segmentable {
+  segment: string;
+}
+
+const splitQuestionsOnSegment = <Type extends Segmentable>(
+  questions: Type[]
+) => {
+  let xyz: Type[] = [];
+  let kva: Type[] = [];
+  let nog: Type[] = [];
   questions.forEach((question) => {
     if (question.segment === Segment.XYZ) {
       xyz = [...xyz, question];
