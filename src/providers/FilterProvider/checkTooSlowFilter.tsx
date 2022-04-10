@@ -25,7 +25,7 @@ const checkTooSlowFilter = (
   }
   const { seconds, answer } = questionAnswers[0];
   return (
-    seconds <= segments[question.segment].timePerQuestion ||
+    seconds <= segments[question.segment].secondsPerQuestion ||
     answer !== question.solution
   );
 };

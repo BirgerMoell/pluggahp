@@ -111,7 +111,7 @@ const QuestionCard: FC<Props> = ({ minimal, question }) => {
                   <Grid item xs={1}>
                     <Typography>
                       {stringifyTime(
-                        segments[question?.segment].timePerQuestion
+                        segments[question?.segment].secondsPerQuestion
                       )}
                     </Typography>
                   </Grid>

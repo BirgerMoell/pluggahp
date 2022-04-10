@@ -1,7 +1,6 @@
 import {
   AppBar,
   Button,
-  Card,
   Container,
   Grid,
   Stack,
@@ -18,6 +17,7 @@ import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import { useFilter } from "../../providers/FilterProvider";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
 import { COLORS } from "../../constants/colors";
+import Card from "../../components/Card";
 
 const FilterContainer = () => {
   const navigate = useNavigate();
@@ -29,22 +29,22 @@ const FilterContainer = () => {
   };
 
   const totalTime = filtered.reduce(
-    (sum, question) => sum + segments[question.segment].timePerQuestion,
+    (sum, question) => sum + segments[question.segment].secondsPerQuestion,
     0
   );
-  const vh = window?.innerHeight;
+
   return (
-    <div>
+    <div style={{ backgroundColor: COLORS.backgroundDark, height: "100%" }}>
       <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
 
       <Container
         sx={{
-          backgroundColor: COLORS.backgroundDark,
           padding: "12px",
           display: "flex",
-          height: `${vh - APP_BAR_HEIGHT}px`,
+          height: `100%`,
           alignItems: "center",
           flexDirection: "column",
+          paddingBottom: "42px",
         }}
         maxWidth="xl"
       >
@@ -55,52 +55,55 @@ const FilterContainer = () => {
           }}
           spacing={2}
         >
-          <Card sx={{ padding: "9px" }}>
+          <Card>
             <Filter />
           </Card>
-          <Card
-            sx={{
-              padding: "14px 0",
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-            }}
-          >
-            <Stack>
-              <Stack direction="row" spacing={1}>
-                <AssignmentOutlinedIcon sx={{ color: "#424242" }} />
-                <Typography color="#424242">
-                  {filtered.length} frågor
-                </Typography>
+          <Card>
+            <div
+              style={{
+                padding: "14px 0",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Stack>
+                <Stack direction="row" spacing={1}>
+                  <AssignmentOutlinedIcon sx={{ color: "#424242" }} />
+                  <Typography color="#424242">
+                    {filtered.length} frågor
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1}>
+                  <AccessTimeIcon sx={{ color: "#424242" }} />
+                  <Typography color="#424242">
+                    {Math.floor(totalTime / 60)} minuter
+                  </Typography>
+                </Stack>
               </Stack>
-              <Stack direction="row" spacing={1}>
-                <AccessTimeIcon sx={{ color: "#424242" }} />
-                <Typography color="#424242">
-                  {Math.floor(totalTime / 60)} minuter
-                </Typography>
-              </Stack>
-            </Stack>
 
-            <Grid
-              sx={{ position: "relative", top: "-12px", maxWidth: "600px" }}
-              container
-              columns={2}
-            >
-              <Grid item xs={1}>
-                <HistoryPieChart questions={filtered} />
+              <Grid
+                sx={{ position: "relative", top: "-12px", maxWidth: "600px" }}
+                container
+                columns={2}
+              >
+                <Grid item xs={1}>
+                  <HistoryPieChart questions={filtered} />
+                </Grid>
+                <Grid item xs={1}>
+                  <SegmentPieChart questions={filtered} />
+                </Grid>
               </Grid>
-              <Grid item xs={1}>
-                <SegmentPieChart questions={filtered} />
-              </Grid>
-            </Grid>
-            <Button
-              sx={{ marginTop: "-18px" }}
-              variant="contained"
-              disabled={filtered.length === 0}
-              onClick={start}
-            >
-              Starta test
-            </Button>
+              <Button
+                sx={{ marginTop: "-18px" }}
+                variant="contained"
+                disabled={filtered.length === 0}
+                onClick={start}
+              >
+                Starta test
+              </Button>
+            </div>
           </Card>
         </Stack>
       </Container>

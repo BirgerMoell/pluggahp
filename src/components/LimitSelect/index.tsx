@@ -21,6 +21,7 @@ const LimitSelect: FC<Props> = ({ limit, onChange }) => {
       >
         {[10, 15, 20, 25, MAX_LIMIT].map((option: number) => (
           <Button
+            key={option}
             sx={{
               color: limit === option ? "#fff" : "#bbbbbb",
               ...(limit === option
