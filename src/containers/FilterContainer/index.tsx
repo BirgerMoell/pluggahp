@@ -27,6 +27,7 @@ const FilterContainer = () => {
     startTest(filtered);
     navigate("/testing");
   };
+  const vh = window?.innerHeight;
 
   const totalTime = filtered.reduce(
     (sum, question) => sum + segments[question.segment].secondsPerQuestion,
@@ -34,7 +35,13 @@ const FilterContainer = () => {
   );
 
   return (
-    <div style={{ backgroundColor: COLORS.backgroundDark, height: "100%" }}>
+    <div
+      style={{
+        backgroundColor: COLORS.backgroundDark,
+        height: "100%",
+        minHeight: `${vh}px`,
+      }}
+    >
       <AppBar sx={{ minHeight: `${APP_BAR_HEIGHT}px` }} position="sticky" />
 
       <Container
