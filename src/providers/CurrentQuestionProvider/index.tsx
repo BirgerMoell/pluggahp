@@ -17,6 +17,7 @@ export type QuestionResult = {
   seconds: number;
   image: string;
   date: string;
+  resources: { url: string; name: string }[];
   partNumber: number;
   questionNumber: number;
   segment: Segment;

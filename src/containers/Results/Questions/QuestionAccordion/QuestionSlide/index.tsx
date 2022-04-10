@@ -1,16 +1,18 @@
-import { Link, Stack, Typography } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { FC } from "react";
+import { Button, Stack, Typography } from "@mui/material";
+import { FC, useState } from "react";
 import segments from "../../../../../data/segments";
 import { QuestionResult } from "../../../../../providers/CurrentQuestionProvider";
 import stringifyTime from "../../../../../utils/stringifyTime";
 import "./slider.css";
+import VideosModal from "./VideosModal";
 
 type Props = {
   question: QuestionResult;
 };
 
 const QuestionSlide: FC<Props> = ({ question }) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div
       style={{
@@ -91,16 +93,16 @@ const QuestionSlide: FC<Props> = ({ question }) => {
           marginLeft: "auto",
           marginRight: "auto",
           width: "fit-content",
+          marginTop: 6,
         }}
       >
-        <Link
-          component={RouterLink}
-          to={`/question/${question.id}`}
-          variant="body2"
-        >
-          Videolösningar för denna fråga
-        </Link>
+        <Button size="small" variant="outlined" onClick={() => setOpen(true)}>
+          Se videolösningar
+        </Button>
       </div>
+      {open && (
+        <VideosModal open={open} setOpen={setOpen} question={question} />
+      )}
     </div>
   );
 };
