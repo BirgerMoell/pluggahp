@@ -25,14 +25,14 @@ type Props = {
 };
 
 const TimeChart: FC<Props> = () => {
-  const { currentResult } = useCurrentQuestion();
+  const { currentResult, questions } = useCurrentQuestion();
   const totalTime = currentResult.reduce(
     (partialSum, question) => partialSum + question.seconds,
     0
   );
   const recommendedTime = currentResult.reduce(
     (partialSum, currentQuestion) => {
-      const question = getQuestionFromId(currentQuestion.id);
+      const question = getQuestionFromId(questions, currentQuestion.id);
       return partialSum + segments[question.segment].secondsPerQuestion;
     },
     0

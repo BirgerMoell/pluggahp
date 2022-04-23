@@ -1,4 +1,5 @@
 import { Segment, Solution } from "./segments";
+const contentful = require("contentful");
 
 export type Question = {
   id: string;
@@ -910,5 +911,69 @@ const questions: Question[] = [
     solution: Solution.D,
   },
 ];
+
+const client = contentful.createClient({
+  space: "8ur40mooyjcx",
+  accessToken: "MA2wVnomStpQB7N3LRm_SBS6W47kBemWqnjAr2wjHWA",
+});
+
+type Details = {
+  size: string;
+  image: {
+    width: number;
+    height: number;
+  };
+};
+
+type File = {
+  url: string;
+  details: Details;
+};
+
+type Image = {
+  fields: {
+    title: string;
+    file: File;
+  };
+};
+
+type Resource = {
+  fields: {
+    url: string;
+    name: string;
+  };
+};
+
+type ContentfulQuestion = {
+  id: string;
+  image: Image;
+  date: string;
+  partNumber: number;
+  questionNumber: number;
+  segment: string;
+  resources: Resource[];
+};
+
+type EntryResponse = {
+  items: {
+    fields: ContentfulQuestion;
+  }[];
+};
+
+export const fetchAllQuestions = async (): Promise<Question[]> => {
+  console.log("fetching");
+  return client
+    .getEntries({
+      content_type: "question",
+    })
+    .then((response: EntryResponse) => {
+      return response.items
+        .map((entry) => entry.fields)
+        .map((question) => ({
+          ...question,
+          image: `https:${question.image.fields.file.url}`,
+        }));
+    });
+};
 
 export default questions;

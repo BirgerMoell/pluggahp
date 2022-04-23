@@ -106,6 +106,8 @@ const Testing: FC = () => {
   const vh = window?.innerHeight;
   const vw = window?.innerWidth;
 
+  console.log(currentQuestion.image);
+
   return (
     <div
       style={{
@@ -143,7 +145,7 @@ const Testing: FC = () => {
                   width: "100% !important",
                   padding: "2px",
                 }}
-                image={require(`../../images/${currentQuestion.image}`)}
+                src={currentQuestion.image}
                 alt={currentQuestion.id}
               />
             </div>

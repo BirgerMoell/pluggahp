@@ -4,9 +4,10 @@ import Card from "../../components/Card";
 import QuestionHistoryChart from "../../components/HistoryPieChart";
 import { COLORS } from "../../constants/colors";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
-import questions from "../../data/questions";
+import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 
 const Startpage = () => {
+  const { questions } = useCurrentQuestion();
   const navigate = useNavigate();
   const vh = window?.innerHeight;
   return (
@@ -26,7 +27,7 @@ const Startpage = () => {
             <Button variant="contained" onClick={() => navigate("/filter")}>
               Träna
             </Button>
-            <QuestionHistoryChart legends questions={questions} />
+            <QuestionHistoryChart legends questions={questions || []} />
           </Stack>
         </Card>
       </Container>

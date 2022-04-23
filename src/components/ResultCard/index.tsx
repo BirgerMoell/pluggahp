@@ -139,7 +139,7 @@ const QuestionCard: FC<Props> = ({ minimal, question, answer }) => {
                         padding: "2px",
                       }
                 }
-                image={require(`../../images/${question.image}`)}
+                image={question.image}
                 alt={question.id}
               />
             </Grid>

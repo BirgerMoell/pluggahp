@@ -34,7 +34,7 @@ const QuestionSlide: FC<Props> = ({ question }) => {
             height: "150px",
             objectFit: "contain",
           }}
-          src={require(`../../../../../images/${question.image}`)}
+          src={question.image}
           alt={question.id}
         />
       </div>

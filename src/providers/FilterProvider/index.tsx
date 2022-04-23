@@ -1,10 +1,11 @@
 import { FC, createContext, useContext } from "react";
 import { MAX_LIMIT } from "../../constants/numbers";
-import questions, { Question } from "../../data/questions";
+import { Question } from "../../data/questions";
 import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
 import splitQuestionsOnSegment from "../../utils/splitQuestionsOnSegment";
 import useLocalStorage from "../../utils/useLocalStorage";
 import { AnswerData, useAnswers } from "../AnswersProvider";
+import { useCurrentQuestion } from "../CurrentQuestionProvider";
 import checkCorrectFilter from "./checkCorrectFilter";
 import checkIncorrectFilter from "./checkIncorrectFilter";
 import checkKVAFilter from "./checkKVAFilter";
@@ -75,30 +76,37 @@ const reduceQuestions = (
     .splice(0, limit);
 };
 
-const filterQuestions = (filter: Filter, answers: AnswerData[]) => {
+const filterQuestions = (
+  questions: Question[] | undefined,
+  filter: Filter,
+  answers: AnswerData[]
+) => {
   const { unanswered, incorrect, tooSlow, correct, XYZ, KVA, NOG } = filter;
-  return questions.filter((q) => {
-    const unansweredFilter = checkUnansweredFilter(unanswered, answers, q);
-    const incorrectFilter = checkIncorrectFilter(incorrect, answers, q);
-    const tooSlowFilter = checkTooSlowFilter(tooSlow, answers, q);
-    const correctFilter = checkCorrectFilter(correct, answers, q);
-    const XYZFilter = checkXYZFilter(XYZ, q);
-    const KVAFilter = checkKVAFilter(KVA, q);
-    const NOGFilter = checkNOGFilter(NOG, q);
+  return (
+    questions?.filter((q) => {
+      const unansweredFilter = checkUnansweredFilter(unanswered, answers, q);
+      const incorrectFilter = checkIncorrectFilter(incorrect, answers, q);
+      const tooSlowFilter = checkTooSlowFilter(tooSlow, answers, q);
+      const correctFilter = checkCorrectFilter(correct, answers, q);
+      const XYZFilter = checkXYZFilter(XYZ, q);
+      const KVAFilter = checkKVAFilter(KVA, q);
+      const NOGFilter = checkNOGFilter(NOG, q);
 
-    return (
-      unansweredFilter &&
-      incorrectFilter &&
-      tooSlowFilter &&
-      correctFilter &&
-      XYZFilter &&
-      KVAFilter &&
-      NOGFilter
-    );
-  });
+      return (
+        unansweredFilter &&
+        incorrectFilter &&
+        tooSlowFilter &&
+        correctFilter &&
+        XYZFilter &&
+        KVAFilter &&
+        NOGFilter
+      );
+    }) || []
+  );
 };
 
 const FilterProvider: FC = ({ children }) => {
+  const { questions } = useCurrentQuestion();
   const { answers } = useAnswers();
   const [filter, setFilter] = useLocalStorage<Filter>("FILTER_v2", {
     unanswered: true,
@@ -111,7 +119,7 @@ const FilterProvider: FC = ({ children }) => {
     limit: MAX_LIMIT,
   });
 
-  const filtered = filterQuestions(filter, answers);
+  const filtered = filterQuestions(questions, filter, answers);
   const reduced = reduceQuestions(filtered, answers, filter.limit);
 
   return (

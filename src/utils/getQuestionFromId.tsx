@@ -1,6 +1,6 @@
-import questions, { Question } from "../data/questions";
+import { Question } from "../data/questions";
 
-const getQuestionFromId = (id: string): Question => {
+const getQuestionFromId = (questions: Question[], id: string): Question => {
   const question = questions.find((q) => q.image.includes(id));
   if (question) {
     return question;
