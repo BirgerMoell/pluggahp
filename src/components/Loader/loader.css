@@ -1,0 +1,12 @@
+.square {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.square:after {
+  content: "";
+  padding-bottom: 100%;
+}

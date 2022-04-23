@@ -7,7 +7,7 @@ import { APP_BAR_HEIGHT } from "../../constants/numbers";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 
 const Startpage = () => {
-  const { questions } = useCurrentQuestion();
+  const { questions, loadingQuestions } = useCurrentQuestion();
   const navigate = useNavigate();
   const vh = window?.innerHeight;
   return (
@@ -23,11 +23,19 @@ const Startpage = () => {
         maxWidth="sm"
       >
         <Card>
-          <Stack sx={{ alignItems: "center", padding: "14px" }}>
-            <Button variant="contained" onClick={() => navigate("/filter")}>
+          <Stack sx={{ alignItems: "center", padding: "14px", width: "100%" }}>
+            <Button
+              variant="contained"
+              disabled={loadingQuestions}
+              onClick={() => navigate("/filter")}
+            >
               Träna
             </Button>
-            <QuestionHistoryChart legends questions={questions || []} />
+            <QuestionHistoryChart
+              legends
+              questions={questions || []}
+              loading={loadingQuestions}
+            />
           </Stack>
         </Card>
       </Container>

@@ -34,6 +34,7 @@ type CurrentQuestionContextType = {
   finished: boolean;
   currentResult: QuestionResult[];
   questions: Question[];
+  loadingQuestions: boolean;
 };
 
 export const CurrentQuestionContext =
@@ -50,7 +51,10 @@ export const useCurrentQuestion = (): CurrentQuestionContextType => {
 };
 
 const CurrentQuestionProvider: FC = ({ children }) => {
-  const { data: questions } = useQuery(["questions"], fetchAllQuestions);
+  const { data: questions, isLoading } = useQuery(
+    ["questions"],
+    fetchAllQuestions
+  );
   console.log({ questions });
   const [currentQuestions, setCurrentQuestions] = useLocalStorage<
     CurrentQuestion[]
@@ -115,6 +119,7 @@ const CurrentQuestionProvider: FC = ({ children }) => {
         finished,
         currentResult,
         questions: questions || [],
+        loadingQuestions: isLoading,
       }}
     >
       {children}

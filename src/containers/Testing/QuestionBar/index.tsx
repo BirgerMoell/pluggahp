@@ -15,13 +15,43 @@ type Props = {
 const QuestionBar: FC<Props> = ({ handleAnswer, changeQuestion }) => {
   const { currentQuestion, currentQuestions, currentQuestionIndex } =
     useCurrentQuestion();
-
   if (!currentQuestion) {
-    return null;
+    return (
+      <Stack
+        sx={{
+          backgroundColor: "#fff",
+          borderTop: "1px solid #dedede",
+          alignSelf: "flex-end",
+          width: "100%",
+          boxShadow: "0 1px 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <Toolbar
+          sx={{
+            paddingBottom: "6px",
+            minHeight: "48px !important",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        ></Toolbar>
+        <Box
+          sx={{
+            color: COLORS.textPrimary,
+            fontSize: "18px",
+            borderTop: "1px solid #dedede",
+            borderBottom: "1px solid #dedede",
+            width: "100%",
+            minHeight: "40px",
+            alignItems: "center",
+            display: "flex",
+          }}
+        ></Box>
+      </Stack>
+    );
   }
-  const segment = segments[currentQuestion.segment];
+  const segment = segments[currentQuestion?.segment];
   const currentAnswer = currentQuestions.find(
-    ({ id }) => id === currentQuestion.id
+    ({ id }) => id === currentQuestion?.id
   )?.answer;
   return (
     <Stack

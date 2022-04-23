@@ -9,16 +9,25 @@ type Props = {
   questions: Question[];
   direction?: "column" | "row";
   legends?: boolean;
+  loading?: boolean;
 };
 
-const HistoryPieChart: FC<Props> = ({ questions, legends, direction }) => {
+const HistoryPieChart: FC<Props> = ({
+  questions,
+  legends,
+  direction,
+  loading,
+}) => {
+  console.log(loading);
   const { answers } = useAnswers();
+
   const { incorrect, tooSlow, unanswered, correct } = splitQuestionsOnHistory(
     answers,
     questions
   );
   return (
     <PieChart
+      loading={loading}
       direction={direction}
       legendData={
         legends

@@ -11,11 +11,13 @@ type Props = {
   result: QuestionResult[];
   legends?: boolean;
   direction?: "column" | "row";
+  loading?: boolean;
 };
 
 const CurrentTestHistoryPieChart: FC<Props> = ({
   direction,
   legends,
+  loading,
   result,
 }) => {
   const currentTimeStamp = useCurrentTimeStamp();
@@ -30,6 +32,7 @@ const CurrentTestHistoryPieChart: FC<Props> = ({
   const unanswered = result.filter(({ answer }) => !answer);
   return (
     <PieChart
+      loading={loading}
       direction={direction}
       legendData={
         legends

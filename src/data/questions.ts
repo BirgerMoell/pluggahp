@@ -961,7 +961,6 @@ type EntryResponse = {
 };
 
 export const fetchAllQuestions = async (): Promise<Question[]> => {
-  console.log("fetching");
   return client
     .getEntries({
       content_type: "question",
