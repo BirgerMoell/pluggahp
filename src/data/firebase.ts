@@ -13,7 +13,6 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
-console.log(firebaseConfig);
 const firebaseApp = initializeApp(firebaseConfig);
 
 // Get a reference to the storage service, which is used to create references in your storage bucket
