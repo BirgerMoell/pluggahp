@@ -5,6 +5,8 @@ import { VictoryPie } from "victory";
 import { COLORS } from "../../constants/colors";
 import Loader from "../Loader";
 
+const TooltipWrapper: FC = () => <svg width="100%" height="100%"></svg>;
+
 type Props = {
   colorScale: string[];
   legendData?: { name: string }[];
@@ -25,7 +27,7 @@ const PieChart: FC<Props> = ({
     }
     return (
       <VictoryPie
-        labelComponent={<span></span>}
+        labelComponent={<TooltipWrapper />}
         animate={{
           easing: "cubicInOut",
           duration: 300,
@@ -50,7 +52,7 @@ const PieChart: FC<Props> = ({
         <Loader />
       ) : (
         <VictoryPie
-          labelComponent={<span></span>}
+          labelComponent={<TooltipWrapper />}
           animate={{
             easing: "cubicInOut",
             duration: 300,

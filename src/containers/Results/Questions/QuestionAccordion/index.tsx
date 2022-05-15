@@ -54,7 +54,7 @@ const QuestionAccordion: FC<Props> = ({ color, name, result }) => {
               className="mySwiper"
             >
               {result.map((question) => (
-                <SwiperSlide>
+                <SwiperSlide key={question.id}>
                   <QuestionSlide question={question} />
                 </SwiperSlide>
               ))}
