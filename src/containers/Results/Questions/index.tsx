@@ -1,15 +1,21 @@
 import { COLORS } from "../../../constants/colors";
 import { useAnswers } from "../../../providers/AnswersProvider";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
+import getLatestAnswerForQuestion from "../../../utils/getLatestAnswerForQuestion";
 import splitQuestionsOnHistory from "../../../utils/splitQuestionsOnHistory";
+import useCurrentTimeStamp from "../utils/useCurrentTimeStamp";
 import QuestionAccordion from "./QuestionAccordion";
 
 const Questions = () => {
   const { currentResult } = useCurrentQuestion();
+  const currentTimeStamp = useCurrentTimeStamp();
   const { answers } = useAnswers();
-  const { incorrect, correct, tooSlow, unanswered } = splitQuestionsOnHistory(
+  const { incorrect, tooSlow, correct, unanswered } = splitQuestionsOnHistory(
     answers,
-    currentResult
+    currentResult.filter(({ id }) => {
+      const answer = getLatestAnswerForQuestion(answers, id);
+      return answer?.timeStamp === currentTimeStamp;
+    })
   );
   return (
     <div>

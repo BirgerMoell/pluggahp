@@ -1,11 +1,11 @@
 import React from "react";
-import "./App.css";
 import FilterProvider from "./providers/FilterProvider";
 import Router from "./routes";
 import AnswersProvider from "./providers/AnswersProvider";
 import CurrentQuestionProvider from "./providers/CurrentQuestionProvider";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { QueryClient, QueryClientProvider } from "react-query";
+import OuterContainer from "./components/OuterContainer";
 // import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
@@ -17,7 +17,9 @@ function App() {
         <AnswersProvider>
           <CurrentQuestionProvider>
             <FilterProvider>
-              <Router />
+              <OuterContainer>
+                <Router />
+              </OuterContainer>
             </FilterProvider>
           </CurrentQuestionProvider>
         </AnswersProvider>

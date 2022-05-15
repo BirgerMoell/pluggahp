@@ -3,21 +3,15 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useStopwatch } from "react-timer-hook";
 import { Solution } from "../../data/segments";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
-import {
-  Box,
-  Button,
-  CardMedia,
-  Modal,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, CardMedia, Stack, Typography } from "@mui/material";
 import TestingAppBar from "./TestingAppBar";
 import QuestionBar from "./QuestionBar";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
-import { COLORS } from "../../constants/colors";
 import Card from "../../components/Card";
 import { AnswerData, useAnswers } from "../../providers/AnswersProvider";
 import Loader from "../../components/Loader";
+import Container from "../../components/Container";
+import Modal from "../../components/Modal";
 
 const Testing: FC = () => {
   const [open, setOpen] = useState(false);
@@ -113,29 +107,25 @@ const Testing: FC = () => {
   const vw = window?.innerWidth;
 
   return (
-    <div
-      style={{
-        backgroundColor: COLORS.backgroundDark,
-        maxHeight: `${vh}`,
-        minHeight: `${vh}`,
-      }}
-    >
+    <>
       <TestingAppBar
         minutes={minutes}
         seconds={seconds}
         finishTest={finishTest}
       />
-      <div
-        style={{
-          maxHeight: `${vh - APP_BAR_HEIGHT}px`,
-          minHeight: `${vh - APP_BAR_HEIGHT}px`,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+      <Container
+        styles={{
+          minHeight: vh - APP_BAR_HEIGHT,
+          maxHeight: vh - APP_BAR_HEIGHT,
         }}
       >
-        <div style={{ padding: 16, overflow: "auto", flexGrow: 1 }}>
+        <div
+          style={{
+            padding: 16,
+            overflow: "auto",
+            flexGrow: 1,
+          }}
+        >
           <Card>
             <div style={{ paddingBottom: "12px" }}>
               {loadingQuestions || !currentQuestion ? (
@@ -175,57 +165,32 @@ const Testing: FC = () => {
           handleAnswer={handleAnswer}
           changeQuestion={changeQuestion}
         />
-      </div>
-      <Modal
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Box
-          sx={{
-            width: "fit-content",
-            margin: "12px",
-            bgcolor: "background.paper",
-            borderRadius: "6px",
-            boxShadow: 24,
-            p: 4,
-          }}
+      </Container>
+      <Modal open={open} setOpen={setOpen}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+          Klar!
+        </Typography>
+        <Typography id="modal-modal-description" sx={{ mt: 1 }}>
+          Du har svarat på alla frågor, rätta dina svar eller fortsätt.
+        </Typography>
+        <Stack
+          sx={{ mt: 1, justifyContent: "flex-end" }}
+          direction="row"
+          spacing={2}
         >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Klar!
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-            Du har svarat på alla frågor, rätta dina svar eller fortsätt.
-          </Typography>
-          <Stack
-            sx={{ mt: 1, justifyContent: "flex-end" }}
-            direction="row"
-            spacing={2}
+          <Button size="small" variant="contained" onClick={() => finishTest()}>
+            Rätta
+          </Button>
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => setOpen(false)}
           >
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => finishTest()}
-            >
-              Rätta
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={() => setOpen(false)}
-            >
-              Fortsätt
-            </Button>
-          </Stack>
-        </Box>
+            Fortsätt
+          </Button>
+        </Stack>
       </Modal>
-    </div>
+    </>
   );
 };
 
