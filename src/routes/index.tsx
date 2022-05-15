@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Admin from "../containers/Admin";
 import FilterContainer from "../containers/FilterContainer";
 import Result from "../containers/Results";
 import Startpage from "../containers/Startpage";
@@ -12,6 +13,7 @@ const Router = () => {
         <Route path="testing" element={<Testing />} />
         <Route path="filter" element={<FilterContainer />} />
         <Route path="result" element={<Result />} />
+        <Route path="admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );

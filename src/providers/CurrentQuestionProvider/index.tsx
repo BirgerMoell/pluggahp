@@ -55,7 +55,6 @@ const CurrentQuestionProvider: FC = ({ children }) => {
     ["questions"],
     fetchAllQuestions
   );
-  console.log({ questions });
   const [currentQuestions, setCurrentQuestions] = useLocalStorage<
     CurrentQuestion[]
   >("CURRENT_QUESTIONS_V2", []);
@@ -102,8 +101,10 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   const currentResult: QuestionResult[] =
     questions && currentQuestions.length
       ? currentQuestions.map((current) => {
-          console.log("getting question");
           const question = getQuestionFromId(questions, current.id);
+          if (!question) {
+            throw new Error("Current question not among all questions");
+          }
           return { ...current, ...question };
         })
       : [];

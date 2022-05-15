@@ -6,6 +6,7 @@ import AnswersProvider from "./providers/AnswersProvider";
 import CurrentQuestionProvider from "./providers/CurrentQuestionProvider";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { QueryClient, QueryClientProvider } from "react-query";
+// import { ReactQueryDevtools } from "react-query/devtools";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ function App() {
             </FilterProvider>
           </CurrentQuestionProvider>
         </AnswersProvider>
+        {/* <ReactQueryDevtools /> */}
       </QueryClientProvider>
     </ErrorBoundary>
   );

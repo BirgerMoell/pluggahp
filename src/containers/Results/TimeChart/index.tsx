@@ -27,7 +27,6 @@ type Props = {
 
 const TimeChart: FC<Props> = () => {
   const { currentResult, questions, loadingQuestions } = useCurrentQuestion();
-  console.log({ currentResult, questions });
   const totalTime = currentResult.reduce(
     (partialSum, question) => partialSum + question.seconds,
     0
@@ -38,7 +37,10 @@ const TimeChart: FC<Props> = () => {
         return 0;
       }
       const question = getQuestionFromId(questions, currentQuestion.id);
-      return partialSum + segments[question.segment].secondsPerQuestion;
+      return (
+        partialSum +
+        (question ? segments[question.segment].secondsPerQuestion : 0)
+      );
     },
     0
   );

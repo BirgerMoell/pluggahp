@@ -18,7 +18,6 @@ const HistoryPieChart: FC<Props> = ({
   direction,
   loading,
 }) => {
-  console.log(loading);
   const { answers } = useAnswers();
 
   const { incorrect, tooSlow, unanswered, correct } = splitQuestionsOnHistory(

@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useStopwatch } from "react-timer-hook";
 import { Solution } from "../../data/segments";
@@ -33,6 +33,10 @@ const Testing: FC = () => {
     setQuestion,
     loadingQuestions,
   } = useCurrentQuestion();
+
+  useEffect(() => {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  }, []);
 
   if (finished) {
     return <Navigate to="/result" replace={true} />;
