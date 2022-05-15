@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useStopwatch } from "react-timer-hook";
 import { Solution } from "../../data/segments";
@@ -17,6 +17,7 @@ import { APP_BAR_HEIGHT } from "../../constants/numbers";
 import { COLORS } from "../../constants/colors";
 import Card from "../../components/Card";
 import { AnswerData, useAnswers } from "../../providers/AnswersProvider";
+import Loader from "../../components/Loader";
 
 const Testing: FC = () => {
   const [open, setOpen] = useState(false);
@@ -30,12 +31,17 @@ const Testing: FC = () => {
     finished,
     registerAnswer,
     setQuestion,
+    loadingQuestions,
   } = useCurrentQuestion();
+
+  useEffect(() => {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  }, []);
 
   if (finished) {
     return <Navigate to="/result" replace={true} />;
   }
-  if (!currentQuestion) {
+  if (!currentQuestion && !loadingQuestions) {
     return <Navigate to="/" replace={true} />;
   }
 
@@ -71,8 +77,8 @@ const Testing: FC = () => {
     }
     const lastQuestion = currentQuestions.every(
       ({ answer, id }) =>
-        (answer && id !== currentQuestion.id) ||
-        (!answer && id === currentQuestion.id)
+        (answer && id !== currentQuestion?.id) ||
+        (!answer && id === currentQuestion?.id)
     );
     question.answer = answer;
     registerAnswer(question);
@@ -132,20 +138,36 @@ const Testing: FC = () => {
         <div style={{ padding: 16, overflow: "auto", flexGrow: 1 }}>
           <Card>
             <div style={{ paddingBottom: "12px" }}>
-              <CardMedia
-                component="img"
-                sx={{
-                  objectFit: "contain",
-                  height: `${
-                    vw > 750 ? `${vh - APP_BAR_HEIGHT - 145}px` : "auto"
-                  }`,
-                  transition: "height 0.5s",
-                  width: "100% !important",
-                  padding: "2px",
-                }}
-                image={require(`../../images/${currentQuestion.image}`)}
-                alt={currentQuestion.id}
-              />
+              {loadingQuestions || !currentQuestion ? (
+                <div
+                  style={{
+                    height: `${
+                      vw > 750 ? `${vh - APP_BAR_HEIGHT - 145}px` : "auto"
+                    }`,
+                    minWidth: 300,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Loader />
+                </div>
+              ) : (
+                <CardMedia
+                  component="img"
+                  sx={{
+                    objectFit: "contain",
+                    height: `${
+                      vw > 750 ? `${vh - APP_BAR_HEIGHT - 145}px` : "auto"
+                    }`,
+                    transition: "height 0.5s",
+                    width: "100% !important",
+                    padding: "2px",
+                  }}
+                  src={currentQuestion.image}
+                  alt={currentQuestion.id}
+                />
+              )}
             </div>
           </Card>
         </div>

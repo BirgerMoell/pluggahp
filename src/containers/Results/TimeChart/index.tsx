@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import { COLORS } from "../../../constants/colors";
+import pSBC from "../../../utils/psBC";
 import segments from "../../../data/segments";
 import {
   QuestionResult,
@@ -25,15 +26,21 @@ type Props = {
 };
 
 const TimeChart: FC<Props> = () => {
-  const { currentResult } = useCurrentQuestion();
+  const { currentResult, questions, loadingQuestions } = useCurrentQuestion();
   const totalTime = currentResult.reduce(
     (partialSum, question) => partialSum + question.seconds,
     0
   );
   const recommendedTime = currentResult.reduce(
     (partialSum, currentQuestion) => {
-      const question = getQuestionFromId(currentQuestion.id);
-      return partialSum + segments[question.segment].secondsPerQuestion;
+      if (!questions) {
+        return 0;
+      }
+      const question = getQuestionFromId(questions, currentQuestion.id);
+      return (
+        partialSum +
+        (question ? segments[question.segment].secondsPerQuestion : 0)
+      );
     },
     0
   );
@@ -52,14 +59,15 @@ const TimeChart: FC<Props> = () => {
           <div style={{ flexGrow: 1 }}>
             <div
               style={{
-                width: `${total}%`,
+                width: `${loadingQuestions ? 50 : total}%`,
                 height: "15px",
-                backgroundColor:
-                  recommendedTime > totalTime
-                    ? COLORS.correct
-                    : COLORS.incorrect,
+                backgroundColor: loadingQuestions
+                  ? (pSBC(0.35, COLORS.unanswered) as string)
+                  : recommendedTime > totalTime
+                  ? COLORS.correct
+                  : COLORS.incorrect,
               }}
-            ></div>
+            />
           </div>
         </Stack>
       </div>
@@ -72,22 +80,32 @@ const TimeChart: FC<Props> = () => {
           <div style={{ flexGrow: 1 }}>
             <div
               style={{
-                width: `${recommended}%`,
+                width: `${loadingQuestions ? 50 : recommended}%`,
                 height: "15px",
-                backgroundColor: COLORS.tooSlow,
+                backgroundColor: loadingQuestions
+                  ? (pSBC(0.35, COLORS.unanswered) as string)
+                  : COLORS.tooSlow,
               }}
-            ></div>
+            />
           </div>
         </Stack>
       </div>
-      <div>
-        <Typography variant="body2">Genomsnittlig tid per uppgift</Typography>
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-          <Typography variant="body2">
-            {stringifyTime(Math.round(totalTime / currentResult.length))}
-          </Typography>
-        </Stack>
-      </div>
+      {questions && currentResult.length ? (
+        <div>
+          <Typography variant="body2">Genomsnittlig tid per uppgift</Typography>
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+            <Typography variant="body2">
+              {stringifyTime(Math.round(totalTime / currentResult.length))}
+            </Typography>
+          </Stack>
+        </div>
+      ) : (
+        <div
+          style={{
+            minHeight: 50,
+          }}
+        ></div>
+      )}
     </Stack>
   );
 };

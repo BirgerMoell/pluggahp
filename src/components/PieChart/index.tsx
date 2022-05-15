@@ -1,22 +1,28 @@
-import { Stack, Typography } from "@mui/material";
+import { CircularProgress, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { FC } from "react";
 import { VictoryPie } from "victory";
 import { COLORS } from "../../constants/colors";
+import Loader from "../Loader";
 
 type Props = {
   colorScale: string[];
   legendData?: { name: string }[];
   data: number[];
   direction?: "column" | "row";
+  loading?: boolean;
 };
 const PieChart: FC<Props> = ({
   direction = "column",
   colorScale,
   legendData,
   data,
+  loading,
 }) => {
   if (!legendData) {
+    if (loading) {
+      return <CircularProgress />;
+    }
     return (
       <VictoryPie
         labelComponent={<span></span>}
@@ -33,17 +39,26 @@ const PieChart: FC<Props> = ({
   return (
     <Stack
       direction={direction}
-      style={{ justifyContent: "center", alignItems: "center" }}
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%",
+        maxWidth: 300,
+      }}
     >
-      <VictoryPie
-        labelComponent={<span></span>}
-        animate={{
-          easing: "cubicInOut",
-          duration: 300,
-        }}
-        colorScale={colorScale}
-        data={data}
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <VictoryPie
+          labelComponent={<span></span>}
+          animate={{
+            easing: "cubicInOut",
+            duration: 300,
+          }}
+          colorScale={colorScale}
+          data={data}
+        />
+      )}
       <Stack>
         {legendData.map((legend, index) => (
           <Stack

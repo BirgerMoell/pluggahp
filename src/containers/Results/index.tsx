@@ -13,7 +13,7 @@ import CurrentTestHistoryPieChart from "../../components/CurrentTestHistoryChart
 import Questions from "./Questions";
 
 const Result: FC = () => {
-  const { currentResult } = useCurrentQuestion();
+  const { currentResult, loadingQuestions } = useCurrentQuestion();
   const { xyz, kva, nog } = splitQuestionsOnSegment(currentResult);
   const numOfSegments = [
     xyz.length ? 1 : 0,
@@ -45,9 +45,10 @@ const Result: FC = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <div style={{ maxWidth: 350 }}>
+                  <div style={{ maxWidth: 350, width: "100%" }}>
                     <CurrentTestHistoryPieChart
                       legends
+                      loading={loadingQuestions}
                       direction="row"
                       result={currentResult}
                     />

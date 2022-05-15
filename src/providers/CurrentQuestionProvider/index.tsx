@@ -1,5 +1,6 @@
 import { FC, useState, createContext, useContext } from "react";
-import questions, { Question } from "../../data/questions";
+import { useQuery } from "react-query";
+import { fetchAllQuestions, Question } from "../../data/questions";
 import { Segment, Solution } from "../../data/segments";
 import getQuestionFromId from "../../utils/getQuestionFromId";
 import useLocalStorage from "../../utils/useLocalStorage";
@@ -32,6 +33,8 @@ type CurrentQuestionContextType = {
   startTest: (questions: Question[]) => void;
   finished: boolean;
   currentResult: QuestionResult[];
+  questions: Question[];
+  loadingQuestions: boolean;
 };
 
 export const CurrentQuestionContext =
@@ -48,6 +51,10 @@ export const useCurrentQuestion = (): CurrentQuestionContextType => {
 };
 
 const CurrentQuestionProvider: FC = ({ children }) => {
+  const { data: questions, isLoading } = useQuery(
+    ["questions"],
+    fetchAllQuestions
+  );
   const [currentQuestions, setCurrentQuestions] = useLocalStorage<
     CurrentQuestion[]
   >("CURRENT_QUESTIONS_V2", []);
@@ -55,6 +62,19 @@ const CurrentQuestionProvider: FC = ({ children }) => {
     "CURRENT_QUESTION_INDEX",
     0
   );
+  // If the current questions contain a question that is removed from the total set of questions we need to filter that out
+  if (
+    questions &&
+    !currentQuestions.every((current) =>
+      questions.find((question) => question.id === current.id)
+    )
+  ) {
+    setCurrentQuestions(
+      currentQuestions.filter((current) =>
+        questions.find((question) => question.id === current.id)
+      )
+    );
+  }
   const [finished, setFinished] = useState(false);
 
   const registerAnswer = (answer: CurrentQuestion) => {
@@ -75,18 +95,19 @@ const CurrentQuestionProvider: FC = ({ children }) => {
     setCurrentIndex(0);
     setFinished(false);
   };
-
   const currentQuestion =
-    questions.find(({ id }) => id === currentQuestions?.[currentIndex]?.id) ||
+    questions?.find(({ id }) => id === currentQuestions?.[currentIndex]?.id) ||
     null;
-
-  const currentResult: QuestionResult[] = currentQuestions.length
-    ? currentQuestions.map((current) => {
-        const question = getQuestionFromId(current.id);
-        return { ...current, ...question };
-      })
-    : [];
-
+  const currentResult: QuestionResult[] =
+    questions && currentQuestions.length
+      ? currentQuestions.map((current) => {
+          const question = getQuestionFromId(questions, current.id);
+          if (!question) {
+            throw new Error("Current question not among all questions");
+          }
+          return { ...current, ...question };
+        })
+      : [];
   return (
     <CurrentQuestionContext.Provider
       value={{
@@ -98,6 +119,8 @@ const CurrentQuestionProvider: FC = ({ children }) => {
         registerAnswer,
         finished,
         currentResult,
+        questions: questions || [],
+        loadingQuestions: isLoading,
       }}
     >
       {children}
