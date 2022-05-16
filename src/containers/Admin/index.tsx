@@ -40,7 +40,7 @@ const Admin = () => {
   }, [questionInput, setSearchParams]);
 
   return (
-    <>
+    <div style={{ backgroundColor: "#fff", height: "100vh" }}>
       <Stack direction="row">
         <LocalTreeView
           selectedQuestionInput={questionInput}
@@ -54,7 +54,7 @@ const Admin = () => {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-    </>
+    </div>
   );
 };
 
