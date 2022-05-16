@@ -1,4 +1,4 @@
-import { FC, useState, createContext, useContext } from "react";
+import { FC, createContext, useContext } from "react";
 import { useQuery } from "react-query";
 import { fetchAllQuestions, Question } from "../../data/questions";
 import { Segment, Solution } from "../../data/segments";
@@ -24,7 +24,6 @@ type CurrentQuestionContextType = {
   setQuestion: (index: number) => void;
   registerAnswer: (answer: CurrentQuestion) => void;
   startTest: (questions: Question[]) => void;
-  finished: boolean;
   questions: Question[];
   loadingQuestions: boolean;
 };
@@ -67,7 +66,6 @@ const CurrentQuestionProvider: FC = ({ children }) => {
       )
     );
   }
-  const [finished, setFinished] = useState(false);
 
   const registerAnswer = (answer: CurrentQuestion) => {
     const newAnswers = currentQuestions.map((question) => {
@@ -85,7 +83,6 @@ const CurrentQuestionProvider: FC = ({ children }) => {
       }))
     );
     setCurrentIndex(0);
-    setFinished(false);
   };
   const currentQuestion =
     questions?.find(({ id }) => id === currentQuestions?.[currentIndex]?.id) ||
@@ -99,7 +96,6 @@ const CurrentQuestionProvider: FC = ({ children }) => {
         setQuestion,
         startTest,
         registerAnswer,
-        finished,
         questions: questions || [],
         loadingQuestions: isLoading,
       }}

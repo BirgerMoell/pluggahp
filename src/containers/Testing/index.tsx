@@ -22,7 +22,6 @@ const Testing: FC = () => {
     currentQuestion,
     currentQuestions,
     currentQuestionIndex,
-    finished,
     registerAnswer,
     setQuestion,
     loadingQuestions,
@@ -32,9 +31,6 @@ const Testing: FC = () => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
   }, []);
 
-  if (finished) {
-    return <Navigate to="/result" replace={true} />;
-  }
   if (!currentQuestion && !loadingQuestions) {
     return <Navigate to="/" replace={true} />;
   }
