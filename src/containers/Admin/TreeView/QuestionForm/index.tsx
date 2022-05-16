@@ -47,6 +47,8 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
       setSolution(question.solution);
       setResources(question.resources);
     } else {
+      setResourceName("");
+      setURL("");
       setSolution(Solution.A);
       setResources([]);
       setImage(undefined);
