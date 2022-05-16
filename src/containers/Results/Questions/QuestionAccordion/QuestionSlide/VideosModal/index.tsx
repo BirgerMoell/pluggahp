@@ -1,12 +1,12 @@
 import { Link, Stack } from "@mui/material";
 import { FC } from "react";
 import Modal from "../../../../../../components/Modal";
-import { QuestionResult } from "../../../../../../providers/CurrentQuestionProvider";
+import { CurrentQuestion } from "../../../../../../providers/CurrentQuestionProvider";
 
 type Props = {
   open: boolean;
   setOpen: (open: boolean) => void;
-  question: QuestionResult;
+  question: CurrentQuestion;
 };
 
 const VideosModal: FC<Props> = ({ open, setOpen, question }) => {

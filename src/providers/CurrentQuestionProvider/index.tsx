@@ -2,16 +2,9 @@ import { FC, useState, createContext, useContext } from "react";
 import { useQuery } from "react-query";
 import { fetchAllQuestions, Question } from "../../data/questions";
 import { Segment, Solution } from "../../data/segments";
-import getQuestionFromId from "../../utils/getQuestionFromId";
 import useLocalStorage from "../../utils/useLocalStorage";
 
 export type CurrentQuestion = {
-  id: string;
-  answer: Solution | null;
-  seconds: number;
-};
-
-export type QuestionResult = {
   id: string;
   answer: Solution | null;
   solution: Solution;
@@ -32,7 +25,6 @@ type CurrentQuestionContextType = {
   registerAnswer: (answer: CurrentQuestion) => void;
   startTest: (questions: Question[]) => void;
   finished: boolean;
-  currentResult: QuestionResult[];
   questions: Question[];
   loadingQuestions: boolean;
 };
@@ -87,9 +79,9 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   const startTest = (questions: Question[]) => {
     setCurrentQuestions(
       questions.map((question) => ({
-        id: question?.id,
         answer: null,
         seconds: 0,
+        ...(question || {}),
       }))
     );
     setCurrentIndex(0);
@@ -98,16 +90,6 @@ const CurrentQuestionProvider: FC = ({ children }) => {
   const currentQuestion =
     questions?.find(({ id }) => id === currentQuestions?.[currentIndex]?.id) ||
     null;
-  const currentResult: QuestionResult[] =
-    questions && currentQuestions.length
-      ? currentQuestions.map((current) => {
-          const question = getQuestionFromId(questions, current.id);
-          if (!question) {
-            throw new Error("Current question not among all questions");
-          }
-          return { ...current, ...question };
-        })
-      : [];
   return (
     <CurrentQuestionContext.Provider
       value={{
@@ -118,7 +100,6 @@ const CurrentQuestionProvider: FC = ({ children }) => {
         startTest,
         registerAnswer,
         finished,
-        currentResult,
         questions: questions || [],
         loadingQuestions: isLoading,
       }}
