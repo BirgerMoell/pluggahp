@@ -1,13 +1,13 @@
 import { Button, Stack, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import segments from "../../../../../data/segments";
-import { QuestionResult } from "../../../../../providers/CurrentQuestionProvider";
+import { CurrentQuestion } from "../../../../../providers/CurrentQuestionProvider";
 import stringifyTime from "../../../../../utils/stringifyTime";
 import "./slider.css";
 import VideosModal from "./VideosModal";
 
 type Props = {
-  question: QuestionResult;
+  question: CurrentQuestion;
 };
 
 const QuestionSlide: FC<Props> = ({ question }) => {

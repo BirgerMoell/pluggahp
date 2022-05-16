@@ -7,12 +7,12 @@ import useCurrentTimeStamp from "../utils/useCurrentTimeStamp";
 import QuestionAccordion from "./QuestionAccordion";
 
 const Questions = () => {
-  const { currentResult } = useCurrentQuestion();
+  const { currentQuestions } = useCurrentQuestion();
   const currentTimeStamp = useCurrentTimeStamp();
   const { answers } = useAnswers();
   const { incorrect, tooSlow, correct, unanswered } = splitQuestionsOnHistory(
     answers,
-    currentResult.filter(({ id }) => {
+    currentQuestions.filter(({ id }) => {
       const answer = getLatestAnswerForQuestion(answers, id);
       return answer?.timeStamp === currentTimeStamp;
     })

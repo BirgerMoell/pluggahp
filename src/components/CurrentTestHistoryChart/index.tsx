@@ -5,10 +5,10 @@ import PieChart from "../PieChart";
 import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
 import useCurrentTimeStamp from "../../containers/Results/utils/useCurrentTimeStamp";
 import getLatestAnswerForQuestion from "../../utils/getLatestAnswerForQuestion";
-import { QuestionResult } from "../../providers/CurrentQuestionProvider";
+import { CurrentQuestion } from "../../providers/CurrentQuestionProvider";
 
 type Props = {
-  result: QuestionResult[];
+  result: CurrentQuestion[];
   legends?: boolean;
   direction?: "column" | "row";
   loading?: boolean;

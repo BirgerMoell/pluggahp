@@ -11,13 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { QuestionResult } from "../../../../providers/CurrentQuestionProvider";
+import { CurrentQuestion } from "../../../../providers/CurrentQuestionProvider";
 import { FC } from "react";
 
 type Props = {
   name: string;
   color: string;
-  result: QuestionResult[];
+  result: CurrentQuestion[];
 };
 
 const QuestionAccordion: FC<Props> = ({ color, name, result }) => {

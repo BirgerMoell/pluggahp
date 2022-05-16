@@ -4,7 +4,7 @@ import { COLORS } from "../../../constants/colors";
 import pSBC from "../../../utils/psBC";
 import segments from "../../../data/segments";
 import {
-  QuestionResult,
+  CurrentQuestion,
   useCurrentQuestion,
 } from "../../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../../utils/getQuestionFromId";
@@ -22,16 +22,17 @@ const getWidthPercentages = (
 };
 
 type Props = {
-  result: QuestionResult[];
+  result: CurrentQuestion[];
 };
 
 const TimeChart: FC<Props> = () => {
-  const { currentResult, questions, loadingQuestions } = useCurrentQuestion();
-  const totalTime = currentResult.reduce(
+  const { currentQuestions, questions, loadingQuestions } =
+    useCurrentQuestion();
+  const totalTime = currentQuestions.reduce(
     (partialSum, question) => partialSum + question.seconds,
     0
   );
-  const recommendedTime = currentResult.reduce(
+  const recommendedTime = currentQuestions.reduce(
     (partialSum, currentQuestion) => {
       if (!questions) {
         return 0;
@@ -90,12 +91,12 @@ const TimeChart: FC<Props> = () => {
           </div>
         </Stack>
       </div>
-      {questions && currentResult.length ? (
+      {questions && currentQuestions.length ? (
         <div>
           <Typography variant="body2">Genomsnittlig tid per uppgift</Typography>
           <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <Typography variant="body2">
-              {stringifyTime(Math.round(totalTime / currentResult.length))}
+              {stringifyTime(Math.round(totalTime / currentQuestions.length))}
             </Typography>
           </Stack>
         </div>

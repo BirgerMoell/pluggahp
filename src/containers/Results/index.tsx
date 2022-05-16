@@ -12,8 +12,8 @@ import Questions from "./Questions";
 import Container from "../../components/Container";
 
 const Result: FC = () => {
-  const { currentResult, loadingQuestions } = useCurrentQuestion();
-  const { xyz, kva, nog } = splitQuestionsOnSegment(currentResult);
+  const { currentQuestions, loadingQuestions } = useCurrentQuestion();
+  const { xyz, kva, nog } = splitQuestionsOnSegment(currentQuestions);
   const numOfSegments = [
     xyz.length ? 1 : 0,
     kva.length ? 1 : 0,
@@ -39,7 +39,7 @@ const Result: FC = () => {
                     legends
                     loading={loadingQuestions}
                     direction="row"
-                    result={currentResult}
+                    result={currentQuestions}
                   />
                 </div>
               </div>
@@ -67,7 +67,7 @@ const Result: FC = () => {
               )}
               <Divider sx={{ mt: 2, mb: 2 }} />
               <AccessTimeIcon fontSize="large" sx={{ color: "#656565" }} />
-              <TimeChart result={currentResult} />
+              <TimeChart result={currentQuestions} />
               <Questions />
             </div>
           </div>

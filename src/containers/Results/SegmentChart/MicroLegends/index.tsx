@@ -2,12 +2,12 @@ import { Stack } from "@mui/material";
 import { FC } from "react";
 import { COLORS } from "../../../../constants/colors";
 import { useAnswers } from "../../../../providers/AnswersProvider";
-import { QuestionResult } from "../../../../providers/CurrentQuestionProvider";
+import { CurrentQuestion } from "../../../../providers/CurrentQuestionProvider";
 import splitQuestionsOnHistory from "../../../../utils/splitQuestionsOnHistory";
 import { MicroLegend } from "./MicroLegend";
 
 type Props = {
-  result: QuestionResult[];
+  result: CurrentQuestion[];
 };
 
 const MicroLegends: FC<Props> = ({ result }) => {

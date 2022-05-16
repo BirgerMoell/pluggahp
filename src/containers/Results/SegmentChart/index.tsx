@@ -1,11 +1,11 @@
 import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import CurrentTestHistoryPieChart from "../../../components/CurrentTestHistoryChart";
-import { QuestionResult } from "../../../providers/CurrentQuestionProvider";
+import { CurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 import MicroLegends from "./MicroLegends";
 
 type Props = {
-  result: QuestionResult[];
+  result: CurrentQuestion[];
   name: string;
 };
 
