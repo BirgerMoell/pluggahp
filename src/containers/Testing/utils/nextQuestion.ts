@@ -48,9 +48,9 @@ const nextQuestion = ({
     }, OPACITY_SPEED * 1000);
   } else {
     setIsQuestionUp(false);
+    setOpacitySpeed(0);
     setTimeout(() => {
       setQuestionOpacity(0);
-      setOpacitySpeed(0);
       setQuestion(nextIndex);
     }, 1800);
   }

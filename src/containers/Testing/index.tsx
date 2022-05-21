@@ -135,7 +135,7 @@ const Testing: FC = () => {
         <div
           style={{
             padding: 16,
-            overflow: "auto",
+            overflow: isQuestionUp ? "auto" : "hidden",
             flexGrow: 1,
           }}
         >
@@ -144,7 +144,9 @@ const Testing: FC = () => {
               transition: `opacity ${opacitySpeed}s ease-in${
                 isQuestionUp ? "" : ", transform 1.8s ease-in-out"
               }`,
-              transform: isQuestionUp ? undefined : "translateY(1000px)",
+              transform: isQuestionUp
+                ? undefined
+                : `translateY(${vh - APP_BAR_HEIGHT}px)`,
               opacity: questionOpacity,
             }}
           >
