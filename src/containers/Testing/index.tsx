@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useStopwatch } from "react-timer-hook";
 import { Solution } from "../../data/segments";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
-import { Button, CardMedia, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import TestingAppBar from "./TestingAppBar";
 import QuestionBar from "./QuestionBar";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
@@ -12,12 +12,25 @@ import { AnswerData, useAnswers } from "../../providers/AnswersProvider";
 import Loader from "../../components/Loader";
 import Container from "../../components/Container";
 import Modal from "../../components/Modal";
+import nextQuestion from "./utils/nextQuestion";
+import startQuestion from "./utils/startQuestion";
+import isQuestionAnswered from "./utils/isQuestionAnswered";
+import areAllQuestionAnswered from "./utils/areAllQuestionsAnswered";
+import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionIndex";
+import updateQuestion from "./utils/updateQuestion";
+
+export const OPACITY_SPEED = 1.2;
 
 const Testing: FC = () => {
   const [open, setOpen] = useState(false);
+  const [isQuestionUp, setIsQuestionUp] = useState(true);
+  const [opacitySpeed, setOpacitySpeed] = useState(OPACITY_SPEED);
+  const [questionOpacity, setQuestionOpacity] = useState(1);
   const navigate = useNavigate();
   const { addAnswers } = useAnswers();
-  const { minutes, seconds, reset } = useStopwatch({ autoStart: true });
+  const { minutes, seconds, reset, pause } = useStopwatch({
+    autoStart: true,
+  });
   const {
     currentQuestion,
     currentQuestions,
@@ -50,53 +63,57 @@ const Testing: FC = () => {
   };
 
   const handleAnswer = (answer: Solution) => {
-    const question = currentQuestions[currentQuestionIndex];
-    question.seconds = minutes * 60 + seconds;
-    let nextQuestionIndex;
-    if (!question.answer) {
-      for (
-        let index = currentQuestionIndex + 1;
-        index < currentQuestions.length;
-        index++
-      ) {
-        if (!currentQuestions[index].answer) {
-          nextQuestionIndex = index;
-          break;
-        }
+    const isAnswered = isQuestionAnswered({
+      currentQuestions,
+      currentQuestionIndex,
+    });
+    updateQuestion({
+      currentQuestions,
+      currentIndex: currentQuestionIndex,
+      seconds: minutes * 60 + seconds,
+      answer,
+      registerAnswer,
+    });
+    if (!isAnswered) {
+      const areAllAnswered = areAllQuestionAnswered({ currentQuestions });
+      if (areAllAnswered) {
+        setOpen(true);
+      } else {
+        const nextIndex = getNextUnansweredQuestionIndex({
+          currentQuestions,
+          currentQuestionIndex,
+        });
+        nextQuestion({
+          currentQuestions,
+          currentIndex: currentQuestionIndex,
+          nextIndex,
+          seconds: minutes * 60 + seconds,
+          answer,
+          setOpacitySpeed,
+          pause,
+          setIsQuestionUp,
+          setQuestionOpacity,
+          setQuestion,
+          registerAnswer,
+        });
       }
-    }
-    const lastQuestion = currentQuestions.every(
-      ({ answer, id }) =>
-        (answer && id !== currentQuestion?.id) ||
-        (!answer && id === currentQuestion?.id)
-    );
-    question.answer = answer;
-    registerAnswer(question);
-    if (nextQuestionIndex && nextQuestionIndex < currentQuestions.length) {
-      const nextQuestion = currentQuestions[nextQuestionIndex];
-      const stopwatchOffset = new Date();
-      stopwatchOffset.setSeconds(
-        stopwatchOffset.getSeconds() + nextQuestion.seconds
-      );
-      reset(stopwatchOffset);
-      setQuestion(nextQuestionIndex);
-    }
-    if (lastQuestion) {
-      setOpen(true);
     }
   };
 
-  const changeQuestion = (index: number) => {
-    const question = currentQuestions[currentQuestionIndex];
-    question.seconds = minutes * 60 + seconds;
-    registerAnswer(question);
-    const nextQuestion = currentQuestions[index];
-    const stopwatchOffset = new Date();
-    stopwatchOffset.setSeconds(
-      stopwatchOffset.getSeconds() + nextQuestion.seconds
-    );
-    reset(stopwatchOffset);
-    setQuestion(index);
+  const changeQuestion = (nextIndex: number) => {
+    nextQuestion({
+      quick: true,
+      currentQuestions,
+      currentIndex: currentQuestionIndex,
+      nextIndex,
+      seconds: minutes * 60 + seconds,
+      setOpacitySpeed,
+      pause,
+      setIsQuestionUp,
+      setQuestionOpacity,
+      setQuestion,
+      registerAnswer,
+    });
   };
 
   const vh = window?.innerHeight;
@@ -122,7 +139,15 @@ const Testing: FC = () => {
             flexGrow: 1,
           }}
         >
-          <Card>
+          <Card
+            style={{
+              transition: `opacity ${opacitySpeed}s ease-in${
+                isQuestionUp ? "" : ", transform 1.8s ease-in-out"
+              }`,
+              transform: isQuestionUp ? undefined : "translateY(1000px)",
+              opacity: questionOpacity,
+            }}
+          >
             <div style={{ paddingBottom: "12px" }}>
               {loadingQuestions || !currentQuestion ? (
                 <div
@@ -139,19 +164,32 @@ const Testing: FC = () => {
                   <Loader />
                 </div>
               ) : (
-                <CardMedia
-                  component="img"
-                  sx={{
+                <img
+                  style={{
+                    display: "block",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
                     objectFit: "contain",
+                    width: "100%",
                     height: `${
                       vw > 750 ? `${vh - APP_BAR_HEIGHT - 145}px` : "auto"
                     }`,
                     transition: "height 0.5s",
-                    width: "100% !important",
                     padding: "2px",
                   }}
                   src={currentQuestion.image}
                   alt={currentQuestion.id}
+                  onLoad={() => {
+                    startQuestion({
+                      currentQuestions,
+                      currentIndex: currentQuestionIndex,
+                      reset,
+                      setIsQuestionUp,
+                      setQuestionOpacity,
+                      setOpacitySpeed,
+                    });
+                  }}
                 />
               )}
             </div>
