@@ -137,10 +137,14 @@ const Testing: FC = () => {
             padding: 16,
             overflow: isQuestionUp ? "auto" : "hidden",
             flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            width: vw - 24,
           }}
         >
           <Card
             style={{
+              alignSelf: "flex-start",
               transition: `opacity ${opacitySpeed}s ease-in${
                 isQuestionUp ? "" : ", transform 1.8s ease-in-out"
               }`,
@@ -150,7 +154,7 @@ const Testing: FC = () => {
               opacity: questionOpacity,
             }}
           >
-            <div style={{ paddingBottom: "12px" }}>
+            <div style={{ paddingBottom: "12px", width: "100%" }}>
               {loadingQuestions || !currentQuestion ? (
                 <div
                   style={{
@@ -160,7 +164,7 @@ const Testing: FC = () => {
                     minWidth: 300,
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center",
+                    alignItems: vw > 750 ? "flex-start" : "center",
                   }}
                 >
                   <Loader />
