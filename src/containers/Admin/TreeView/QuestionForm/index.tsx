@@ -47,12 +47,12 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
       setSolution(question.solution);
       setResources(question.resources);
     } else {
-      setResourceName("");
-      setURL("");
       setSolution(Solution.A);
       setResources([]);
-      setImage(undefined);
     }
+    setURL("");
+    setResourceName("");
+    setImage(undefined);
   }, [question]);
 
   const { mutate, isLoading } = useMutation(uploadQuestion, {

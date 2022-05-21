@@ -1,7 +1,11 @@
-import { Card as MuiCard } from "@mui/material";
+import { Card as MuiCard, SxProps, Theme } from "@mui/material";
 import { FC } from "react";
 
-const Card: FC = ({ children }) => {
+type Props = {
+  style?: SxProps<Theme>;
+};
+
+const Card: FC<Props> = ({ children, style }) => {
   return (
     <MuiCard
       sx={{
@@ -12,6 +16,7 @@ const Card: FC = ({ children }) => {
         alignItems: "center",
         flexDirection: "column",
         borderRadius: "6px",
+        ...style,
       }}
     >
       {children}
