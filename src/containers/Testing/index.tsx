@@ -19,13 +19,13 @@ import areAllQuestionAnswered from "./utils/areAllQuestionsAnswered";
 import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionIndex";
 import updateQuestion from "./utils/updateQuestion";
 
-export const OPACITY_SPEED = 1.2;
+export const OPACITY_SPEED = 0.8;
 
 const Testing: FC = () => {
   const [open, setOpen] = useState(false);
   const [isQuestionUp, setIsQuestionUp] = useState(true);
   const [opacitySpeed, setOpacitySpeed] = useState(OPACITY_SPEED);
-  const [questionOpacity, setQuestionOpacity] = useState(1);
+  const [questionOpacity, setQuestionOpacity] = useState(0);
   const navigate = useNavigate();
   const { addAnswers } = useAnswers();
   const { minutes, seconds, reset, pause } = useStopwatch({
@@ -119,6 +119,8 @@ const Testing: FC = () => {
   const vh = window?.innerHeight;
   const vw = window?.innerWidth;
 
+  console.log({ vh: window?.innerHeight });
+
   return (
     <>
       <TestingAppBar
@@ -128,13 +130,13 @@ const Testing: FC = () => {
       />
       <Container
         styles={{
-          minHeight: vh - APP_BAR_HEIGHT,
+          paddingTop: 16,
+          minHeight: vh - APP_BAR_HEIGHT - 16,
           maxHeight: vh - APP_BAR_HEIGHT,
         }}
       >
         <div
           style={{
-            padding: 16,
             overflow: isQuestionUp ? "auto" : "hidden",
             flexGrow: 1,
             display: "flex",
