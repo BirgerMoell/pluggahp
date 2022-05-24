@@ -18,11 +18,13 @@ import isQuestionAnswered from "./utils/isQuestionAnswered";
 import areAllQuestionAnswered from "./utils/areAllQuestionsAnswered";
 import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionIndex";
 import updateQuestion from "./utils/updateQuestion";
+import prefetchQestionImage from "./utils/prefetchQuestionImage";
 
 export const OPACITY_SPEED = 0.8;
+export const TRANSFORM_SPEED = 0.9;
 
 const Testing: FC = () => {
-  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [isQuestionUp, setIsQuestionUp] = useState(true);
   const [opacitySpeed, setOpacitySpeed] = useState(OPACITY_SPEED);
   const [questionOpacity, setQuestionOpacity] = useState(0);
@@ -39,6 +41,13 @@ const Testing: FC = () => {
     setQuestion,
     loadingQuestions,
   } = useCurrentQuestion();
+
+  useEffect(() => {
+    prefetchQestionImage({
+      currentQuestionIndex,
+      currentQuestions,
+    });
+  }, [currentQuestionIndex, currentQuestions]);
 
   useEffect(() => {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
@@ -77,7 +86,7 @@ const Testing: FC = () => {
     if (!isAnswered) {
       const areAllAnswered = areAllQuestionAnswered({ currentQuestions });
       if (areAllAnswered) {
-        setOpen(true);
+        setModalOpen(true);
       } else {
         const nextIndex = getNextUnansweredQuestionIndex({
           currentQuestions,
@@ -148,7 +157,7 @@ const Testing: FC = () => {
             style={{
               alignSelf: "flex-start",
               transition: `opacity ${opacitySpeed}s ease-in${
-                isQuestionUp ? "" : ", transform 1.8s ease-in-out"
+                isQuestionUp ? "" : `, transform ${TRANSFORM_SPEED}s ease-in`
               }`,
               transform: isQuestionUp
                 ? undefined
@@ -208,7 +217,7 @@ const Testing: FC = () => {
           changeQuestion={changeQuestion}
         />
       </Container>
-      <Modal open={open} setOpen={setOpen}>
+      <Modal open={modalOpen} setOpen={setModalOpen}>
         <Typography id="modal-modal-title" variant="h6" component="h2">
           Klar!
         </Typography>
@@ -226,7 +235,7 @@ const Testing: FC = () => {
           <Button
             size="small"
             variant="outlined"
-            onClick={() => setOpen(false)}
+            onClick={() => setModalOpen(false)}
           >
             Fortsätt
           </Button>

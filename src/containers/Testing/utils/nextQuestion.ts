@@ -1,4 +1,4 @@
-import { OPACITY_SPEED } from "..";
+import { OPACITY_SPEED, TRANSFORM_SPEED } from "..";
 import { Solution } from "../../../data/segments";
 import { CurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 import updateQuestion from "./updateQuestion";
@@ -52,7 +52,7 @@ const nextQuestion = ({
     setTimeout(() => {
       setQuestionOpacity(0);
       setQuestion(nextIndex);
-    }, 1800);
+    }, TRANSFORM_SPEED * 1000);
   }
 };
 

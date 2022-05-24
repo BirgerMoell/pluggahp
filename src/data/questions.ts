@@ -1,5 +1,10 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  updateMetadata,
+  uploadBytes,
+} from "firebase/storage";
 import getQuestionFromId from "../utils/getQuestionFromId";
 import { fireStore, storage } from "./firebase";
 import { Segment, Solution } from "./segments";
@@ -60,6 +65,10 @@ export const uploadQuestion = async ({
   if (image) {
     const questionRef = ref(storage, `questions/${questionInput.id}`);
     await uploadBytes(questionRef, image);
+    await updateMetadata(questionRef, {
+      cacheControl: "public,max-age=4000",
+      contentType: "image/jpeg",
+    });
     url = await getDownloadURL(questionRef);
   }
   const currentQuestion = getQuestionFromId(questions, questionInput.id);
