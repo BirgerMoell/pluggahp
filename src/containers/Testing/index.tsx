@@ -128,8 +128,6 @@ const Testing: FC = () => {
   const vh = window?.innerHeight;
   const vw = window?.innerWidth;
 
-  console.log({ vh: window?.innerHeight });
-
   return (
     <>
       <TestingAppBar
