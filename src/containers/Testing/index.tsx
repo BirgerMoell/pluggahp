@@ -20,7 +20,7 @@ import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionInd
 import updateQuestion from "./utils/updateQuestion";
 import prefetchQestionImage from "./utils/prefetchQuestionImage";
 
-export const OPACITY_SPEED = 0.8;
+export const OPACITY_SPEED = 0.5;
 export const TRANSFORM_SPEED = 0.9;
 
 const Testing: FC = () => {
