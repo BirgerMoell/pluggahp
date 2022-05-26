@@ -14,6 +14,7 @@ const SlideButton: FC<Props> = ({ onClick, disabled }) => {
         style={{
           position: "absolute",
           left: 3,
+          top: 13,
         }}
         onClick={!disabled ? onClick : () => {}}
       >
