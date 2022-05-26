@@ -6,7 +6,7 @@ type Props = {
   currentQuestionIndex: number;
 };
 
-const prefetchQestionImage = ({
+const prefetchNextQestionImage = ({
   currentQuestions,
   currentQuestionIndex,
 }: Props): void => {
@@ -21,4 +21,4 @@ const prefetchQestionImage = ({
   }
 };
 
-export default prefetchQestionImage;
+export default prefetchNextQestionImage;

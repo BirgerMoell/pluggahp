@@ -1,4 +1,4 @@
-.square {
+.square-loader {
   width: 100%;
   max-width: 300px;
   display: flex;
@@ -6,7 +6,7 @@
   align-items: center;
 }
 
-.square:after {
+.square-loader:after {
   content: "";
   padding-bottom: 100%;
 }

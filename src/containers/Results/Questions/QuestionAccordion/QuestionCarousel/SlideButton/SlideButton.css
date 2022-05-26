@@ -1,0 +1,26 @@
+.slideButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 1px solid #aeaeae;
+  padding: 0;
+  cursor: pointer;
+  background-color: rgba(0%, 0%, 0%, 0.05);
+  color: #424242;
+}
+
+.slideButton:hover {
+  background-color: rgba(0%, 0%, 0%, 0.08);
+  color: #313131;
+  border: 1px solid #9d9d9d;
+}
+
+.slideButton:disabled {
+  background-color: rgba(0%, 0%, 0%, 0.01);
+  color: #aeaeae;
+  border: 1px solid #bfbfbf;
+  cursor: not-allowed;
+}

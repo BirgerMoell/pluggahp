@@ -18,7 +18,7 @@ import isQuestionAnswered from "./utils/isQuestionAnswered";
 import areAllQuestionAnswered from "./utils/areAllQuestionsAnswered";
 import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionIndex";
 import updateQuestion from "./utils/updateQuestion";
-import prefetchQestionImage from "./utils/prefetchQuestionImage";
+import prefetchNextQestionImage from "./utils/prefetchNextQuestionImage";
 
 export const OPACITY_SPEED = 0.5;
 export const TRANSFORM_SPEED = 0.9;
@@ -43,7 +43,7 @@ const Testing: FC = () => {
   } = useCurrentQuestion();
 
   useEffect(() => {
-    prefetchQestionImage({
+    prefetchNextQestionImage({
       currentQuestionIndex,
       currentQuestions,
     });
