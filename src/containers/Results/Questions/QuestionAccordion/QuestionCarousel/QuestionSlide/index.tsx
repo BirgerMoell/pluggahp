@@ -23,7 +23,7 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
         justifyContent: "center",
         alignItems: "center",
         position: "relative",
-        padding: "0px 16px",
+        padding: "0px 14px",
       }}
     >
       <div
@@ -41,8 +41,9 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
         <div
           style={{
             position: "absolute",
-            top: -5,
-            right: -35,
+            top: 0,
+            right: 0,
+            zIndex: 1,
           }}
         >
           <IconButton
@@ -69,7 +70,7 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
           display: "flex",
           justifyContent: "space-around",
           marginTop: 5,
-          marginBottom: 18,
+          marginBottom: 10,
         }}
       >
         <Typography>Fråga {question.questionNumber}</Typography>
@@ -80,31 +81,92 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
           width: "100%",
         }}
       >
-        <Stack spacing={2}>
+        <Stack spacing={1}>
           <Stack>
             <Stack direction="row" spacing={1} justifyContent="space-between">
-              <Typography sx={{ minWidth: 65 }}>Ditt svar:</Typography>
-              <Typography sx={{ minWidth: 50 }} color="#424242">
+              <Typography
+                sx={{
+                  minWidth: 65,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Ditt svar:
+              </Typography>
+              <Typography
+                sx={{
+                  minWidth: 50,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                color="#424242"
+              >
                 {question.answer}
               </Typography>
             </Stack>
             <Stack direction="row" spacing={1} justifyContent="space-between">
-              <Typography sx={{ minWidth: 65 }}>Din tid:</Typography>
-              <Typography sx={{ minWidth: 50 }} color="#424242">
+              <Typography
+                sx={{
+                  minWidth: 65,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Din tid:
+              </Typography>
+              <Typography
+                sx={{
+                  minWidth: 50,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                color="#424242"
+              >
                 {stringifyTime(question.seconds)}
               </Typography>
             </Stack>
           </Stack>
           <Stack>
             <Stack direction="row" spacing={1} justifyContent="space-between">
-              <Typography sx={{ minWidth: 65 }}>Facit:</Typography>
-              <Typography sx={{ minWidth: 50 }} color="#424242">
+              <Typography sx={{ minWidth: 65, whiteSpace: "nowrap" }}>
+                Facit:
+              </Typography>
+              <Typography
+                sx={{
+                  minWidth: 50,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                color="#424242"
+              >
                 {question.solution}
               </Typography>
             </Stack>
             <Stack direction="row" spacing={1} justifyContent="space-between">
-              <Typography sx={{ minWidth: 65 }}>Rekommenderad tid:</Typography>
-              <Typography sx={{ minWidth: 50 }} color="#424242">
+              <Typography
+                sx={{
+                  minWidth: 65,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                Rekommenderad tid:
+              </Typography>
+              <Typography
+                sx={{
+                  minWidth: 50,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                color="#424242"
+              >
                 {stringifyTime(segments[question.segment].secondsPerQuestion)}
               </Typography>
             </Stack>
@@ -115,7 +177,7 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
             marginLeft: "auto",
             marginRight: "auto",
             width: "fit-content",
-            marginTop: 20,
+            marginTop: 16,
           }}
         >
           <Button
