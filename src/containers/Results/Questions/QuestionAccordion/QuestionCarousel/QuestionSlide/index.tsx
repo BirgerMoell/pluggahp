@@ -6,14 +6,15 @@ import stringifyTime from "../../../../../../utils/stringifyTime";
 import segments from "../../../../../../data/segments";
 import VideosModal from "./VideosModal";
 import "./QuestionSlide.css";
+import ImageModal from "./ImageModal";
 
 type Props = {
   question: CurrentQuestion;
 };
 
 export const QuestionSlide: FC<Props> = ({ question }) => {
-  const [isEnlarged, setIsEnlarged] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openImageModal, setOpenImageModal] = useState(false);
+  const [openVideoModal, setOpenVideoModal] = useState(false);
   return (
     <div
       style={{
@@ -44,20 +45,23 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
             right: -35,
           }}
         >
-          <IconButton size="small" aria-label="enlarge picture">
+          <IconButton
+            size="small"
+            aria-label="enlarge picture"
+            onClick={() => setOpenImageModal(true)}
+          >
             <ZoomInIcon />
           </IconButton>
         </div>
-        <div className="image-content">
-          <img
-            style={{
-              width: "95%",
-              objectFit: "contain",
-            }}
-            src={question.image}
-            alt={question.id}
-          />
-        </div>
+        <img
+          className="image-content"
+          style={{
+            width: "95%",
+            objectFit: "contain",
+          }}
+          src={question.image}
+          alt={question.id}
+        />
       </div>
       <div
         style={{
@@ -117,15 +121,22 @@ export const QuestionSlide: FC<Props> = ({ question }) => {
           <Button
             size="small"
             variant="outlined"
-            onClick={() => setOpenModal(true)}
+            onClick={() => setOpenVideoModal(true)}
           >
             Se videolösningar
           </Button>
         </div>
-        {openModal && (
+        {openVideoModal && (
           <VideosModal
-            open={openModal}
-            setOpen={setOpenModal}
+            open={openVideoModal}
+            setOpen={setOpenVideoModal}
+            question={question}
+          />
+        )}
+        {openImageModal && (
+          <ImageModal
+            open={openImageModal}
+            setOpen={setOpenImageModal}
             question={question}
           />
         )}

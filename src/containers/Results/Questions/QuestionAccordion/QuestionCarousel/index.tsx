@@ -1,5 +1,4 @@
-import { Slide } from "@mui/material";
-import { FC, useRef, useState } from "react";
+import { FC, useState } from "react";
 import { CurrentQuestion } from "../../../../../providers/CurrentQuestionProvider";
 import NavDots from "./NavDots";
 import NextButton from "./NextButton";
@@ -27,7 +26,6 @@ const QuestionCarousel: FC<Props> = ({ result }) => {
           setCurrentIndex(currentIndex + 1);
         }}
       />
-
       <QuestionSlide question={question} />
       <NavDots index={currentIndex} length={result.length} />
     </div>
