@@ -6,7 +6,7 @@ type Props = {
   currentQuestionIndex: number;
 };
 
-const prefetchQestionImage = ({
+const prefetchNextQestionImage = ({
   currentQuestions,
   currentQuestionIndex,
 }: Props): void => {
@@ -16,13 +16,9 @@ const prefetchQestionImage = ({
   });
   const nextQuestion = nextIndex && currentQuestions?.[nextIndex];
   if (nextQuestion) {
-    new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = () => resolve(nextQuestion.image);
-      img.onerror = () => reject();
-      img.src = nextQuestion.image;
-    });
+    const img = new Image();
+    img.src = nextQuestion.image;
   }
 };
 
-export default prefetchQestionImage;
+export default prefetchNextQestionImage;

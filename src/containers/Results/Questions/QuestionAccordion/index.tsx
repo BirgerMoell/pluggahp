@@ -1,9 +1,6 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import QuestionSlide from "./QuestionSlide";
 import {
   Accordion,
   AccordionDetails,
@@ -13,6 +10,7 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CurrentQuestion } from "../../../../providers/CurrentQuestionProvider";
 import { FC } from "react";
+import QuestionCarousel from "./QuestionCarousel";
 
 type Props = {
   name: string;
@@ -44,22 +42,7 @@ const QuestionAccordion: FC<Props> = ({ color, name, result }) => {
           <Typography>{`${name} (${result.length})`}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <div style={{ minHeight: 100 }}>
-            <Swiper
-              navigation={true}
-              pagination={{
-                dynamicBullets: true,
-              }}
-              modules={[Navigation, Pagination]}
-              className="mySwiper"
-            >
-              {result.map((question) => (
-                <SwiperSlide key={question.id}>
-                  <QuestionSlide question={question} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+          <QuestionCarousel result={result} />
         </AccordionDetails>
       </Accordion>
     </div>

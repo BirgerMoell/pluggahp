@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { COLORS } from "../../../constants/colors";
 import { useAnswers } from "../../../providers/AnswersProvider";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
@@ -8,6 +9,12 @@ import QuestionAccordion from "./QuestionAccordion";
 
 const Questions = () => {
   const { currentQuestions } = useCurrentQuestion();
+  useEffect(() => {
+    currentQuestions.forEach((question) => {
+      const img = new Image();
+      img.src = question.image;
+    });
+  }, [currentQuestions]);
   const currentTimeStamp = useCurrentTimeStamp();
   const { answers } = useAnswers();
   const { incorrect, tooSlow, correct, unanswered } = splitQuestionsOnHistory(

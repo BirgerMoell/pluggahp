@@ -1,7 +1,7 @@
 import { Link, Stack } from "@mui/material";
 import { FC } from "react";
-import Modal from "../../../../../../components/Modal";
-import { CurrentQuestion } from "../../../../../../providers/CurrentQuestionProvider";
+import Modal from "../../../../../../../components/Modal";
+import { CurrentQuestion } from "../../../../../../../providers/CurrentQuestionProvider";
 
 type Props = {
   open: boolean;

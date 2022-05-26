@@ -1,0 +1,25 @@
+/* 
+  Credit goes to:
+  https://spin.atomicobject.com/2015/07/14/css-responsive-square/
+*/
+
+.square-image {
+  position: relative;
+  width: 100%;
+  box-shadow: 0 0 25px -5px #dedede;
+}
+
+.square-image:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
+}
+
+.image-content {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}

@@ -4,7 +4,7 @@ import "./loader.css";
 
 const Loader: FC = () => {
   return (
-    <div className="square">
+    <div className="square-loader">
       <CircularProgress />
     </div>
   );
