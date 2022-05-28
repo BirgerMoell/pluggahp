@@ -129,8 +129,17 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                     width: "100%",
                   }}
                 >
-                  resource tips:
+                  Tips på resurser:
                   <Stack spacing={1}>
+                    <Link
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      href={
+                        "https://xn--allartt-9wa.nu/ladda-ner-gamla-hogskoleprov.asp"
+                      }
+                    >
+                      Gamla prov och facit hos allarätt.nu
+                    </Link>
                     <Link
                       rel="noopener noreferrer"
                       target="_blank"
@@ -167,7 +176,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                     </Link>
                   </Stack>
                 </div>
-                <Typography>Resources:</Typography>
+                <Typography>Resurs:</Typography>
 
                 <Stack spacing={1}>
                   <TextField
@@ -188,7 +197,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                     setResources([...resources, { url, name: resourceName }]);
                   }}
                 >
-                  Add resource
+                  Lägg till resurs
                 </Button>
                 {resources.map((resource) => (
                   <Stack

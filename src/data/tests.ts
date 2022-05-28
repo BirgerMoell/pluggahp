@@ -52,8 +52,8 @@ const generateQuestions = (
 
 const tests = [
   {
-    date: "2022-05-08",
-    partNumbers: [2, 5],
+    date: "2022-05-07",
+    partNumbers: [1, 4],
   },
   {
     date: "2022-03-12",

@@ -31,7 +31,13 @@ const LocalTreeView: FC<Props> = ({
           : []),
         ...tests.map((test) => test.date),
       ]}
-      sx={{ flexGrow: 1, minWidth: 230, overflowY: "auto" }}
+      sx={{
+        flexGrow: 1,
+        minWidth: 290,
+        height: "100vh",
+        overflowY: "auto",
+        borderRight: "1px solid #e0e0e0",
+      }}
     >
       {tests.map((test) => (
         <TreeItem
