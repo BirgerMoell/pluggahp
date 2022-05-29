@@ -4,6 +4,7 @@ import FilterContainer from "../containers/FilterContainer";
 import Result from "../containers/Results";
 import Startpage from "../containers/Startpage";
 import Testing from "../containers/Testing";
+import Settings from "../containers/Settings";
 
 const Router = () => {
   return (
@@ -14,6 +15,7 @@ const Router = () => {
         <Route path="filter" element={<FilterContainer />} />
         <Route path="result" element={<Result />} />
         <Route path="admin" element={<Admin />} />
+        <Route path="settings" element={<Settings />} />
       </Routes>
     </BrowserRouter>
   );

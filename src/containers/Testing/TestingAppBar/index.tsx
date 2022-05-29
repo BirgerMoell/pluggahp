@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import AppBar from "../../../components/AppBar";
 import Modal from "../../../components/Modal";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
+import { useSettings } from "../../../providers/SettingsProvider";
 import stringifyTime from "../../../utils/stringifyTime";
 
 type Props = {
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const TestingAppBar: FC<Props> = ({ minutes, seconds, finishTest }) => {
+  const { settings } = useSettings();
   const { currentQuestions, currentQuestionIndex } = useCurrentQuestion();
   const [open, setOpen] = useState(false);
 
@@ -19,9 +21,11 @@ const TestingAppBar: FC<Props> = ({ minutes, seconds, finishTest }) => {
     <>
       <AppBar
         leftComponent={
-          <Typography variant="h6" component="div">
-            {stringifyTime(minutes * 60 + seconds)}
-          </Typography>
+          settings.hideTime ? undefined : (
+            <Typography variant="h6" component="div">
+              {stringifyTime(minutes * 60 + seconds)}
+            </Typography>
+          )
         }
         centerComponent={
           <Typography variant="h6" component="div">{`${
