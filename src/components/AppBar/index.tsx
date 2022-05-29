@@ -16,9 +16,23 @@ const AppBar: FC<Props> = ({
   return (
     <MuiAppBar position="sticky" sx={{ minHeight: `${APP_BAR_HEIGHT}px` }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        <div>{leftComponent}</div>
+        <div
+          style={{
+            width: 100,
+          }}
+        >
+          <div>{leftComponent}</div>
+        </div>
         <div>{centerComponent}</div>
-        <div>{rightComponent}</div>
+        <div
+          style={{
+            width: 100,
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <div>{rightComponent}</div>
+        </div>
       </Toolbar>
     </MuiAppBar>
   );
