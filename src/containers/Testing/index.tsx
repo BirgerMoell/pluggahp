@@ -41,7 +41,6 @@ const Testing: FC = () => {
     setQuestion,
     loadingQuestions,
   } = useCurrentQuestion();
-
   useEffect(() => {
     prefetchNextQestionImage({
       currentQuestionIndex,
@@ -84,7 +83,10 @@ const Testing: FC = () => {
       registerAnswer,
     });
     if (!isAnswered) {
-      const areAllAnswered = areAllQuestionAnswered({ currentQuestions });
+      const areAllAnswered = areAllQuestionAnswered({
+        currentQuestionIndex,
+        currentQuestions,
+      });
       if (areAllAnswered) {
         setModalOpen(true);
       } else {
