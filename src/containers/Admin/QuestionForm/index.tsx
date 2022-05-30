@@ -19,21 +19,21 @@ import {
 } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { QuestionInput } from "../..";
-import LogoUpload from "../../../../components/LogoUpload";
-import { uploadQuestion } from "../../../../data/questions";
-import { Solution } from "../../../../data/segments";
-import { useCurrentQuestion } from "../../../../providers/CurrentQuestionProvider";
-import getQuestionFromId from "../../../../utils/getQuestionFromId";
+import { QuestionInput } from "..";
+import LogoUpload from "../../../components/LogoUpload";
+import { uploadQuestion } from "../../../data/questions";
+import { Solution } from "../../../data/segments";
+import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
+import getQuestionFromId from "../../../utils/getQuestionFromId";
 
 type Props = {
-  questionInput: QuestionInput | null;
+  questionInput: QuestionInput;
 };
 
 const QuestionForm: FC<Props> = ({ questionInput }) => {
   const { questions } = useCurrentQuestion();
   const queryClient = useQueryClient();
-  const question = getQuestionFromId(questions, questionInput?.id || "");
+  const question = getQuestionFromId(questions, questionInput.id || "");
   const [image, setImage] = useState<Blob | undefined>(undefined);
   const [solution, setSolution] = useState(question?.solution || Solution.A);
   const [url, setURL] = useState("");
@@ -72,7 +72,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                   <Typography sx={{ fontWeight: 800 }}>Datum:</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{questionInput?.date}</Typography>
+                  <Typography>{questionInput.date}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -80,7 +80,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                   <Typography sx={{ fontWeight: 800 }}>Provpass:</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{questionInput?.partNumber}</Typography>
+                  <Typography>{questionInput.partNumber}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -88,7 +88,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                   <Typography sx={{ fontWeight: 800 }}>Del:</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{questionInput?.segment}</Typography>
+                  <Typography>{questionInput.segment}</Typography>
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -96,7 +96,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                   <Typography sx={{ fontWeight: 800 }}>Fråga:</Typography>
                 </TableCell>
                 <TableCell>
-                  <Typography>{questionInput?.questionNumber}</Typography>
+                  <Typography>{questionInput.questionNumber}</Typography>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -166,10 +166,10 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
                     <Link
                       rel="noopener noreferrer"
                       target="_blank"
-                      href={`https://www.youtube.com/results?search_query=jon+erik+nordstrand+hp+${questionInput?.date.slice(
+                      href={`https://www.youtube.com/results?search_query=jon+erik+nordstrand+hp+${questionInput.date.slice(
                         0.4
-                      )}+${questionInput?.segment}+pass${
-                        questionInput?.partNumber
+                      )}+${questionInput.segment}+pass${
+                        questionInput.partNumber
                       }`}
                     >
                       Aristofanes
@@ -231,7 +231,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
           </Grid>
           <Grid item xs={6} style={{ padding: 16 }}>
             <LogoUpload
-              key={questionInput?.id || ""}
+              key={questionInput.id || ""}
               previewLogoPath={question?.image}
               onChange={function (file: Blob): void {
                 setImage(file);

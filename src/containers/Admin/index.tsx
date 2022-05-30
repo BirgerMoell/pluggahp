@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Backdrop, CircularProgress, Stack } from "@mui/material";
 import { Segment, Solution } from "../../data/segments";
 import LocalTreeView from "./TreeView";
-import QuestionForm from "./TreeView/QuestionForm";
+import QuestionForm from "./QuestionForm";
 import { useSearchParams } from "react-router-dom";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../utils/getQuestionFromId";
 import { getQuestionInputFromId, QuestionId } from "../../data/tests";
+import AdminForm from "./AdminForm";
 
 export type QuestionInput = {
   id: string;
@@ -46,7 +47,11 @@ const Admin = () => {
           selectedQuestionInput={questionInput}
           setQuestionInput={setQuestionInput}
         />
-        <QuestionForm questionInput={questionInput} />
+        {questionInput ? (
+          <QuestionForm questionInput={questionInput} />
+        ) : (
+          <AdminForm />
+        )}
       </Stack>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
