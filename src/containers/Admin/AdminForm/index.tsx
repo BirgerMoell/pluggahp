@@ -2,22 +2,21 @@ import { Button, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { QuestionInput } from "..";
-import { Question, uploadQuestion } from "../../../data/questions";
+import { uploadQuestion } from "../../../data/queries/uploadQuestion";
+import { Question } from "../../../data/questions";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 
 const AdminForm = () => {
   const [jsonText, setJsonText] = useState("");
   const queryClient = useQueryClient();
   const { questions } = useCurrentQuestion();
-  const { mutate, isLoading } = useMutation(uploadQuestion, {
+  const { mutate } = useMutation(uploadQuestion, {
     onSuccess: () => {
       queryClient.invalidateQueries("questions");
     },
   });
 
   const questionInput = jsonText.length && JSON.parse(jsonText);
-
-  console.log(questionInput);
 
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
@@ -71,6 +70,7 @@ const AdminForm = () => {
                     },
                   ],
                   id: "2021-10-24-1-1",
+                  history: [],
                 },
                 {
                   questionNumber: 10,
@@ -97,6 +97,7 @@ const AdminForm = () => {
                   tags: [],
                   segment: "XYZ",
                   partNumber: 1,
+                  history: [],
                 },
                 {
                   image:
@@ -123,6 +124,7 @@ const AdminForm = () => {
                   tags: [],
                   partNumber: 1,
                   segment: "XYZ",
+                  history: [],
                 },
               ] as Question[],
             })

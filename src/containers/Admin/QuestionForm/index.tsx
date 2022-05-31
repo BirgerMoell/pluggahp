@@ -21,7 +21,7 @@ import { FC, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { QuestionInput } from "..";
 import LogoUpload from "../../../components/LogoUpload";
-import { uploadQuestion } from "../../../data/questions";
+import { uploadQuestion } from "../../../data/queries/uploadQuestion";
 import { Solution } from "../../../data/segments";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../../utils/getQuestionFromId";
@@ -263,6 +263,8 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
             </div>
           </Grid>
         </Grid>
+        <div style={{ padding: 16 }}>Svar</div>
+        {/* <div style={{ display: "flex" }}>{question.answers}</div> */}
       </Stack>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
