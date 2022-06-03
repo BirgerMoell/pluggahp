@@ -25,6 +25,7 @@ import { uploadQuestion } from "../../../data/queries/uploadQuestion";
 import { Solution } from "../../../data/segments";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../../utils/getQuestionFromId";
+import stringifyTime from "../../../utils/stringifyTime";
 
 type Props = {
   questionInput: QuestionInput;
@@ -267,8 +268,8 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
           Historik: ({question?.history.length})
           {question?.history.map((answer) => (
             <ul style={{ marginTop: 12 }}>
-              <li>{answer.answer}</li>
-              <li>{answer.seconds}</li>
+              <li>Svar: {answer.answer}</li>
+              <li>Tid: {stringifyTime(answer.seconds)}</li>
               <li>{answer.answer === question.solution ? "Rätt" : "Fel"}</li>
             </ul>
           ))}
