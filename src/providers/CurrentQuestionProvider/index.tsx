@@ -1,20 +1,13 @@
 import { FC, createContext, useContext } from "react";
 import { useQuery } from "react-query";
-import { fetchAllQuestions, Question } from "../../data/questions";
-import { Segment, Solution } from "../../data/segments";
+import { fetchAllQuestions } from "../../data/queries/fetchAllQuestions";
+import { Question } from "../../data/questions";
+import { Solution } from "../../data/segments";
 import useLocalStorage from "../../utils/useLocalStorage";
 
-export type CurrentQuestion = {
-  id: string;
+export type CurrentQuestion = Question & {
   answer: Solution | null;
-  solution: Solution;
   seconds: number;
-  image: string;
-  date: string;
-  resources: { url: string; name: string }[];
-  partNumber: number;
-  questionNumber: number;
-  segment: Segment;
 };
 
 type CurrentQuestionContextType = {

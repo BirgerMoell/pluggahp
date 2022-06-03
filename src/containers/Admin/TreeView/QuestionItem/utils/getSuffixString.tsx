@@ -12,11 +12,15 @@ const getSuffixString = ({ question }: Props) => {
   let suffixString = `| ${question.solution} `;
 
   if (question.image) {
-    suffixString += "| 🖼";
+    suffixString += " | 🖼";
   }
 
   if (question.resources.length) {
-    return (suffixString += `| 🎬 (${question.resources.length})`);
+    suffixString += ` | 🎬 (${question.resources.length})`;
+  }
+
+  if (question.history.length) {
+    suffixString += ` | 📊 (${question.history.length})`;
   }
 
   return suffixString;

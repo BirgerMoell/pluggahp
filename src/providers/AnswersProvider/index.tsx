@@ -1,4 +1,6 @@
 import { FC, useContext, createContext } from "react";
+import { useMutation, useQueryClient } from "react-query";
+import { appendAnswers } from "../../data/queries/appendAnswers";
 import { Solution } from "../../data/segments";
 import useLocalStorage from "../../utils/useLocalStorage";
 
@@ -39,9 +41,21 @@ export const useAnswers = (): AnswersContextType => {
 };
 
 const UserProvider: FC = ({ children }) => {
+  const queryClient = useQueryClient();
+  const { mutate, isLoading } = useMutation(appendAnswers, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("questions");
+    },
+  });
   const [answers, setAnswers] = useLocalStorage<AnswerData[]>("ANSWERS", []);
   const addAnswers = (newAnswers: AnswerData[]) => {
     setAnswers([...answers, ...newAnswers]);
+    if (newAnswers) {
+      mutate({
+        answers: newAnswers,
+        oldAnswers: answers,
+      });
+    }
   };
 
   return (

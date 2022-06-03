@@ -33,7 +33,7 @@ const LocalTreeView: FC<Props> = ({
       ]}
       sx={{
         flexGrow: 1,
-        minWidth: 290,
+        minWidth: 320,
         height: "100vh",
         overflowY: "auto",
         borderRight: "1px solid #e0e0e0",

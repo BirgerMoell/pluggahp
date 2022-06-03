@@ -21,10 +21,11 @@ import { FC, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { QuestionInput } from "..";
 import LogoUpload from "../../../components/LogoUpload";
-import { uploadQuestion } from "../../../data/questions";
+import { uploadQuestion } from "../../../data/queries/uploadQuestion";
 import { Solution } from "../../../data/segments";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 import getQuestionFromId from "../../../utils/getQuestionFromId";
+import stringifyTime from "../../../utils/stringifyTime";
 
 type Props = {
   questionInput: QuestionInput;
@@ -263,6 +264,16 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
             </div>
           </Grid>
         </Grid>
+        <div style={{ padding: 16 }}>
+          Historik: ({question?.history.length})
+          {question?.history.map((answer) => (
+            <ul style={{ marginTop: 12 }}>
+              <li>Svar: {answer.answer}</li>
+              <li>Tid: {stringifyTime(answer.seconds)}</li>
+              <li>{answer.answer === question.solution ? "Rätt" : "Fel"}</li>
+            </ul>
+          ))}
+        </div>
       </Stack>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

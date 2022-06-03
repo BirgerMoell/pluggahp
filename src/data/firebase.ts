@@ -5,7 +5,7 @@ import { getFirestore } from "firebase/firestore";
 const development = process.env.REACT_APP_ENV === "DEV";
 
 // Set the configuration for your app
-const firebaseConfig = development
+const firebaseConfig = !development
   ? {
       apiKey: process.env.REACT_APP_FIREBASE_API_KEY_DEV,
       authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN_DEV,
