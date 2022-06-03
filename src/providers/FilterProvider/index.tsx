@@ -1,5 +1,5 @@
 import { FC, createContext, useContext } from "react";
-import { MAX_LIMIT } from "../../constants/numbers";
+import { LIMIT_FILTER_OPTIONS } from "../../constants/numbers";
 import { Question } from "../../data/questions";
 import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
 import splitQuestionsOnSegment from "../../utils/splitQuestionsOnSegment";
@@ -116,7 +116,7 @@ const FilterProvider: FC = ({ children }) => {
     XYZ: true,
     KVA: true,
     NOG: true,
-    limit: MAX_LIMIT,
+    limit: LIMIT_FILTER_OPTIONS.TEN,
   });
 
   const filtered = filterQuestions(questions, filter, answers);

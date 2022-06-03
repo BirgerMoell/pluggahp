@@ -1,2 +1,9 @@
-export const MAX_LIMIT = 1000000;
 export const APP_BAR_HEIGHT = 64;
+
+export const LIMIT_FILTER_OPTIONS = {
+  TEN: 10,
+  FIFTEEN: 15,
+  TWENTY: 20,
+  TWENTYFIVE: 25,
+  MAX_LIMIT: 1000000,
+};
