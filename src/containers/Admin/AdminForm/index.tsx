@@ -1,19 +1,19 @@
 import { Button, Stack } from "@mui/material";
-import { useMutation, useQueryClient } from "react-query";
-import { QuestionInput } from "..";
-import { uploadQuestion } from "../../../data/queries/uploadQuestion";
-import { Question } from "../../../data/questions";
-import { questionsData } from "../../../data/questionsData";
+// import { useMutation, useQueryClient } from "react-query";
+// import { uploadQuestion } from "../../../data/queries/uploadQuestion";
+// import { QuestionInput } from "..";
+// import { Question } from "../../../data/questions";
+// import { questionsData } from "../../../data/questionsData";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 
 const AdminForm = () => {
-  const queryClient = useQueryClient();
   const { questions } = useCurrentQuestion();
-  const { mutate } = useMutation(uploadQuestion, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("questions");
-    },
-  });
+  // const queryClient = useQueryClient();
+  // const { mutate } = useMutation(uploadQuestion, {
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries("questions");
+  //   },
+  // });
 
   return (
     <Stack sx={{ width: "100%" }} spacing={2}>
@@ -32,7 +32,7 @@ const AdminForm = () => {
           Copy all questions to clipboard
         </Button>
       </div>
-      <div>
+      {/* <div>
         <Button
           onClick={() =>
             mutate({
@@ -44,6 +44,24 @@ const AdminForm = () => {
           UPLOAD all questions in questionData.ts
         </Button>
       </div>
+      <div>
+        <Button
+          onClick={() =>
+            mutate({
+              questionInput: {
+                ...questionsData[0],
+                history: [],
+              } as unknown as QuestionInput,
+              questions: questionsData.map((q) => ({
+                ...q,
+                history: [],
+              })) as unknown as Question[],
+            })
+          }
+        >
+          UPLOAD all questions in questionData.ts without history
+        </Button>
+      </div> */}
     </Stack>
   );
 };
