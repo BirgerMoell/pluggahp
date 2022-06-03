@@ -263,8 +263,16 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
             </div>
           </Grid>
         </Grid>
-        <div style={{ padding: 16 }}>Svar</div>
-        {/* <div style={{ display: "flex" }}>{question.answers}</div> */}
+        <div style={{ padding: 16 }}>
+          Historik: ({question?.history.length})
+          {question?.history.map((answer) => (
+            <ul style={{ marginTop: 12 }}>
+              <li>{answer.answer}</li>
+              <li>{answer.seconds}</li>
+              <li>{answer.answer === question.solution ? "Rätt" : "Fel"}</li>
+            </ul>
+          ))}
+        </div>
       </Stack>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}

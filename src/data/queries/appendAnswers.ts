@@ -11,34 +11,31 @@ type Variables = {
 export type AnswerHistoryData = {
   answer: Solution;
   seconds: number;
-  timeStamp: number;
-  tries: number;
 };
 
 const getReducedHistoricData = (answer: AnswerHistoryData) => ({
   answer: answer.answer,
   seconds: answer.seconds,
-  timeStamp: answer.timeStamp,
-  tries: answer.tries,
 });
 
 const generateAnswers = ({
   answers,
   oldAnswers,
 }: Variables): (AnswerHistoryData & { questionId: string })[] => {
-  return answers.map((answer) => {
-    const earlierAnswers = oldAnswers.filter(
-      (oldAnswer) => oldAnswer.questionId === answer.questionId
-    );
-
-    return {
-      questionId: answer.questionId,
-      answer: answer.answer,
-      seconds: answer.seconds,
-      timeStamp: answer.timeStamp,
-      tries: earlierAnswers.length,
-    };
-  });
+  return answers
+    .filter((answer) => {
+      const earlierAnswers = oldAnswers.filter(
+        (oldAnswer) => oldAnswer.questionId === answer.questionId
+      );
+      return earlierAnswers.length === 0;
+    })
+    .map((answer) => {
+      return {
+        questionId: answer.questionId,
+        answer: answer.answer,
+        seconds: answer.seconds,
+      };
+    });
 };
 
 export const appendAnswers = async ({ answers, oldAnswers }: Variables) => {

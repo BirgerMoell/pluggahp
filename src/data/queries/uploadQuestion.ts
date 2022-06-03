@@ -38,8 +38,8 @@ const generateQuestionData = (
   return {
     ...questionInput,
     image: url || currentQuestion?.image || "",
-    history: [],
-    tags: [],
+    history: currentQuestion?.history || [],
+    tags: currentQuestion?.tags || [],
   };
 };
 
