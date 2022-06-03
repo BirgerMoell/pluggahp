@@ -42,7 +42,7 @@ export const useAnswers = (): AnswersContextType => {
 
 const UserProvider: FC = ({ children }) => {
   const queryClient = useQueryClient();
-  const { mutate, isLoading } = useMutation(appendAnswers, {
+  const { mutate } = useMutation(appendAnswers, {
     onSuccess: () => {
       queryClient.invalidateQueries("questions");
     },
