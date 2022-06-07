@@ -1,7 +1,7 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { FC } from "react";
-import { VictoryPie } from "victory";
+import { VictoryPie, VictoryContainer } from "victory";
 import { COLORS } from "../../constants/colors";
 import Loader from "../Loader";
 
@@ -34,6 +34,14 @@ const PieChart: FC<Props> = ({
         }}
         colorScale={colorScale}
         data={data}
+        containerComponent={
+          <VictoryContainer
+            style={{
+              pointerEvents: "auto",
+              touchAction: "auto",
+            }}
+          />
+        }
       />
     );
   }
@@ -59,6 +67,14 @@ const PieChart: FC<Props> = ({
           }}
           colorScale={colorScale}
           data={data}
+          containerComponent={
+            <VictoryContainer
+              style={{
+                pointerEvents: "auto",
+                touchAction: "auto",
+              }}
+            />
+          }
         />
       )}
       <Stack>
