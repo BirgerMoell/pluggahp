@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Button,
-  Container,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { AppBar, Container, Grid, Stack, Typography } from "@mui/material";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useNavigate } from "react-router-dom";
@@ -18,6 +11,7 @@ import { useFilter } from "../../providers/FilterProvider";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
 import { COLORS } from "../../constants/colors";
 import Card from "../../components/Card";
+import Button from "../../components/Button.tsx";
 
 const FilterContainer = () => {
   const navigate = useNavigate();
@@ -103,8 +97,7 @@ const FilterContainer = () => {
                 </Grid>
               </Grid>
               <Button
-                sx={{ marginTop: "-18px" }}
-                variant="contained"
+                theme="contained"
                 disabled={filtered.length === 0}
                 onClick={start}
               >

@@ -3,7 +3,6 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { useStopwatch } from "react-timer-hook";
 import { Solution } from "../../data/segments";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
-import { Button, Stack, Typography } from "@mui/material";
 import TestingAppBar from "./TestingAppBar";
 import QuestionBar from "./QuestionBar";
 import { APP_BAR_HEIGHT } from "../../constants/numbers";
@@ -11,7 +10,6 @@ import Card from "../../components/Card";
 import { AnswerData, useAnswers } from "../../providers/AnswersProvider";
 import Loader from "../../components/Loader";
 import Container from "../../components/Container";
-import Modal from "../../components/Modal";
 import nextQuestion from "./utils/nextQuestion";
 import startQuestion from "./utils/startQuestion";
 import isQuestionAnswered from "./utils/isQuestionAnswered";
@@ -19,6 +17,7 @@ import areAllQuestionAnswered from "./utils/areAllQuestionsAnswered";
 import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionIndex";
 import updateQuestion from "./utils/updateQuestion";
 import prefetchNextQestionImage from "./utils/prefetchNextQuestionImage";
+import FinishedModal from "./FinishedModal";
 
 export const OPACITY_SPEED = 0.5;
 export const TRANSFORM_SPEED = 0.9;
@@ -217,30 +216,13 @@ const Testing: FC = () => {
           changeQuestion={changeQuestion}
         />
       </Container>
-      <Modal open={modalOpen} setOpen={setModalOpen}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Klar!
-        </Typography>
-        <Typography id="modal-modal-description" sx={{ mt: 1 }}>
-          Du har svarat på alla frågor, rätta dina svar eller fortsätt.
-        </Typography>
-        <Stack
-          sx={{ mt: 1, justifyContent: "flex-end" }}
-          direction="row"
-          spacing={2}
-        >
-          <Button size="small" variant="contained" onClick={() => finishTest()}>
-            Rätta
-          </Button>
-          <Button
-            size="small"
-            variant="outlined"
-            onClick={() => setModalOpen(false)}
-          >
-            Fortsätt
-          </Button>
-        </Stack>
-      </Modal>
+      <FinishedModal
+        open={modalOpen}
+        setOpen={setModalOpen}
+        title="Klar!"
+        text="Du har svarat på alla frågor, rätta dina svar eller fortsätt."
+        finishTest={finishTest}
+      />
     </>
   );
 };

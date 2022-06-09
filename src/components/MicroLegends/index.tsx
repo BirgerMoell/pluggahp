@@ -1,10 +1,10 @@
 import { Stack } from "@mui/material";
 import { FC } from "react";
-import { COLORS } from "../../../../constants/colors";
-import { useAnswers } from "../../../../providers/AnswersProvider";
-import { CurrentQuestion } from "../../../../providers/CurrentQuestionProvider";
-import splitQuestionsOnHistory from "../../../../utils/splitQuestionsOnHistory";
-import { MicroLegend } from "./MicroLegend";
+import { COLORS } from "../../constants/colors";
+import { useAnswers } from "../../providers/AnswersProvider";
+import { CurrentQuestion } from "../../providers/CurrentQuestionProvider";
+import splitQuestionsOnHistory from "../../utils/splitQuestionsOnHistory";
+import { MicroLegend } from "../MicroLegend";
 
 type Props = {
   result: CurrentQuestion[];

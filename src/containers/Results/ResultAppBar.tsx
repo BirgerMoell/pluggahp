@@ -1,6 +1,7 @@
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AppBar from "../../components/AppBar";
+import Button from "../../components/Button.tsx";
 
 const ResultAppBar = () => {
   const navigate = useNavigate();
@@ -11,11 +12,7 @@ const ResultAppBar = () => {
           Resultat
         </Typography>
       }
-      rightComponent={
-        <Button color="inherit" onClick={() => navigate("/")}>
-          Startsidan
-        </Button>
-      }
+      rightComponent={<Button onClick={() => navigate("/")}>Startsidan</Button>}
     />
   );
 };

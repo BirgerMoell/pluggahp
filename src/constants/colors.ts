@@ -8,6 +8,7 @@ type ColorMap = {
   nog: `#${string}`;
   textPrimary: `#${string}`;
   backgroundDark: `#${string}`;
+  buttonColor: `#${string}`;
 };
 
 export const COLORS: ColorMap = {
@@ -20,4 +21,5 @@ export const COLORS: ColorMap = {
   nog: "#b2dfdb",
   textPrimary: "#424242",
   backgroundDark: "#efefef",
+  buttonColor: "#1976d2",
 };

@@ -1,6 +1,5 @@
 import {
   Backdrop,
-  Button,
   CircularProgress,
   FormControl,
   Grid,
@@ -20,6 +19,7 @@ import {
 import { FC, useEffect, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { QuestionInput } from "..";
+import Button from "../../../components/Button.tsx";
 import LogoUpload from "../../../components/LogoUpload";
 import { uploadQuestion } from "../../../data/queries/uploadQuestion";
 import { Solution } from "../../../data/segments";
@@ -248,7 +248,7 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
               }}
             >
               <Button
-                variant="contained"
+                theme="contained"
                 disabled={!questionInput}
                 onClick={() =>
                   questionInput &&

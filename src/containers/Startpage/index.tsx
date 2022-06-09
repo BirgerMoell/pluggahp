@@ -1,4 +1,4 @@
-import { Button, Link, Stack, Typography } from "@mui/material";
+import { Link, Stack, Typography } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import AppBar from "../../components/AppBar";
 import Card from "../../components/Card";
@@ -6,6 +6,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import Container from "../../components/Container";
 import QuestionHistoryChart from "../../components/HistoryPieChart";
 import { useCurrentQuestion } from "../../providers/CurrentQuestionProvider";
+import Button from "../../components/Button.tsx";
 
 const Startpage = () => {
   const { questions, loadingQuestions } = useCurrentQuestion();
@@ -32,7 +33,7 @@ const Startpage = () => {
         <Card>
           <Stack sx={{ alignItems: "center", padding: "14px", width: "100%" }}>
             <Button
-              variant="contained"
+              theme="contained"
               disabled={loadingQuestions}
               onClick={() => navigate("/filter")}
             >
