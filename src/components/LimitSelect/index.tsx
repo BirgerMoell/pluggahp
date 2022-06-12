@@ -1,5 +1,6 @@
 import { Typography, Stack } from "@mui/material";
 import { FC } from "react";
+import { css } from "styled-components/macro";
 import { LIMIT_FILTER_OPTIONS } from "../../constants/numbers";
 import Button from "../Button.tsx";
 
@@ -15,8 +16,14 @@ const LimitSelect: FC<Props> = ({ limit, onChange }) => {
       <Stack direction="row" flexWrap="wrap" gap={1}>
         {Object.values(LIMIT_FILTER_OPTIONS).map((option: number) => (
           <Button
-            theme="round"
-            selected={limit === option}
+            customCss={css`
+              border-radius: 100%;
+              max-width: 45px;
+              min-width: 45px;
+              width: 45px;
+              height: 45px;
+            `}
+            filled={limit === option}
             color="#bbb"
             key={option}
             onClick={() => onChange(option)}

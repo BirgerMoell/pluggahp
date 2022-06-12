@@ -248,7 +248,8 @@ const QuestionForm: FC<Props> = ({ questionInput }) => {
               }}
             >
               <Button
-                theme="contained"
+                filled
+                shadow
                 disabled={!questionInput}
                 onClick={() =>
                   questionInput &&

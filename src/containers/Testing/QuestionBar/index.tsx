@@ -85,7 +85,6 @@ const QuestionBar: FC<Props> = ({ handleAnswer, changeQuestion }) => {
             <Button
               selected={currentAnswer === solution}
               key={`${currentQuestionIndex}${solution}`}
-              theme="outlined"
               onClick={() => handleAnswer(solution)}
             >
               {solution}

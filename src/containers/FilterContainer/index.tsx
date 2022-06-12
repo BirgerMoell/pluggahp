@@ -97,7 +97,8 @@ const FilterContainer = () => {
                 </Grid>
               </Grid>
               <Button
-                theme="contained"
+                filled
+                shadow
                 disabled={filtered.length === 0}
                 onClick={start}
               >

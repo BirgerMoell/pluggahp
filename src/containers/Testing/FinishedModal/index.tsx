@@ -29,12 +29,10 @@ const FinishedModal: FC<Props> = ({
         direction="row"
         spacing={2}
       >
-        <Button to="/result" onClick={() => finishTest()}>
+        <Button filled to="/result" onClick={() => finishTest()}>
           Rätta
         </Button>
-        <Button theme="outlined" onClick={() => setOpen(false)}>
-          Fortsätt
-        </Button>
+        <Button onClick={() => setOpen(false)}>Fortsätt</Button>
       </Stack>
     </Modal>
   );

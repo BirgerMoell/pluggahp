@@ -33,7 +33,8 @@ const Startpage = () => {
         <Card>
           <Stack sx={{ alignItems: "center", padding: "14px", width: "100%" }}>
             <Button
-              theme="contained"
+              filled
+              shadow
               disabled={loadingQuestions}
               onClick={() => navigate("/filter")}
             >
