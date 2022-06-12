@@ -1,9 +1,9 @@
 import { CircularProgress, Stack, Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import { FC } from "react";
 import { VictoryPie, VictoryContainer } from "victory";
 import { COLORS } from "../../constants/colors";
 import Loader from "../Loader";
+import { MicroLegend } from "../MicroLegend";
 
 const TooltipWrapper: FC = () => <svg width="100%" height="100%"></svg>;
 
@@ -85,14 +85,7 @@ const PieChart: FC<Props> = ({
             direction="row"
             spacing={1}
           >
-            <Box
-              sx={{
-                height: "15px",
-                minWidth: "15px",
-                borderRadius: "30px",
-                backgroundColor: colorScale[index],
-              }}
-            ></Box>
+            <MicroLegend color={colorScale[index]} />
             <Typography
               color={COLORS.textPrimary}
               sx={{ whiteSpace: "nowrap" }}

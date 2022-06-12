@@ -1,11 +1,12 @@
 import ArrowForwardIosOutlinedIcon from "@mui/icons-material/ArrowForwardIosOutlined";
 import ArrowBackIosOutlinedIcon from "@mui/icons-material/ArrowBackIosOutlined";
-import { Box, Button, MenuItem, Select, Stack, Toolbar } from "@mui/material";
+import { Box, MenuItem, Select, Stack, Toolbar } from "@mui/material";
 import { FC } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import { COLORS } from "../../../constants/colors";
 import segments, { Solution } from "../../../data/segments";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
+import Button from "../../../components/Button.tsx";
 
 type Props = {
   handleAnswer: (answer: Solution) => void;
@@ -82,26 +83,8 @@ const QuestionBar: FC<Props> = ({ handleAnswer, changeQuestion }) => {
         >
           {segment.solutionDomain.map((solution) => (
             <Button
+              selected={currentAnswer === solution}
               key={`${currentQuestionIndex}${solution}`}
-              sx={{
-                margin: "6px 8px 0 8px",
-                ...(currentAnswer === solution
-                  ? {
-                      backgroundColor: "rgba(25, 118, 210, 0.1)",
-                      border: "1px solid #1976d2",
-                    }
-                  : {}),
-                "&:hover": {
-                  ...(currentAnswer === solution
-                    ? {
-                        backgroundColor: "rgba(25, 118, 210, 0.1)",
-                        border: "1px solid #1976d2",
-                      }
-                    : {}),
-                },
-              }}
-              size="small"
-              variant="outlined"
               onClick={() => handleAnswer(solution)}
             >
               {solution}

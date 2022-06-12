@@ -1,9 +1,10 @@
-import { Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 // import { useMutation, useQueryClient } from "react-query";
 // import { uploadQuestion } from "../../../data/queries/uploadQuestion";
 // import { QuestionInput } from "..";
 // import { Question } from "../../../data/questions";
 // import { questionsData } from "../../../data/questionsData";
+import Button from "../../../components/Button.tsx";
 import { useCurrentQuestion } from "../../../providers/CurrentQuestionProvider";
 
 const AdminForm = () => {

@@ -2,7 +2,7 @@ import { Stack, Typography } from "@mui/material";
 import { FC } from "react";
 import CurrentTestHistoryPieChart from "../../../components/CurrentTestHistoryChart";
 import { CurrentQuestion } from "../../../providers/CurrentQuestionProvider";
-import MicroLegends from "./MicroLegends";
+import MicroLegends from "../../../components/MicroLegends";
 
 type Props = {
   result: CurrentQuestion[];

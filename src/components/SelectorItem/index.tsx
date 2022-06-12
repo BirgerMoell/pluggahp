@@ -1,5 +1,6 @@
-import { Button } from "@mui/material";
 import { FC } from "react";
+import { css } from "styled-components/macro";
+import Button from "../Button.tsx";
 
 type Props = {
   name: string;
@@ -11,19 +12,12 @@ type Props = {
 const SelectorItem: FC<Props> = ({ color, selected, onClick, name }) => {
   return (
     <Button
-      sx={{
-        border: `1px solid ${color}`,
-        color: selected ? "#fff" : color,
-        ...(selected ? { backgroundColor: color } : { borderColor: color }),
-        borderRadius: "16px",
-        padding: "3px 12px",
-        margin: "8px 4px 8px 4px",
-        "&:hover": {
-          ...(selected ? { backgroundColor: color } : { borderColor: color }),
-        },
-        whiteSpace: "nowrap",
-      }}
-      variant={selected ? "contained" : "outlined"}
+      customCss={css`
+        margin: 4px 5px;
+      `}
+      filled={selected}
+      color={color}
+      borderRadius="l"
       onClick={() => onClick(!selected)}
     >
       {name}
