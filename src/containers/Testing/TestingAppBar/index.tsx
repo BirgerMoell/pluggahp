@@ -36,6 +36,7 @@ const TestingAppBar: FC<Props> = ({ minutes, seconds, finishTest }) => {
         rightComponent={
           <>
             <Button
+              filled
               to={
                 currentQuestions.every(({ answer }) => answer)
                   ? "/result"

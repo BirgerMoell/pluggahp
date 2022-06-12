@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { css } from "styled-components/macro";
 import Button from "../Button.tsx";
 
 type Props = {
@@ -11,8 +12,12 @@ type Props = {
 const SelectorItem: FC<Props> = ({ color, selected, onClick, name }) => {
   return (
     <Button
-      selected={selected}
+      customCss={css`
+        margin: 4px 5px;
+      `}
+      filled={selected}
       color={color}
+      borderRadius="l"
       onClick={() => onClick(!selected)}
     >
       {name}

@@ -18,9 +18,6 @@ import getNextUnansweredQuestionIndex from "./utils/getNextUnansweredQuestionInd
 import updateQuestion from "./utils/updateQuestion";
 import prefetchNextQestionImage from "./utils/prefetchNextQuestionImage";
 import FinishedModal from "./FinishedModal";
-import Button from "../../components/Button.tsx";
-import { COLORS } from "../../constants/colors";
-import { css } from "styled-components/macro";
 
 export const OPACITY_SPEED = 0.5;
 export const TRANSFORM_SPEED = 0.9;
@@ -132,61 +129,6 @@ const Testing: FC = () => {
   const vh = window?.innerHeight;
   const vw = window?.innerWidth;
 
-  const buttons = [
-    [
-      { name: "small", props: { size: "s" } },
-      { name: "medium", props: { size: "m" } },
-      { name: "large", props: { size: "l" } },
-    ],
-    [
-      { name: "no radius", props: { borderRadius: "none" } },
-      { name: "radius s", props: { borderRadius: "s" } },
-      { name: "radius m", props: { borderRadius: "m" } },
-      { name: "radius l", props: { borderRadius: "l" } },
-    ],
-    [
-      { name: "with shadow", props: { shadow: true } },
-      { name: "without shadow", props: {} },
-    ],
-    [
-      { name: "filled", props: { filled: true } },
-      { name: "not filled", props: {} },
-    ],
-    [
-      { name: "color", props: { filled: true, color: COLORS.correct } },
-      { name: "color", props: { color: COLORS.incorrect } },
-    ],
-    [
-      {
-        name: "10",
-        props: {
-          filled: true,
-          color: COLORS.unanswered,
-          customCss: css`
-            border-radius: 100%;
-            max-width: 45px;
-            min-width: 45px;
-            width: 45px;
-            height: 45px;
-          `,
-        },
-      },
-      {
-        name: "15",
-        props: {
-          color: COLORS.unanswered,
-          customCss: css`
-            border-radius: 100%;
-            max-width: 45px;
-            min-width: 45px;
-            width: 45px;
-            height: 45px;
-          `,
-        },
-      },
-    ],
-  ];
-
   return (
     <>
       <TestingAppBar
@@ -201,17 +143,6 @@ const Testing: FC = () => {
           maxHeight: vh - APP_BAR_HEIGHT,
         }}
       >
-        <div style={{ display: "flex" }}>
-          {buttons.map((list) => (
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {list.map(({ name, props }) => (
-                <div style={{ margin: 5 }}>
-                  <Button {...props}>{name}</Button>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
         <div
           style={{
             overflow: isQuestionUp ? "auto" : "hidden",
